@@ -12,6 +12,8 @@ import Poster from './views/Poster.vue'
 import Visitor from './views/Visitor.vue'
 import Message from './views/Message.vue'
 import Footprint from './views/Footprint.vue'
+import Punch from './views/Punch.vue'
+import Morning from './views/Morning.vue'
 import store from './store'
 import {getCookie} from "./cookie"
 import {getWechatConfig} from './api.js'
@@ -272,6 +274,22 @@ const router = new Router({
       component: () => import('./components/visitor/Connection.vue'),
       meta: {
         title: '找到访客',
+        requireAuth: true
+      }
+    }, {    //每日打卡
+      path: '/punch',
+      name: 'punch',
+      component: Punch,
+      meta: {
+        title: '打卡',
+        requireAuth: true
+      }
+    }, {    //早安图
+      path: '/morning',
+      name: 'morning',
+      component: Morning,
+      meta: {
+        title: '早安图',
         requireAuth: true
       }
     }, {    //这个路由匹配到404友好页面（暂无页面）

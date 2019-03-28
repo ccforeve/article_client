@@ -6,6 +6,7 @@ import "./assets/css/base.css"
 import "./assets/css/icon.css"
 import "./assets/css/index.css"
 import "./assets/css/reset.css"
+import "./assets/css/punch.css"
 import "./assets/css/loading.css"
 import 'mint-ui/lib/style.css'
 import "./assets/js/jquery.min.js"

@@ -176,6 +176,25 @@ export const pay = (id, data) => {          //支付
   return request('post', '/pay/' + id, data)
 }
 
+export const punchIndex = () => {        //打卡页面
+  return request('get', '/punch')
+}
+
+export const punchStore = () => {        //打卡操作
+  return request('get', '/punch/store')
+}
+
+export const punchProvince = () => {        //省份打卡第一名
+  return request('get', '/punch/province')
+}
+
+export const punchTopHundred = () => {        //省份打卡第一名
+  return request('get', '/punch/top_hundred')
+}
+
+export const punchCurrentUser = () => {        //省份打卡第一名
+  return request('get', '/punch/current_user')
+}
 
 
 

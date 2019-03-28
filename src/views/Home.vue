@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="flexv wrap">
     <article-list />
-    <index-footer/>
+    <index-footer />
     <perfect-information type="article_detail" :user="user" v-if="!user.phone"></perfect-information>
   </div>
 </template>
@@ -45,24 +45,6 @@ export default {
           link: 'http://btl.yxcxin.com/index', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: 'https://img.zx85.net/edit/image/png/5c0e1f40941b7.png' // 分享图标
         })
-        // wx.updateAppMessageShareData({
-        //   title: '111111111', // 分享标题
-        //   desc: '2222222222', // 分享描述
-        //   link: 'http://btl.yxcxin.com/index', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        //   imgUrl: 'https://img.zx85.net/edit/image/png/5c0e1f40941b7.png', // 分享图标
-        //   success: function () {
-        //     // 设置成功
-        //     alert(11111)
-        //   }
-        // });
-        // wx.updateTimelineShareData({
-        //   title: '', // 分享标题
-        //   link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        //   imgUrl: '', // 分享图标
-        //   success: function () {
-        //     // 设置成功
-        //   }
-        // });
       })
     }
   }
