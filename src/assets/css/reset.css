@@ -5,7 +5,7 @@ table{border-collapse: collapse;}
 img{border: none;}
 blockquote{margin: 0; padding: 0;}
 a{color: #333; text-decoration: none;}
-a:hover{text-decoration: none; color: #000;}
+a:hover{text-decoration: none; color: #FF3300;}
 input,select,textarea{outline: none; padding: 4px; font: 1em '\5FAE\8F6F\96C5\9ED1',Arial,'\9ED1\4F53','\5B8B\4F53'; -webkit-appearance: none; border-radius: 0;}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important; margin: 0;}
 .clearfix:after{content: ''; display: block; clear: both; visibility: hidden;}
