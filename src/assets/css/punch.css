@@ -222,7 +222,7 @@
 .letter-list__link{color: #01d0a4; padding: 0 15px;}
 
 /**********表单**********/
-#form{padding: 30px 15px;}
+/* #form{padding: 30px 15px;} */
 #form .form-item{height: 90px;}
 /*#form input{border: none; border-bottom: 1px solid #ea1818; width: 100%; padding: 0;}*/
 #form p{color: #999;}

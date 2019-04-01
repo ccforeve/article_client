@@ -6,7 +6,7 @@ import {Toast} from 'mint-ui'
 
 const Axios = axios.create({
   baseURL: "http://stl.yxcxin.com/api", // 基础URL
-  timeout: 10000,
+  // timeout: 10000,
   responseType: "json",
   headers: {}
 })

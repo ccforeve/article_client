@@ -15,7 +15,7 @@
         <li class="img flex center partners__item partners__item--dot"><i class="iconfont icon-dian"></i></li>
       </ul>
 
-      <div class="flex center count-down" data-start="6:00:00" data-end="23:00:00" v-show="state === 2 || state === 3">
+      <div class="flex center count-down" data-start="00:00:00" data-end="23:00:00" v-show="state === 2 || state === 3">
         <p class="countdown__text">{{count_down_text}}</p>
         <p class="countdown__time">
           <span class="hour">00</span>:<span class="min">00</span>:<span class="sec">00</span>
@@ -122,7 +122,7 @@
     <!----------关注公众号---------->
     <div class="layer layer-subscribe" v-show="!subscribe">
       <div class="flexv center layer__content layer-subscribe__content">
-        <img class="layer-subscribe__code" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553247144146&di=a8315d35340048fa16b64c3926c597ba&imgtype=0&src=http%3A%2F%2Fi2.sinaimg.cn%2Fdy%2Fc%2F2014-07-18%2F1405623657_VbFlfN.jpg" width="100%">
+        <img class="layer-subscribe__code" src="../assets/image/qrcode.jpg" width="100%">
         <p class="layer-subscribe__tip">长按识别二维码</p>
         <p class="layer-subscribe__tip">每早准时提醒您打卡</p>
         <button class="layer-subscribe__close" type="button" @click="close_subscribe">×</button>
