@@ -22,7 +22,7 @@
         </p>
       </div>
 
-      <a href="javascript:" class="punch-btn punch-btn--sub" type="button" v-if="state === 0" @click="subscribe">
+      <a href="javascript:" class="punch-btn punch-btn--sub" type="button" v-if="state === 0" @click="subscribe = false">
         关注公众号，参与打卡
       </a>
       <router-link to="/morning" class="punch-btn punch-btn--go" v-else-if="state === 1">
@@ -143,7 +143,7 @@
         province: '',           //用户省份
         punch_alert: false,     //打卡弹窗
         punch_users: null,      //打卡用户列表
-        subscribe: false,       //关注
+        subscribe: true,        //关注
         count_down_text: '距离打卡结束还有',
         intervalDate: null,
         rank: {
@@ -167,7 +167,6 @@
     mounted () {
       //获取打卡页面信息
       this.punchData()
-      this.subscribe = this.user.is_subscribe
       if(!this.user.province) {
         this.getLocation()
       }

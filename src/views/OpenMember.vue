@@ -121,6 +121,11 @@
           member_time = _this.moment()
         }
         pay(_this.list_active, {pay_type: 1}).then(function (res) {
+          if(res.code === '513') {
+            Toast(res.err_msg)
+            Indicator.close()
+            return
+          }
           _this.payCallback(res.config,function () {
             member_time.add(res.member_month, 'months')
             _this.member_time = member_time.format("YYYY-MM-D")

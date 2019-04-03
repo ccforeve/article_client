@@ -34,7 +34,7 @@ export default {
         wx.onMenuShareTimeline({
           title: '欢迎进入绿叶事业', // 分享标题
           link: 'http://btl.yxcxin.com/index', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: 'https://img.zx85.net/edit/image/png/5c0e1f40941b7.png', // 分享图标
+          imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg", // 分享图标
           success: function () {
             // 用户点击了分享后执行的回调函数
           }
@@ -43,7 +43,7 @@ export default {
           title: '欢迎进入绿叶事业！', // 分享标题
           desc: '超多精彩文章，每日更新推送，快来看看吧！', // 分享描述
           link: 'http://btl.yxcxin.com/index', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: 'https://img.zx85.net/edit/image/png/5c0e1f40941b7.png' // 分享图标
+          imgUrl: 'http://stl.yxcxin.com/image/qrcode.jpg' // 分享图标
         })
       })
     }

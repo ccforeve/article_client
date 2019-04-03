@@ -132,7 +132,6 @@ export default {
             canvas.width - 200,
             100
           );
-
           //绘制月份
           ctx.fillStyle = "#fff";
           ctx.font = "26px Arial";
@@ -141,7 +140,6 @@ export default {
             canvas.width - 90,
             100
           );
-
           //绘制坚持早起几天
           ctx.font = "26px Arial";
           ctx.fillText(
@@ -149,7 +147,6 @@ export default {
             canvas.width - 200,
             140
           );
-
           //绘制底部半透明遮罩
           ctx.fillStyle = "rgba(0,0,0,0.5)";
           ctx.fillRect(0, canvas.height - 180, canvas.width, 180);
@@ -193,13 +190,11 @@ export default {
           ctx.fillText(_this.user.phone, 170, canvas.height - 40);
           try {
             let base64 = canvas.toDataURL("image/jpeg");
+            _this.morning_image = base64;
+            _this.has_data = true;
           } catch (e) {
             alert(e);
           }
-          alert(base64);
-          _this.morning_image = base64;
-
-          _this.has_data = true;
         }, 100);
       });
     }

@@ -119,6 +119,7 @@
   import {Toast} from 'mint-ui';
   import {getIndexArticleDetail, getUserArticleDetail, becomeMyArticle, updateReadTime} from '../api.js'
   import {FulfillingBouncingCircleSpinner} from 'epic-spinners'
+  import wx from 'weixin-js-sdk'
 
   export default {
     name: "ArticleDetail",
@@ -167,6 +168,7 @@
           if(footprint) {
             vm.logTime(footprint)
           }
+          vm.wechatConfig()
         })
       },
       show_detail() {   //查看更多内容
@@ -220,6 +222,25 @@
             console.log(e)
           })
         }, 1000)
+      },
+      wechatConfig () {     //微信jssdk
+        let _this = this
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+          wx.onMenuShareTimeline({
+            title: _this.detail.article.title, // 分享标题
+            link: 'http://btl.yxcxin.com/article_detail/' + _this.detail.user_article_id +'/user', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: _this.detail.article.cover, // 分享图标
+            success: function () {
+              // 用户点击了分享后执行的回调函数
+            }
+          })
+          wx.onMenuShareAppMessage({
+            title: _this.detail.article.title, // 分享标题
+            desc: _this.detail.article.desc, // 分享描述
+            link: 'http://btl.yxcxin.com/article_detail/' + _this.detail.user_article_id +'/user', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: _this.detail.article.cover // 分享图标
+          })
+        })
       }
     },
   }
