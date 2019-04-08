@@ -25,7 +25,7 @@ export default {
       return this.$store.state.user
     }
   },
-  mounted () {
+  activated () {
     this.wechatConfig()
   },
   methods: {

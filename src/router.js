@@ -51,14 +51,16 @@ const router = new Router({
       component: () => import('./components/index/ArticleSearch.vue'),
       meta: {
         title: '文章搜索',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //文章详情
       path: '/article_detail/:id/:type',
       name: 'article_detail',
       component: ArticleDetail,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //普通咨询
       path: '/consultation/normal/:user_id',
@@ -66,7 +68,8 @@ const router = new Router({
       component: () => import('./components/consultation/Normal.vue'),
       meta: {
         title: '咨询',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //会员咨询跳转
       path: '/consultation/vip_link/:user_id',
@@ -74,7 +77,8 @@ const router = new Router({
       component: () => import('./components/consultation/VipLink.vue'),
       meta: {
         title: '家庭咨询',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //会员咨询
       path: '/consultation/vip_chart/:user_id',
@@ -82,7 +86,8 @@ const router = new Router({
       component: () => import('./components/consultation/Vip.vue'),
       meta: {
         title: '家庭咨询',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //报告详情
       path: '/consultation/report/:id',
@@ -90,7 +95,8 @@ const router = new Router({
       component: () => import('./components/consultation/Report.vue'),
       meta: {
         title: '咨询报告',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //个人中心
       path: '/user',
@@ -98,7 +104,8 @@ const router = new Router({
       component: UserCenter,
       meta: {
         title: '个人中心',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //用户文章列表
       path: '/articles/:user_id',
@@ -106,7 +113,8 @@ const router = new Router({
       component: MyArticle,
       meta: {
         title: '我的文章',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //会员价格列表
       path: '/open_member',
@@ -114,8 +122,8 @@ const router = new Router({
       component: OpenMember,
       meta: {
         title: '开通会员',
-        wechat_jssdk: true,
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //用户信息展示
       path: '/user/basic',
@@ -123,7 +131,8 @@ const router = new Router({
       component: () => import('./components/user/UserBasic.vue'),
       meta: {
         title: '个人资料',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //推广页面
       path: '/invitation',
@@ -131,7 +140,8 @@ const router = new Router({
       component: Invitation,
       meta: {
         title: '推广',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //推广中心
       path: '/profit',
@@ -139,7 +149,8 @@ const router = new Router({
       component: Profit,
       meta: {
         title: '收益中心',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //推广详情
       path: '/profit/detail',
@@ -147,7 +158,8 @@ const router = new Router({
       component: () => import('./components/profit/ProfitDetail.vue'),
       meta: {
         title: '收益详情',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //提现记录
       path: '/profit/cash/list',
@@ -155,7 +167,8 @@ const router = new Router({
       component: () => import('./components/profit/WithdrawCashList.vue'),
       meta: {
         title: '提现记录',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //提现页面
       path: '/profit/withdraw_cash',
@@ -163,7 +176,8 @@ const router = new Router({
       component: () => import('./components/profit/WithdrawCash.vue'),
       meta: {
         title: '提现',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //绑定账户
       path: '/profit/bind_account',
@@ -171,7 +185,8 @@ const router = new Router({
       component: () => import('./components/profit/BindAccount.vue'),
       meta: {
         title: '绑定账户',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {     //推广的用户列表
       path: '/profit/extension/users',
@@ -179,7 +194,8 @@ const router = new Router({
       component: () => import('./components/profit/ExtensionUsers.vue'),
       meta: {
         title: '推广用户',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {     //推广成功的订单列表
       path: '/profit/extension/orders',
@@ -187,7 +203,8 @@ const router = new Router({
       component: () => import('./components/profit/ExtensionOrders.vue'),
       meta: {
         title: '推广列表',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //海报列表
       path: '/poster',
@@ -195,7 +212,8 @@ const router = new Router({
       component: Poster,
       meta: {
         title: '海报',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //海报详情
       path: '/poster/detail/:id',
@@ -203,7 +221,8 @@ const router = new Router({
       component: () => import('./components/poster/PosterDetail.vue'),
       meta: {
         title: '海报',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //访客页面
       path: '/visitor',
@@ -211,7 +230,8 @@ const router = new Router({
       component: Visitor,
       meta: {
         title: '访客记录',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //访客详情
       path: '/visitor/detail/:id',
@@ -219,14 +239,16 @@ const router = new Router({
       component: () => import('./components/visitor/VisitorDetail.vue'),
       meta: {
         title: '访客详情',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //访客还看了其他文章
       path: '/visitor/read/:user_id',
       name: 'visitor_read',
       component: () => import('./components/visitor/VisitorRead.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //准客户列表
       path: '/visitor/prospect',
@@ -234,7 +256,8 @@ const router = new Router({
       component: () => import('./components/visitor/Prospect.vue'),
       meta: {
         title: '准客户',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //留言列表
       path: '/message',
@@ -242,7 +265,8 @@ const router = new Router({
       component: Message,
       meta: {
         title: '留言',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //留言详情
       path: '/message/:id/normal',
@@ -250,15 +274,17 @@ const router = new Router({
       component: () => import('./components/message/NormalDetail.vue'),
       meta: {
         title: '留言详情',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
-    }, {    //留言详情
+    }, {    //家庭留言详情
       path: '/message/:id/family',
       name: 'message_detail_family',
       component: () => import('./components/message/FamilyDetail.vue'),
       meta: {
         title: '留言详情',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //访客查看的足迹
       path: '/footprint',
@@ -266,7 +292,8 @@ const router = new Router({
       component: Footprint,
       meta: {
         title: '谁查看我的头条',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //找到访客
       path: '/footprint/:user_id',
@@ -274,7 +301,8 @@ const router = new Router({
       component: () => import('./components/visitor/Connection.vue'),
       meta: {
         title: '找到访客',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //每日打卡
       path: '/punch',
@@ -282,7 +310,8 @@ const router = new Router({
       component: Punch,
       meta: {
         title: '打卡',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //早安图
       path: '/morning',
@@ -290,7 +319,8 @@ const router = new Router({
       component: Morning,
       meta: {
         title: '早安图',
-        requireAuth: true
+        requireAuth: true,
+        wechat_jssdk: true
       }
     }, {    //这个路由匹配到404友好页面（暂无页面）
       path: '*',
