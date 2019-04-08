@@ -16,7 +16,7 @@ import Punch from './views/Punch.vue'
 import Morning from './views/Morning.vue'
 import store from './store'
 import {getCookie} from "./cookie"
-import {getWechatConfig} from './api.js'
+import {getWechatConfig, UpdateUserInfo} from './api.js'
 import wx from 'weixin-js-sdk'
 
 Vue.use(Router)
@@ -352,6 +352,25 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
+  if (!JSON.parse(localStorage.user).province) {
+    var geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(
+        function (r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            UpdateUserInfo({ province: r.address.province }).then(res => {
+              let new_user = JSON.parse(localStorage.user);
+              new_user.province = r.address.province;
+              localStorage.user = JSON.stringify(new_user);
+              store.commit(
+                "setTokenAndUser",
+                JSON.parse(localStorage.user)
+              );
+            });
+          }
+        },
+        { enableHighAccuracy: true }
+      );
+  }
   if (to.meta.wechat_jssdk) {
     let _url = encodeURIComponent(window.location.origin + to.fullPath)
     // 非ios设备，切换路由时候进行重新签名

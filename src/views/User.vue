@@ -62,7 +62,7 @@
     },
     activated() {
       this.getDate()
-      this.wechatConfig()
+      // this.wechatConfig()
     },
     computed: {
       is_subscribe() {

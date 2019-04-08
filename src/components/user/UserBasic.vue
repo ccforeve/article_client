@@ -36,7 +36,7 @@
                 id="qrcode"
                 :value="imgFile"
                 style="position:absolute; clip:rect(0 0 0 0);"
-                accept="image/png, image/jpeg, image/gif, image/jpg"
+                accept="image/*"
                 @change="uploadImg($event, 'avatar')"
               >
               <i class="flex center bls bls-yjt"></i>
@@ -133,7 +133,7 @@
                 id="avatar"
                 :value="imgFile"
                 style="position:absolute; clip:rect(0 0 0 0);"
-                accept="image/png, image/jpeg, image/gif, image/jpg"
+                accept="image/*;"
                 @change="uploadImg($event, 'qrcode')"
               >
               <i class="flex center bls bls-yjt"></i>
@@ -190,7 +190,10 @@
         ></mt-picker>
       </div>
     </animation>
-    <div class="alertBox" v-if="message">
+    <div
+      class="alertBox"
+      v-if="message"
+    >
       <span>请填写：{{message}}</span>
     </div>
   </div>
@@ -304,8 +307,9 @@ export default {
       //上传图片
       var file = e.target.files[0];
       _this.fileName = file.name;
-      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-        alert("图片类型必须是.gif,jpeg,jpg,png,bmp中的一种");
+      if (
+        !/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG|WebP|BPM)$/.test(e.target.value)
+      ) {
         return false;
       }
       var reader = new FileReader();
@@ -342,35 +346,35 @@ export default {
         " " +
         this.myAddresscounty;
     },
-    messHide(){
-      let _this = this
-      setTimeout(function(){
-        _this.message = ''
-      },1000)
+    messHide() {
+      let _this = this;
+      setTimeout(function() {
+        _this.message = "";
+      }, 1000);
     },
     //提交表单
     updateSubmit() {
       let _this = this;
       let from = this.$refs;
       let arr = {};
-      
+
       for (var i in from) {
         arr[i] = from[i].value;
       }
-      if(!arr.nickname){
-        this.message = '姓名'
-        this.messHide()
-        return false
+      if (!arr.nickname) {
+        this.message = "姓名";
+        this.messHide();
+        return false;
       }
-      if(!arr.phone){
-        this.message = '手机号'
-        this.messHide()
-        return false
+      if (!arr.phone) {
+        this.message = "手机号";
+        this.messHide();
+        return false;
       }
-      if(!arr.wechat){
-        this.message = '微信号'
-        this.messHide()
-        return false
+      if (!arr.wechat) {
+        this.message = "微信号";
+        this.messHide();
+        return false;
       }
       let update_info = UpdateUserInfo(arr);
       Indicator.open("正在修改...");
@@ -451,16 +455,16 @@ export default {
 
 .alertBox {
   position: fixed;
-    width: 70%;
-    top: 10%;
-    margin: 0 auto;
-    margin-left: 15%;
-    z-index: 100;
-    background: antiquewhite;
-    height: 7rem;
-    font-size: 2rem;
-    text-align: center;
-    padding-top: 2rem;
-    border-radius: 1rem;
+  width: 70%;
+  top: 10%;
+  margin: 0 auto;
+  margin-left: 15%;
+  z-index: 100;
+  background: antiquewhite;
+  height: 7rem;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 2rem;
+  border-radius: 1rem;
 }
 </style>

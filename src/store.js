@@ -11,7 +11,7 @@ export default new Vuex.Store({
     surplus_profit: null,
   },
   mutations: {
-    setTokenAndUser (state, user) {
+    setTokenAndUser(state, user) {
       state.token = user.meta.access_token
       state.user = user
     },

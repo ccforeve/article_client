@@ -64,6 +64,7 @@
 
 <script>
 import { punchCurrentUser, randPoster, getPublicQrcode } from "../api.js";
+import { wechatConfig } from "../cookie.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 export default {
   name: "Morning",
@@ -76,6 +77,9 @@ export default {
       current_user_punch: null,
       morning_image: null
     };
+  },
+  activated() {
+    wechatConfig();
   },
   computed: {
     user() {

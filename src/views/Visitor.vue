@@ -138,6 +138,8 @@
 <script>
 import IndexFooter from "@/components/common/Footer.vue";
 import MescrollVue from "mescroll.js/mescroll.vue";
+import { wechatConfig } from "../cookie.js";
+
 import { Toast } from "mint-ui";
 import {
   getVisitorReadCustom,
@@ -191,6 +193,7 @@ export default {
     }
   },
   activated() {
+    wechatConfig();
     let _this = this;
     _this.has_data = false;
     //获取今日浏览和准客户

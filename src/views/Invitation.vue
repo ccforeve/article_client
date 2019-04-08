@@ -4,7 +4,10 @@
     class="flexv mainbox wrap"
   >
     <div class="flex open-linkx extension">
-      <div class="flex center header-bar" @click="sendPosterToWechat">
+      <div
+        class="flex center header-bar"
+        @click="sendPosterToWechat"
+      >
         <div class="flex center title-section">
           <div class="title-line"></div>
           <h3 class="flex center header-info">邀好友成功</h3>
@@ -89,8 +92,9 @@
 
 <script>
 import { getPublicQrcode, sendPoster } from "../api.js";
+import { wechatConfig } from "../cookie.js";
 import { Indicator, Toast } from "mint-ui";
-import wx from 'weixin-js-sdk'
+import wx from "weixin-js-sdk";
 export default {
   name: "invitation",
   data() {
@@ -101,6 +105,9 @@ export default {
       is_show_qrcode_alert: false
     };
   },
+  activated() {
+    wechatConfig();
+  },
   methods: {
     showCopyAlert() {
       this.is_show_copy_alert = !this.is_show_copy_alert;
@@ -108,7 +115,7 @@ export default {
     showWechatAlert() {
       this.is_show_qrcode_alert = !this.is_show_qrcode_alert;
     },
-    closeLocal(){
+    closeLocal() {
       wx.closeWindow();
     },
     sendPosterToWechat() {
