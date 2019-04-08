@@ -41,7 +41,7 @@ const router = new Router({
       name: 'index',
       component: Home,
       meta: {
-        title: '绿叶',
+        title: '事业分享',
         requireAuth: true,
         wechat_jssdk: true
       }

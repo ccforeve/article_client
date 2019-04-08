@@ -8,7 +8,7 @@
                 <div class="flex name">
                     <h2 class="flex center">{{user.nickname}}</h2>
                 </div>
-                <p class="flex lock" v-if="!user.is_member">谁查看我的功能：<span>未开通</span></p>
+                <p class="flex lock" v-if="!user.is_member"><span>未开通试用会员</span></p>
                 <template v-else>
                     <p class="vip">正式会员</p>
                     <p class="flex lock">
@@ -16,7 +16,7 @@
                     </p>
                 </template>
             </div>
-            <router-link to="/open_member" class="flex center renew">续费会员</router-link>
+            <router-link to="/open_member" class="flex center renew">开通VIP</router-link>
         </div>
 
         <div class="flexv centerv around front">

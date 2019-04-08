@@ -357,7 +357,6 @@ export default {
       for (var i in from) {
         arr[i] = from[i].value;
       }
-      debugger
       if(!arr.nickname){
         this.message = '姓名'
         this.messHide()
@@ -384,7 +383,7 @@ export default {
           new_user.phone = arr.phone;
           new_user.profession = arr.profession;
           new_user.employed_area = arr.employed_area;
-          new_user.qrcode = arr.qrcode;
+          new_user.wechat_qrcode = arr.qrcode;
           localStorage.user = JSON.stringify(new_user);
           _this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
           Indicator.close();

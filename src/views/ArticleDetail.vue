@@ -162,6 +162,8 @@
         }
         let vm = this
         data.then(function (res) {
+          let replace_detail = res.article.detail
+          res.article.detail = replace_detail.replace(/crossorigin="anonymous"/g, '')
           vm.detail = res
           vm.has_data = true
           let footprint = res.footprint

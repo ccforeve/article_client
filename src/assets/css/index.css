@@ -198,7 +198,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #focus .sub .userbox{padding-left:1rem;}
 #focus .sub .userimg{width: 6rem;height:6rem;border:1px solid #fff;border-radius:50%;overflow:hidden;}
 #focus .sub .info{margin-left:1rem;color:#fff;}
-#focus .sub .name h2{height:2.6rem;font-weight:lighter;max-width:16rem;overflow:hidden;-webkit-line-clamp:1;font-size:1.8rem;color:#000;}
+#focus .sub .name h2{height:2.6rem;font-weight:bold;max-width:16rem;overflow:hidden;-webkit-line-clamp:1;font-size:1.8rem;color:#000;}
 #focus .sub .name .amend{margin-left:1rem;font-size:2rem;color:#f95c49;}
 #focus .sub p{height:2rem;font-size: 1.3rem;}
 #focus .userbox>a.renew{width:7rem;height:2.5rem;border-top-left-radius:5rem;border-bottom-left-radius:5rem;background:rgb(69, 182, 56);font-size:1.3rem;color:#fff;}
@@ -225,8 +225,8 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 /*#focus .picture .imgbox img{width:21.4%;height:11rem;padding-left:1rem;}*/
 #rules .hint {position: fixed;top:0;left:0;width: 100%;bottom: 0;overflow: hidden;z-index: 20;}
 #rules .hint .content.trans{animation: zoomIn 0.3s ease;}
-#rules .hint .content{z-index:10; position: absolute;top:22rem;left:4rem; width: 74%;background: #fff;color: #333;padding:10px;border-radius: 6px;}
-#rules .hint .content div{padding:3rem 0;height: 3rem;font-size: 1.4rem;color:#3b3b3b;}
+#rules .hint .content{z-index:10; position: absolute;top:18rem;left:4rem; width: 74%;background: #fff;color: #333;padding:10px;border-radius: 6px;}
+#rules .hint .content div{padding:3rem 0;font-size: 1.4rem;color:#3b3b3b;}
 #rules .hint .content a{height: 3rem;background: -webkit-linear-gradient(#f95e48, #f7403c);color:#fdebea;border-radius: 6rem;font-size: 1.4rem;}
 #focus .flipbox .flip .text .name{max-width:10rem;overflow:hidden;-webkit-line-clamp:1;}
 #focus .func a span.text span{color:#f00;}
@@ -402,7 +402,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #article .title .subhead .site{color:#4ea1d0;}
 #article .content p{font-size:1.3rem;line-height:2.2rem !important;letter-spacing:.2rem;color:#333;}
 #article .content.max{max-height:30rem;overflow:hidden;}
-#article .content img{width: 100%;vertical-align:bottom;text-indent:0;}
+#article .content img{width: 100%;vertical-align:bottom;text-indent:0;height: auto;}
 #article .unfold .unfoldbox{margin:1rem;padding:0.5rem 1rem;font-size: 1.4rem;border-radius:0.5rem;border:1.5px solid #eb6060;color:#eb6060;}
 #article .unfold i{font-size: 1.4rem;padding:0 0.5rem;}
 

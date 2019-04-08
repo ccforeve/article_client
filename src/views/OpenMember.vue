@@ -152,11 +152,13 @@
               // 支付成功后的回调函数
               callback && callback(res)
             }, cancel: function () {
+              Indicator.close()
               Toast({message: '取消支付', duration: 1000})
               setTimeout(function () {
                 $(".alert").hide().find(".payment").removeClass("status");
               }, 1000)
             }, error: function (res) {
+              Indicator.close()
               Toast({message: '支付失败', duration: 1000})
               setTimeout(function () {
                 $(".alert").hide().find(".payment").removeClass("status")
