@@ -75,6 +75,7 @@
         detail: {},
         posters: {},
         poster: '',
+        base64Image: {},
         is_show_alert: false,
         is_show_perfect_alert: false
       }
@@ -94,6 +95,10 @@
     activated() {
       this.poster_id = this.$route.params.id
       this.makePoster()
+      let _this = this
+      getPublicQrcode().then(function (res) {
+        _this.base64Image = res
+      })
     },
     methods: {
       makePoster() {
@@ -109,46 +114,43 @@
       },
       canvasMakePoster(poster) {
         let _this = this
-        let qrcode = getPublicQrcode()
-        qrcode.then(function (q) {
-          var can = document.createElement("canvas"), ctx = can.getContext("2d")
-          var imgs = new Image()
-          var qrcode = new Image()
-          var avatar = new Image()
-          imgs.src = poster.image_url
-          qrcode.src = q.qrcode
-          avatar.src = q.avatar
-          setTimeout(function () {
-            //设置画布尺寸
-            can.width = imgs.width
-            can.height = imgs.height
-            //绘制背景图
-            ctx.drawImage(imgs, 0, 0)
-            ctx.fillStyle = 'rgba(0,0,0,0.5)'
-            ctx.fillRect(0, can.height - 160, can.width, can.height - 160)
-            //绘制信息
-            ctx.font = '32px Arial'
-            ctx.fillStyle = '#fff'
-            ctx.fillText('绿叶  ' + _this.user.nickname, 170, can.height - 100)
-            ctx.fillText(_this.user.phone ? _this.user.phone : '', 170, can.height - 40)
-            //绘制二维码
-            ctx.drawImage(qrcode, can.width - 135, can.height - 140, 120, 120)
-            //绘制用户头像
-            ctx.save()
-            ctx.strokeStyle = '#ccc'
-            ctx.lineWidth = 2
-            ctx.arc(85, can.height - 80, 60, 0, 2 * Math.PI)
-            ctx.stroke()
-            ctx.clip()
-            ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 25, can.height - 140, 120, 120)
-            ctx.restore()
-            let base64 = can.toDataURL('image/jpeg')
-            document.querySelector(".img").src = base64
-            _this.poster = base64
-            _this.has_data = true
-            Indicator.close()
-          }, 100)
-        })
+        var can = document.createElement("canvas"), ctx = can.getContext("2d")
+        var imgs = new Image()
+        var qrcode = new Image()
+        var avatar = new Image()
+        imgs.src = poster.image_url
+        qrcode.src = _this.base64Image.qrcode
+        avatar.src = _this.base64Image.avatar
+        setTimeout(function () {
+          //设置画布尺寸
+          can.width = imgs.width
+          can.height = imgs.height
+          //绘制背景图
+          ctx.drawImage(imgs, 0, 0)
+          ctx.fillStyle = 'rgba(0,0,0,0.5)'
+          ctx.fillRect(0, can.height - 160, can.width, can.height - 160)
+          //绘制信息
+          ctx.font = '32px Arial'
+          ctx.fillStyle = '#fff'
+          ctx.fillText('绿叶  ' + _this.user.nickname, 170, can.height - 100)
+          ctx.fillText(_this.user.phone ? _this.user.phone : '', 170, can.height - 40)
+          //绘制二维码
+          ctx.drawImage(qrcode, can.width - 135, can.height - 140, 120, 120)
+          //绘制用户头像
+          ctx.save()
+          ctx.strokeStyle = '#ccc'
+          ctx.lineWidth = 2
+          ctx.arc(85, can.height - 80, 60, 0, 2 * Math.PI)
+          ctx.stroke()
+          ctx.clip()
+          ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height, 25, can.height - 140, 120, 120)
+          ctx.restore()
+          let base64 = can.toDataURL('image/jpeg')
+          document.querySelector(".img").src = base64
+          _this.poster = base64
+          _this.has_data = true
+          Indicator.close()
+        }, 100)
       },
       nextOrLast(id, cate, cate_id, type) {
         let _this = this

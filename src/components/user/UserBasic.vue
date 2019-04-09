@@ -141,7 +141,7 @@
           </div>
         </div>
         <router-link
-          to="/index"
+          to="/qrcode/help"
           class='clook'
         >查看如何获取二维码？</router-link>
         <div class="button">

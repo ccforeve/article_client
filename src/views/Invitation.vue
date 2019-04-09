@@ -20,24 +20,24 @@
       <ul>
         <li>
           <div class="flex center rules-num">1</div>
-          <div class="rules-info">小伙伴通过你的推广链接开通事业爆文会员服务，你就能拿付费金额的30%佣金奖励，开通的金额越多奖励的金额就越多</div>
+          <div class="rules-info">小伙伴通过你的推广开通分享伙伴会员服务，你就能拿付费金额的30%佣金奖励，开通的金额越多奖励的金额就越多</div>
         </li>
         <li>
           <div class="flex center rules-num">2</div>
           <div class="rules-info">奖励金额将自动计入您的钱包，所获得的金额都可以提现。</div>
         </li>
-        <li class="between">
+        <li class="flex center">
           <a
             href="javascript:;"
             class="flex center btn"
             @click="sendPosterToWechat"
-          >点击生成推广二维码</a>
-          <a
-            href="javascript:;"
-            data-url=""
-            class="flex center btn"
-            @click="showCopyAlert"
-          >点击复制推广链接</a>
+          >点击生成二维码</a>
+<!--          <a-->
+<!--            href="javascript:;"-->
+<!--            data-url=""-->
+<!--            class="flex center btn"-->
+<!--            @click="showCopyAlert"-->
+<!--          >点击复制推广链接</a>-->
         </li>
       </ul>
     </div>
@@ -73,20 +73,20 @@
     </div>
 
     <!--推广链接提示框-->
-    <div
-      id="wechat"
-      class="flex center alert"
-      v-show="is_show_copy_alert"
-    >
-      <div
-        class="new"
-        @click="showCopyAlert"
-      ></div>
-      <div class="content wechat">
-        <h3 class="flex center">长按复制链接</h3>
-        <p class="flex center cont">http://localhost:8888/invitation</p>
-      </div>
-    </div>
+<!--    <div-->
+<!--      id="wechat"-->
+<!--      class="flex center alert"-->
+<!--      v-show="is_show_copy_alert"-->
+<!--    >-->
+<!--      <div-->
+<!--        class="new"-->
+<!--        @click="showCopyAlert"-->
+<!--      ></div>-->
+<!--      <div class="content wechat">-->
+<!--        <h3 class="flex center">长按复制链接</h3>-->
+<!--        <p class="flex center cont">http://localhost:8888/invitation</p>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -109,9 +109,9 @@ export default {
     wechatConfig();
   },
   methods: {
-    showCopyAlert() {
-      this.is_show_copy_alert = !this.is_show_copy_alert;
-    },
+    // showCopyAlert() {
+    //   this.is_show_copy_alert = !this.is_show_copy_alert;
+    // },
     showWechatAlert() {
       this.is_show_qrcode_alert = !this.is_show_qrcode_alert;
     },

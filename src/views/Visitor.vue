@@ -115,10 +115,9 @@
         </div>
       </mescroll-vue>
     </div>
-
     <!-- 没有数据的时候则提示开通会员 -->
-    <div class="flexitemv mainbox box mescroll">
-      <div class="visitorBg">123123123</div>
+    <div class="flexitemv mainbox box mescroll" v-else>
+      <div class="visitorBg"></div>
       <div class="mork">
         <p>开通会员之后才能追踪用户,</p>
         <p>你已错过<span>10</span>次跟进客户机会,</p>
