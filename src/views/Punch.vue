@@ -281,6 +281,7 @@ import {
   punchCurrentUser
 } from "../api.js";
 import wx from "weixin-js-sdk";
+import { setTimeout } from "timers";
 export default {
   name: "Punch",
   data() {
@@ -515,7 +516,9 @@ export default {
       geolocation.getCurrentPosition(
         function(r) {
           if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            debugger;
             UpdateUserInfo({ province: r.address.province }).then(res => {
+              debugger;
               let new_user = JSON.parse(localStorage.user);
               new_user.province = r.address.province;
               localStorage.user = JSON.stringify(new_user);

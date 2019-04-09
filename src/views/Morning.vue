@@ -66,6 +66,7 @@
 import { punchCurrentUser, randPoster, getPublicQrcode } from "../api.js";
 import { wechatConfig } from "../cookie.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
+import { Indicator } from "mint-ui";
 export default {
   name: "Morning",
   components: {
@@ -108,6 +109,7 @@ export default {
       });
     },
     generateMorningPoster(morningImgSrc) {
+      Indicator.open();
       let _this = this,
         canvas = document.createElement("canvas"),
         ctx = canvas.getContext("2d"),
@@ -199,6 +201,7 @@ export default {
           } catch (e) {
             alert(e);
           }
+          Indicator.close();
         }, 100);
       });
     }
