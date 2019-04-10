@@ -20,7 +20,3 @@
     name: "QrcodeHelp"
   }
 </script>
-
-<style scoped>
-
-</style>
