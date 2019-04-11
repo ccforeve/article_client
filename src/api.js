@@ -172,7 +172,7 @@ export const updateReadTime = (id, data) => {          //用户咨询留言提�
   return request('patch', '/footprints/update_read_time/' + id, data)
 }
 
-export const pay = (id, data) => {          //支付
+export const wechatPay = (id, data) => {          //微信支付
   return request('post', '/pay/' + id, data)
 }
 

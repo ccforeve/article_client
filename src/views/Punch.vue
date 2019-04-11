@@ -5,7 +5,7 @@
   >
     <div class="banner">
       <img
-        src="../assets/image/banner.png"
+        src="../assets/image/punch.jpg"
         alt=""
         width="100%"
       >

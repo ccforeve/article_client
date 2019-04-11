@@ -14,6 +14,7 @@ import Message from './views/Message.vue'
 import Footprint from './views/Footprint.vue'
 import Punch from './views/Punch.vue'
 import Morning from './views/Morning.vue'
+import Alipay from './views/Alipay.vue'
 import store from './store'
 import {getCookie} from "./cookie"
 import {getWechatConfig} from './api.js'
@@ -123,6 +124,15 @@ const router = new Router({
       meta: {
         title: '开通会员',
         requireAuth: true,
+        wechat_jssdk: true
+      }
+    }, {    //支付宝支付提示页面
+      path: '/alipay/:order_id',
+      name: 'alipay',
+      component: Alipay,
+      meta: {
+        title: '支付宝支付',
+        requireAuth: false,
         wechat_jssdk: true
       }
     }, {    //用户信息展示
@@ -390,6 +400,9 @@ router.afterEach((to, from) => {
           jsApiList: ['chooseWXPay', 'onMenuShareTimeline', 'onMenuShareAppMessage'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         })
       })
+      if (to.path !== global.location.pathname) {
+        location.assign(to.fullPath)
+      }
     }
   }
 })

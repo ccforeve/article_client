@@ -1,44 +1,18 @@
 <template>
-  <div
-    id="basic"
-    class="flexv wrap"
-  >
-    <form
-      action=""
-      id="form"
-      method="post"
-      v-if="is_show_upload"
-    >
+  <div id="basic" class="flexv wrap">
+    <form action="" id="form" method="post" v-if="is_show_upload">
       <div class="flexitemv user">
         <div class="users">
           <div class="item portrait">
             <span class="flex centerv">头像</span>
             <div class="flex centerv right">
-              <label
-                class="previewStyle"
-                for="qrcode"
-              >
+              <label class="previewStyle" for="qrcode">
                 <div style="width: 132px;height: 132px">
-                  <img
-                    :src="image_url.avatar"
-                    width="100%"
-                    style="border-radius: 50%"
-                  >
+                  <img :src="image_url.avatar" width="100%" style="border-radius: 50%">
                 </div>
               </label>
-              <input
-                type="hidden"
-                ref="avatar"
-                :value="image_url.avatar"
-              >
-              <input
-                type="file"
-                id="qrcode"
-                :value="imgFile"
-                style="position:absolute; clip:rect(0 0 0 0);"
-                accept="image/*"
-                @change="uploadImg($event, 'avatar')"
-              >
+              <input type="hidden" ref="avatar" :value="image_url.avatar.replace(/http:\/\/cdn.yxcxin.com\/uploads/, '')">
+              <input type="file" id="qrcode" :value="imgFile" style="position:absolute; clip:rect(0 0 0 0);" accept="image/*" @change="uploadImg($event, 'avatar')">
               <i class="flex center bls bls-yjt"></i>
             </div>
           </div>
@@ -96,14 +70,7 @@
           <div class="item area">
             <span class="flex centerv">从业地区</span>
             <div class="flex centerv right">
-              <input
-                ref="employed_area"
-                class="flex center userimg"
-                type="text"
-                placeholder="请选择"
-                :value="user.employed_area"
-                @click="showPacker"
-              >
+              <input ref="employed_area" class="flex center userimg" type="text" placeholder="请选择" :value="user.employed_area" @click="showPacker">
               <i class="flex center bls bls-yjt"></i>
             </div>
           </div>
@@ -112,30 +79,13 @@
           <div class="item qrcode">
             <span class="flex centerv">个人微信二维码</span>
             <div class="flex centerv right">
-              <label
-                class="previewStyle"
-                for="avatar"
-              >
+              <label class="previewStyle" for="avatar">
                 <div style="width: 132px;height: 132px">
-                  <img
-                    :src="image_url.qrcode"
-                    width="100%"
-                  >
+                  <img :src="image_url.qrcode" width="100%">
                 </div>
               </label>
-              <input
-                type="hidden"
-                ref="qrcode"
-                :value="image_url.qrcode"
-              >
-              <input
-                type="file"
-                id="avatar"
-                :value="imgFile"
-                style="position:absolute; clip:rect(0 0 0 0);"
-                accept="image/*;"
-                @change="uploadImg($event, 'qrcode')"
-              >
+              <input type="hidden" ref="qrcode" :value="image_url.qrcode.replace(/http:\/\/cdn.yxcxin.com\/uploads/, '')">
+              <input type="file" id="avatar" :value="imgFile" style="position:absolute; clip:rect(0 0 0 0);" accept="image/*;" @change="uploadImg($event, 'qrcode')">
               <i class="flex center bls bls-yjt"></i>
             </div>
           </div>
@@ -174,20 +124,11 @@
         v-show="is_picker_show"
       >
         <div class="picker-head">
-          <div
-            class="picker-head-left"
-            @click="showPacker"
-          >取消</div>
+          <div class="picker-head-left" @click="showPacker">取消</div>
           <div class="picker-head-center">从业地区</div>
-          <div
-            class="picker-head-right"
-            @click="confirm"
-          >确定</div>
+          <div class="picker-head-right" @click="confirm">确定</div>
         </div>
-        <mt-picker
-          :slots="myAddressSlots"
-          @change="onMyAddressChange"
-        ></mt-picker>
+        <mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
       </div>
     </animation>
     <div

@@ -37,17 +37,14 @@
     <div class="payment">
       <div class="title">支付方式</div>
       <div class="around paybox">
-        <div class="flex center list current_border">
-          <i
-            class="flex center bls bls-wx-pay"
-            style="color:#45b638"
-          ></i>微信安全支付
+        <div class="flex center list" :class="{current_border: pay_type_active === 1}" @click="payTypeSelect(1)">
+          <i class="flex center bls bls-wx-pay" style="color:#45b638"></i>微信安全支付
           <div class="current"></div>
         </div>
-
-        <!--<div class="flex center list">-->
-        <!--<i class="flex center bls bls-zfb-pay" style="color:#1296db"></i>支付宝安全支付-->
-        <!--</div>-->
+        <div class="flex center list" :class="{current_border: pay_type_active === 2}" @click="payTypeSelect(2)">
+          <i class="flex center bls bls-zfb-pay" style="color:#1296db"></i>支付宝安全支付
+          <div class="current"></div>
+        </div>
       </div>
     </div>
     <div class="flexitem end footer">
@@ -92,7 +89,7 @@
 </template>
 
 <script>
-import { paymenets, pay } from "../api.js";
+import { paymenets, wechatPay } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
 import { Toast, Indicator } from "mint-ui";
@@ -107,6 +104,7 @@ export default {
       has_data: false,
       pay_success: false,
       list_active: 3,
+      pay_type_active: 1,
       payments: {},
       extension_payment: {},
       member_time: null
@@ -129,7 +127,7 @@ export default {
       wx.ready(function() {
         //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({
-          title: "欢迎开通会员", // 分享标题
+          title: "分享伙伴开通会员", // 分享标题
           link: "http://btl.yxcxin.com/open_member", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg", // 分享图标
           success: function() {
@@ -137,7 +135,7 @@ export default {
           }
         });
         wx.onMenuShareAppMessage({
-          title: "欢迎开通会员", // 分享标题
+          title: "分享伙伴开通会员", // 分享标题
           desc: "超多精彩文章，每日更新推送，快来看看吧！", // 分享描述
           link: "http://btl.yxcxin.com/open_member", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg" // 分享图标
@@ -160,41 +158,50 @@ export default {
       this.list_active = index;
       this.extension_payment = this.payments[index];
     },
+    payTypeSelect(index) {
+      this.pay_type_active = index
+    },
     cancel_alert() {
       this.pay_success = false;
     },
     handlerPay() {
       Indicator.open();
       let _this = this;
-      let member_time = _this.moment(_this.$store.state.user.member_lock_at);
-      if (member_time.unix() <= _this.moment().unix()) {
-        member_time = _this.moment();
-      }
-      pay(_this.list_active, { pay_type: 1 })
+      wechatPay(_this.list_active, { pay_type: _this.pay_type_active })
         .then(function(res) {
-          if (res.code === "513") {
-            Toast(res.err_msg);
+          if(res.pay_type === 2) {
             Indicator.close();
-            return;
+            _this.$router.push('/alipay/' + res.order_id)
+          } else if(res.pay_type === 1) {
+            _this.wechatPay(res)
           }
-          _this.payCallback(res.config, function() {
-            member_time.add(res.member_month, "months");
-            _this.member_time = member_time.format("YYYY-MM-D");
-            let new_user = JSON.parse(localStorage.user);
-            new_user.member_lock_at = _this.member_time;
-            new_user.is_member =1
-            localStorage.user = JSON.stringify(new_user);
-            _this.$store.commit(
-              "setTokenAndUser",
-              JSON.parse(localStorage.user)
-            );
-            Indicator.close();
-            _this.pay_success = true;
-          });
         })
         .catch(function(e) {
           console.log(e);
         });
+    },
+    wechatPay(res) {
+      let _this = this,
+          member_time = _this.moment(_this.$store.state.user.member_lock_at);
+      if (member_time.unix() <= _this.moment().unix()) {
+        member_time = _this.moment();
+      }
+      if (res.code === "513") {
+        Toast(res.err_msg);
+        Indicator.close();
+        return;
+      }
+      _this.payCallback(res.config, function () {
+        member_time.add(res.member_month, "months");
+        _this.member_time = member_time.format("YYYY-MM-D");
+        let new_user = JSON.parse(localStorage.user);
+        new_user.member_lock_at = _this.member_time;
+        new_user.is_member = 1
+        localStorage.user = JSON.stringify(new_user);
+        _this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
+        Indicator.close();
+        _this.pay_success = true;
+      });
     },
     payCallback($config, callback) {
       wx.ready(function() {
