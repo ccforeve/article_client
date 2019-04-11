@@ -27,13 +27,20 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .head a{color:#fff;font-size: 2.5rem;}
 .head h1{font-size: 1.5rem;font-weight: lighter;color: #fff;}
 /******** 底部 **********/
-.tabbars{position:fixed;bottom:0;height: 5rem;width: 100%;background: -webkit-linear-gradient(-140deg, rgb(69, 182, 56), #81d533)}
-.tabbars a{color:#fff;}
+/* .tabbars{position:fixed;bottom:0;height: 4rem;width: 100%;background: -webkit-linear-gradient(-140deg, rgb(69, 182, 56), #81d533)} */
+.tabbars{position:fixed;bottom:0;height: 5rem;width: 100%;background: #fff;border-top: 1px solid orange;padding-left: 0.6rem;}
+
+.tabbars a{color: orange;}
 .tabbars .middle .user{position: relative; margin-top: -2rem;z-index: 2;}
 .tabbars .middle .user .userimg{width: 4rem;height:4rem;border: 1px solid rgb(69, 182, 56);border-radius: 50%;overflow: hidden;}
-.tabbars em{font-size: 1.2rem;height:1.5rem;}
+.tabbars em{font-size: 1.2rem;height:1.4rem;}
 .tabbars .item{width:7.5rem;}
-.tabbars .item i{width: 3rem;height:2.4rem; font-size: 2rem;}
+.tabbars .item i{width: 3rem;height:2.2rem; font-size: 1.7rem;}
+.tabbars .item .iIndex{font-size: 2.1rem;}
+.tabbars .item .iUser{font-size: 2.3rem;}
+.tabbars .item .iFk{font-size: 2.2rem;}
+
+
 .tabbars .item .fk{position: relative}
 .tabbars .item i.fk:after{content: '';position: absolute;top:0;right:0;width: 0.6rem;height:0.6rem;border-radius:50%; background: #04ff9e;}
 /****************************** 首页 ********************************/
@@ -47,7 +54,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #home .banner{width:100%; height:44.8vw;}
 #home .banner .swiper-container{width:100%;height:44.8vw;}
 #home .search{padding: 10px 8px;border-bottom: 1px solid #f2f2f2;}
-#home .search .home-sea{width:90%;height:3rem;background: #f4f4f4;padding: 0 10px;border-radius: 60px;}
+#home .search .home-sea{width:80%;height:3rem;background: #f4f4f4;padding: 0 10px;border-radius: 60px;}
 #home .search .home-sea input::-webkit-input-placeholder {color:#959595;}
 #home .search .home-sea .sea-text{height: 100%;text-indent: 1rem;font-size: 1rem;}
 #home .search .home-sea i{width: 1px;height:50%;background: #a6a6a6;}

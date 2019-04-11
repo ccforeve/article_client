@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import "./assets/css/base.css"
 import "./assets/css/icon.css"
+import "./assets/css/font/iconfont.css";
 import "./assets/css/index.css"
 import "./assets/css/reset.css"
 import "./assets/css/punch.css"

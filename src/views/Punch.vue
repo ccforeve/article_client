@@ -19,7 +19,7 @@
           v-for="(item, index) of punch_users"
           :key="index"
         ></li>
-        <li class="img flex center partners__item partners__item--dot"><i class="iconfont icon-dian"></i></li>
+        <li class="img flex center partners__item partners__item--dot"><i class="iconfont logo icon-menu"></i></li>
       </ul>
 
       <div
@@ -91,7 +91,7 @@
           :class="{'rank-box-tab__item--active': rank.active === 1}"
           @click="selectActive(1)"
         >
-          <i class="rank-box-tab__icon iconfont icon-crown"></i> 地区排行榜 <span class="rank-box-tab__underline"></span>
+          <i class="rank-box-tab__icon iconfont logo icon-huangguan"></i> 地区排行榜 <span class="rank-box-tab__underline"></span>
         </a> <span class="rank-box-tab__divideline"></span>
         <a
           href="javascript:"
@@ -99,7 +99,7 @@
           :class="{'rank-box-tab__item--active': rank.active === 2}"
           @click="selectActive(2)"
         >
-          <i class="rank-box-tab__icon iconfont icon-crown"></i> 我的排名 <span class="rank-box-tab__underline"></span>
+          <i class="rank-box-tab__icon iconfont logo icon-huangguan"></i> 我的排名 <span class="rank-box-tab__underline"></span>
         </a>
       </div>
       <ul

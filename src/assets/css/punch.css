@@ -88,7 +88,7 @@
 /*轮播图*/
 .banner{height: 44vw;}
 /*打卡首页*/
-.partners-num{line-height: 10vw; background: #e4e4e4; color: #c79b46; text-align: center;}
+.partners-num{line-height: 10vw;background: #e4e4e4;color: #000;text-align: center;font-size: 1.2rem;width: 100%;margin-right: 0.5rem;margin-top: 3rem;}
 .state{background-color: #f4feff; padding: 3vw 5vw;}
 .partners{overflow: hidden;}
 .partners__item{float: left; box-sizing: border-box; border: 1px solid #ccc; width: 12vw; height: 12vw; border-radius: 2vw; margin: 0 1vw 1vw 0;}
