@@ -19,6 +19,7 @@ import store from './store'
 import {getCookie} from "./cookie"
 import {getWechatConfig} from './api.js'
 import wx from 'weixin-js-sdk'
+import { Indicator } from "mint-ui";
 
 Vue.use(Router)
 
@@ -371,6 +372,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
+  Indicator.close();
   if (to.meta.wechat_jssdk) {
     let _url = encodeURIComponent(window.location.origin + to.fullPath)
     // 非ios设备，切换路由时候进行重新签名

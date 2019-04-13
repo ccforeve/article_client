@@ -110,7 +110,7 @@
       </div>
     </div>
 
-    <perfect-information type="article_detail" :user="detail.user" v-if="!user.phone"></perfect-information>
+    <perfect-information type="article_detail" :user="user" v-if="user_information_alter" @change="change"></perfect-information>
   </div>
 </template>
 
@@ -129,11 +129,13 @@
     },
     data() {
       return {
-        article_type: this.$route.params.type,
         has_data: false,
         detail_all: false,
         show_qrcode_html: false,
+        article_id: this.$route.params.id,
+        article_type: this.$route.params.type,
         detail: [],
+        user_information_alter: false,
         timer: null
       }
     },
@@ -198,10 +200,18 @@
           }
         }
       },
+      change () {
+        this.user_information_alter = false
+      },
       becomeMyArticleHandle (article_id) {
         let _this = this
+        if(!_this.user.phone) {
+          _this.user_information_alter = true
+          return
+        }
         becomeMyArticle({article_id: article_id}).then(function (res) {
-          clearInterval(this.timer)
+          clearInterval(_this.timer)
+          _this.getDetail(res.user_article_id)
           _this.$router.push('/article_detail/' + res.user_article_id + '/user')
         }).catch(function (e) {
           console.log(e)

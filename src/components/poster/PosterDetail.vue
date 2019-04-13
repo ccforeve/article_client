@@ -18,18 +18,18 @@
         <div class="flex poster">
           <i
                   class="flex center bls bls-zjt_"
-                  @click="nextOrLast(detail.id, detail.poster_type, detail.poster_id, 'last')"
+                  @click="nextOrLast"
           ></i>
           <img class="img" src="" style="width: 23rem;">
           <i
                   class="flex center bls bls-zjt_"
-                  @click="nextOrLast(detail.id, detail.poster_type, detail.poster_id, 'next')"
+                  @click="nextOrLast"
           ></i>
         </div>
         <button class="flex center share-btn" type="button" @click="sharePoster">去分享</button>
       </div>
 
-      <poster-list :posters="posters" @changePoster="changePoster"></poster-list>
+      <poster-list :posters="posters" @changePosterList="changePosterList" @changePoster="changePoster"></poster-list>
 
     </div>
 
@@ -90,7 +90,7 @@
       }
     },
     mounted () {
-      this.changePoster()
+      this.changePosterList()
     },
     activated() {
       this.poster_id = this.$route.params.id
@@ -152,29 +152,33 @@
           Indicator.close()
         }, 100)
       },
-      nextOrLast(id, cate, cate_id, type) {
+      nextOrLast() {
         let _this = this
         Indicator.open('正在生成海报中，请稍等...')
-        let data = {id: id, cate: cate, cate_id: cate_id, type: type}
-        let poster = getNextOrLastPoster(data)
+        let poster = randPoster(1)
         poster.then(function (res) {
-          if (!res.data) {
-            Toast('已经没有图片了')
-            Indicator.close()
-            return
-          }
-          _this.detail = res.data
-          _this.canvasMakePoster(res.data)
+          _this.detail = res
+          _this.canvasMakePoster(res)
         }).catch(function (e) {
           console.log(e)
         })
       },
-      changePoster() {
+      changePosterList() {
         let _this = this
-        let data = {cate_type: _this.detail.poster_type, cate_id: _this.detail.poster_id}
-        let rand_poster = randPoster(6, data)
+        let rand_poster = randPoster(6)
         rand_poster.then(function (res) {
           _this.posters = res
+        }).catch(function (e) {
+          console.log(e)
+        })
+      },
+      changePoster (id) {
+        let _this = this
+        Indicator.open('正在生成海报中，请稍等...')
+        let poster = getPosterDetail(id)
+        poster.then(function (res) {
+          _this.detail = res
+          _this.canvasMakePoster(res)
         }).catch(function (e) {
           console.log(e)
         })

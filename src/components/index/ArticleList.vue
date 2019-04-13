@@ -353,7 +353,6 @@ export default {
   position: relative;
   left: -1rem;
   border-radius: 1.5rem;
-  border: 1px solid #ccc;
   background: #000;
   margin-top: 0.2rem;
 }

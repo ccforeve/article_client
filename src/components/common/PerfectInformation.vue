@@ -89,13 +89,6 @@ export default {
         .catch(err => {
           alert(err.message);
           Indicator.close();
-          //  loading.close();
-          //  loading.close();
-          //       this.$message({
-          //           showClose: true,
-          //           message: response.message,
-          //           type: "error"
-          //       });
         });
     },
     cancelAlert() {
