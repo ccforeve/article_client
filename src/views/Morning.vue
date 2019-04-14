@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { punchCurrentUser, randPoster, getPublicQrcode } from "../api.js";
+import { punchCurrentUser, getPunchPoster, getPublicQrcode } from "../api.js";
 import { wechatConfig } from "../cookie.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import { Indicator } from "mint-ui";
@@ -96,7 +96,8 @@ export default {
       punchCurrentUser().then(function(res) {
         _this.$nextTick(() => {
           _this.current_user_punch = res.current_user;
-          randPoster(1, { cate_type: "category", cate_id: 2 })
+          Indicator.open();
+          getPunchPoster()
             .then(function(res) {
               if (res.image_url) {
                 _this.generateMorningPoster(res.image_url);
@@ -109,7 +110,6 @@ export default {
       });
     },
     generateMorningPoster(morningImgSrc) {
-      Indicator.open();
       let _this = this,
         canvas = document.createElement("canvas"),
         ctx = canvas.getContext("2d"),

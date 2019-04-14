@@ -62,7 +62,7 @@
       <div class="content wechat trans">
         <h3 class="flex center">加我免费咨询</h3>
         <div class="qrcode">
-          <img src="/kf_qrcode.png" class="fitimg">
+          <img src="/image/kf_qrcode.png" class="fitimg">
         </div>
         <p class="flex center">长按识别二维码</p>
       </div>
@@ -73,7 +73,13 @@
 import { echartsman, echartswoman } from '../../assets/js/echarts.js'
 import echarts from 'echarts'
 import { messageDetail } from '../../api.js'
-
+import heart from '@/assets/image/heart.jpg'
+import leukemia from '@/assets/image/leukemia.jpg'
+import brain from "@/assets/image/brain.jpg";
+import gan from  "@/assets/image/gan.jpg"
+import fei from "@/assets/image/fei.jpg"
+import xr from "@/assets/image/xr.jpg"
+import nerve from '@/assets/image/nerve.jpg'
 export default {
   data() {
     return {
@@ -224,13 +230,13 @@ export default {
           if (yx >= 18 && yx <= 29) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "../../assets/image/heart.jpg");
+              .attr("src", heart);
             $(".nessbox2")
               .children("img")
-              .attr("src", "../../assets/image/leukemia.jpg");
+              .attr("src", leukemia);
             $(".nessbox3")
               .children("img")
-              .attr("src", "../../assets/image/brain.jpg");
+              .attr("src", brain);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -244,13 +250,13 @@ export default {
           if (yx >= 30 && yx <= 39) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "~@/assets/image/heart.jpg");
+              .attr("src", heart);
             $(".nessbox2")
               .children("img")
-              .attr("src", "~@/assets/image/gan.jpg");
+              .attr("src",gan);
             $(".nessbox3")
               .children("img")
-              .attr("src", "~@/assets/image/brain.jpg");
+              .attr("src",brain);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -264,13 +270,13 @@ export default {
           if (yx >= 40 && yx <= 49) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "~@/assets/image/heart.jpg");
+              .attr("src", heart);
             $(".nessbox2")
               .children("img")
-              .attr("src", "~@/assets/image/brain.jpg");
+              .attr("src",brain);
             $(".nessbox3")
               .children("img")
-              .attr("src", "~@/assets/image/gan.jpg");
+              .attr("src", gan);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -284,13 +290,13 @@ export default {
           if (yx >= 50 && yx <= 59) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "~@/assets/image/brain.jpg");
+              .attr("src",brain);
             $(".nessbox2")
               .children("img")
-              .attr("src", "~@/assets/image/heart.jpg");
+              .attr("src",heart);
             $(".nessbox3")
               .children("img")
-              .attr("src", "~@/assets/image/gan.jpg");
+              .attr("src",gan);
             $(".nessbox1")
               .children("span")
               .text("脑血管病");
@@ -304,13 +310,13 @@ export default {
           if (yx >= 60 && yx <= 70) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "~@/assets/image/heart.jpg");
+              .attr("src",heart);
             $(".nessbox2")
               .children("img")
-              .attr("src", "~@/assets/image/fei.jpg");
+              .attr("src", fei);
             $(".nessbox3")
               .children("img")
-              .attr("src", "~@/assets/image/brain.jpg");
+              .attr("src", brain);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -333,13 +339,13 @@ export default {
           if (yx >= 18 && yx <= 29) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "../../assets/image/heart.jpg");
+              .attr("src", heart);
             $(".nessbox2")
               .children("img")
-              .attr("src", "../../assets/image/leukemia.jpg");
+              .attr("src", leukemia);
             $(".nessbox3")
               .children("img")
-              .attr("src", "../../assets/image/nerve.jpg");
+              .attr("src", nerve);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -353,13 +359,13 @@ export default {
           if (yx >= 30 && yx <= 39) {
             $(".nessbox1")
               .children("img")
-              .prop("src", "../../assets/image/heart.jpg");
+              .prop("src", heart);
             $(".nessbox2")
               .children("img")
-              .prop("src", "../../assets/image/xr.jpg");
+              .prop("src", xr);
             $(".nessbox3")
               .children("img")
-              .prop("src", "../../assets/image/brain.jpg");
+              .prop("src", brain);
             $(".nessbox1")
               .children("span")
               .text("心脏病");
@@ -373,13 +379,13 @@ export default {
           if (yx >= 40 && yx <= 70) {
             $(".nessbox1")
               .children("img")
-              .attr("src", "../../assets/image/brain.jpg");
+              .attr("src", brain);
             $(".nessbox2")
               .children("img")
-              .attr("src", "../../assets/image/heart.jpg");
+              .attr("src", heart);
             $(".nessbox3")
               .children("img")
-              .attr("src", "../../assets/image/fei.jpg");
+              .attr("src", fei);
             $(".nessbox1")
               .children("span")
               .text("脑血管病");

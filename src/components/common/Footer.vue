@@ -14,7 +14,6 @@
     >
       <i
         class="flex center iconfont logo icon-index iIndex"
-        :class="{'fk': new_visitor}"
       ></i>
       <em class="flex center">首页</em>
     </router-link>

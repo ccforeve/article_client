@@ -108,6 +108,10 @@ export const getPosterDetail = (id, data) => {      //海报详情
   return request('get', '/posters/' + id, data)
 }
 
+export const getPunchPoster = () => {
+  return request('get', '/posters/punch');
+}
+
 export const getNextOrLastPoster = (data) => {  //当前分类下上一个或下一下海报
   return request('get', '/posters/next_or_last', data)
 }

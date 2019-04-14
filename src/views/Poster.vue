@@ -268,3 +268,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.mescroll {
+  position: fixed;
+}
+</style>
+
