@@ -23,20 +23,20 @@
           <router-link tag="div" :to="'/articles/' + detail.user.id" class="flex center c-img"><img
                   :src="detail.user.avatar" class="radimg"></router-link>
           <router-link :to="'/consultation/normal/' + detail.user.id" class="flex center c-zx"
-                       v-if="user.is_member"></router-link>
+                       v-if="is_member"></router-link>
           <router-link :to="'/consultation/normal/' + detail.user.id" class="flex center c-zx" v-else></router-link>
           <div class="flexv no">
             <div class="between phone">
               <i class="flex center bls bls-shouji" style="color:#0178d6;"></i>
               <div class="flex center number">
-                <span>{{user.is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
+                <span>{{is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
               </div>
-              <a href="tel:" class="flex center n-btn">打电话</a>
+              <a  :href="is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center n-btn">打电话</a>
             </div>
             <div class="between wx">
               <i class="flex center bls bls-wx" style="width:1.6rem;color:#4ba601;"></i>
               <div class="flex center number">
-                <span>{{user.is_member ? detail.user.wechat : detail.user.wechat.slice(0, 3) + '********'}}</span>
+                <span>{{is_member ? detail.user.wechat : detail.user.wechat.slice(0, 3) + '********'}}</span>
               </div>
               <a href="javascript:;" class="flex center n-btn book">加微信</a>
             </div>
@@ -60,10 +60,10 @@
         <p class="flex center name">{{detail.user.nickname}}</p>
         <div class="flex centerh mesg">
           <span>{{detail.user.profession ? detail.user.profession : '健康顾问'}}</span>
-          <span>{{user.is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
+          <span>{{is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
         </div>
         <div class="buttons">
-          <a :href="user.is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center phone"
+          <a :href="is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center phone"
              @click="call_phone">
             <i class="flex center bls bls-dh"></i>
             <span>给我电话</span>
@@ -82,7 +82,7 @@
       <router-link
               :to="'/consultation/vip_link/' + detail.user.id"
               class="flex center bls bls-kefu service"
-              v-if="user.is_member"
+              v-if="is_member"
       ></router-link>
       <router-link
               :to="'/consultation/normal/' + detail.user.id"
@@ -135,6 +135,7 @@
         article_id: this.$route.params.id,
         article_type: this.$route.params.type,
         detail: [],
+        is_member: false,
         user_information_alter: false,
         timer: null
       }
@@ -167,6 +168,9 @@
           let replace_detail = res.article.detail
           res.article.detail = replace_detail.replace(/crossorigin="anonymous"/g, '')
           vm.detail = res
+          if(vm.moment(res.user.member_lock_at).isAfter(vm.moment())) {
+            vm.is_member = true
+          }
           vm.has_data = true
           let footprint = res.footprint
           if(footprint) {
