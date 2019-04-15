@@ -27,8 +27,8 @@
         <div style="position: relative; overflow: hidden; width: 375px; height: 216px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="750" height="432" style="position: absolute; left: 0px; top: 0px; width: 375px; height: 216px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div>
       </div>
       <div class="flexv center xians">
-        <p class="age"></p>
-        <p class="percent"></p>
+        <p class="age">71岁</p>
+        <p class="percent">NaN%</p>
       </div>
     </div>
     <!--标题-->
@@ -62,7 +62,7 @@
       <div class="content wechat trans">
         <h3 class="flex center">加我免费咨询</h3>
         <div class="qrcode">
-          <img :src="qrcode" class="fitimg">
+          <img src="../../assets/image/smile.png" class="fitimg">
         </div>
         <p class="flex center">长按识别二维码</p>
       </div>
@@ -73,19 +73,17 @@
 import { echartsman, echartswoman } from '../../assets/js/echarts.js'
 import echarts from 'echarts'
 import { messageDetail } from '../../api.js'
-import heart from '@/assets/image/heart.jpg'
-import leukemia from '@/assets/image/leukemia.jpg'
-import brain from "@/assets/image/brain.jpg";
-import gan from  "@/assets/image/gan.jpg"
-import fei from "@/assets/image/fei.jpg"
-import xr from "@/assets/image/xr.jpg"
-import nerve from '@/assets/image/nerve.jpg'
-import wechat_qrcode from '@/assets/image/qrcode.jpg'
+import heart from '../../assets/image/heart.jpg'
+import leukemia from '../../assets/image/leukemia.jpg'
+import brain from '../../assets/image/brain.jpg'
+import gan from  '../../assets/image/gan.jpg'
+import fei from '../../assets/image/fei.jpg'
+import xr from '../../assets/image/xr.jpg'
+import nerve from '../../assets/image/nerve.jpg'
 export default {
   data() {
     return {
       detail: {},
-      qrcode: wechat_qrcode,
       message_id: this.$route.params.id,
     };
   },
@@ -99,26 +97,30 @@ export default {
     let message_detail = this.getData()
     message_detail.then(function (res) {
       _this.detail = res
-      _this.qrcode = res.user.qrcode
       _this.init();
     }).catch(function (e) {
       console.log(e)
     })
   },
-  activated (to, from, next) {
+  activated () {
     // this.getData()
-  },
-  beforeRouteLeave () {
-    this.$router.go(-3)
   },
   methods: {
     getData() {
-      return messageDetail(this.message_id, {type: 'family', include: 'user'})
+      return messageDetail(this.message_id, {type: 'family'})
     },
     init() {
+      console.log(this.detail)
       // 获取数据
-      let age = this.detail.age
-      let sex = this.detail.gender
+      let birthday = this.detail.age
+      let matter = this.detail.type
+      let place = this.detail.region
+      let name = this.detail.name
+      let tel = this.detail.phone
+      let family = this.detail.family
+      let age = birthday.substring(-1, 4)
+      let income = this.detail.income
+      let sex = this.detail.sex === 1 ? "男" : "女"
       let deg = 0
       let gzd = ""
 
@@ -141,21 +143,24 @@ export default {
       }
       $(".left-t .date").text(getDate());
       // 健康状况||当前年龄
-      if (age >= 45) {
+      let date = new Date(),
+        year = date.getFullYear(),
+        yx = parseInt(year) - parseInt(age);
+      if (yx >= 45) {
         deg = 75;
         gzd = "高";
         $(".tbtext .tex").text(
           "45岁后，重大疾病的发病率明显提升，没有健康的基石，看起来安稳的幸福也是脆弱的。"
         );
       }
-      if (age >= 31 && age <= 45) {
+      if (yx >= 31 && yx <= 45) {
         deg = 50;
         gzd = "中";
         $(".tbtext .tex").text(
           "30岁后，我们的身体衰老加速，拼搏事业、照顾家庭的同时别忘了多多关心自身的健康。"
         );
       }
-      if (age >= 18 && age <= 30) {
+      if (yx >= 18 && yx <= 30) {
         deg = 25;
         gzd = "低";
         $(".tbtext .tex").text(
@@ -198,19 +203,19 @@ export default {
         initEchart(sex);
       });
       // 标题年龄段
-      if (age >= 18 && age <= 29) {
+      if (yx >= 18 && yx <= 29) {
         $(".subhead .s-age").text("18~29");
       }
-      if (age >= 30 && age <= 39) {
+      if (yx >= 30 && yx <= 39) {
         $(".subhead .s-age").text("30~39");
       }
-      if (age >= 40 && age <= 49) {
+      if (yx >= 40 && yx <= 49) {
         $(".subhead .s-age").text("40~49");
       }
-      if (age >= 50 && age <= 59) {
+      if (yx >= 50 && yx <= 59) {
         $(".subhead .s-age").text("50~59");
       }
-      if (age >= 60 && age <= 70) {
+      if (yx >= 60 && yx <= 70) {
         $(".subhead .s-age").text("60~70");
       }
       // 曲线图表
@@ -218,11 +223,11 @@ export default {
         if (sex == "男") {
           var xdata = echartsman.age,
             ydata = echartsman.pro;
-          let perc = parseFloat(echartsman.pro[echartsman.age[age]]).toFixed(2);
-          $(".xians .age").text(`${age}岁`);
+          let perc = parseFloat(echartsman.pro[echartsman.age[yx]]).toFixed(2);
+          $(".xians .age").text(`${yx}岁`);
           $(".xians .percent").text(`${perc}%`);
           //男性重疾显示
-          if (age >= 18 && age <= 29) {
+          if (yx >= 18 && yx <= 29) {
             $(".nessbox1")
               .children("img")
               .attr("src", heart);
@@ -242,7 +247,7 @@ export default {
               .children("span")
               .text("脑血管病");
           }
-          if (age >= 30 && age <= 39) {
+          if (yx >= 30 && yx <= 39) {
             $(".nessbox1")
               .children("img")
               .attr("src", heart);
@@ -262,7 +267,7 @@ export default {
               .children("span")
               .text("脑血管病");
           }
-          if (age >= 40 && age <= 49) {
+          if (yx >= 40 && yx <= 49) {
             $(".nessbox1")
               .children("img")
               .attr("src", heart);
@@ -282,7 +287,7 @@ export default {
               .children("span")
               .text("肝癌");
           }
-          if (age >= 50 && age <= 59) {
+          if (yx >= 50 && yx <= 59) {
             $(".nessbox1")
               .children("img")
               .attr("src",brain);
@@ -302,7 +307,7 @@ export default {
               .children("span")
               .text("肝癌");
           }
-          if (age >= 60 && age <= 70) {
+          if (yx >= 60 && yx <= 70) {
             $(".nessbox1")
               .children("img")
               .attr("src",heart);
@@ -325,13 +330,13 @@ export default {
         } else {
           var xdata = echartswoman.age,
             ydata = echartswoman.pro;
-          let perc = parseFloat(echartswoman.pro[echartswoman.age[age]]).toFixed(
+          let perc = parseFloat(echartswoman.pro[echartswoman.age[yx]]).toFixed(
             2
           );
-          $(".xians .age").text(`${age}岁`);
+          $(".xians .age").text(`${yx}岁`);
           $(".xians .percent").text(`${perc}%`);
           //女性重疾显示
-          if (age >= 18 && age <= 29) {
+          if (yx >= 18 && yx <= 29) {
             $(".nessbox1")
               .children("img")
               .attr("src", heart);
@@ -351,7 +356,7 @@ export default {
               .children("span")
               .text("神经系统疾病");
           }
-          if (age >= 30 && age <= 39) {
+          if (yx >= 30 && yx <= 39) {
             $(".nessbox1")
               .children("img")
               .prop("src", heart);
@@ -371,7 +376,7 @@ export default {
               .children("span")
               .text("脑血管病");
           }
-          if (age >= 40 && age <= 70) {
+          if (yx >= 40 && yx <= 70) {
             $(".nessbox1")
               .children("img")
               .attr("src", brain);
