@@ -237,7 +237,7 @@
       class="layer layer-success"
       v-show="punch_alert"
     >
-      <div class="layer__content layer-success__content">
+      <router-link tag="div" to="/morning" class="layer__content layer-success__content">
         <img
           src="https://image.yetingjk.com/images/punch/success.png"
           width="100%"
@@ -246,7 +246,7 @@
           class="flex center layer-success__close"
           @click="close_punch"
         >×</span>
-      </div>
+      </router-link>
     </div>
 
     <!----------关注公众号---------->

@@ -29,16 +29,16 @@
             <div class="between phone">
               <i class="flex center bls bls-shouji" style="color:#0178d6;"></i>
               <div class="flex center number">
-                <span>{{is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
+                <span>{{is_member ? detail.user.phone : '********'}}</span>
               </div>
               <a  :href="is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center n-btn">打电话</a>
             </div>
             <div class="between wx">
               <i class="flex center bls bls-wx" style="width:1.6rem;color:#4ba601;"></i>
               <div class="flex center number">
-                <span>{{is_member ? detail.user.wechat : detail.user.wechat.slice(0, 3) + '********'}}</span>
+                <span>{{is_member ? detail.user.wechat : '********'}}</span>
               </div>
-              <a href="javascript:;" class="flex center n-btn book">加微信</a>
+              <a href="javascript:;" class="flex center n-btn book" @click="show_qrcode">加微信</a>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
         <p class="flex center name">{{detail.user.nickname}}</p>
         <div class="flex centerh mesg">
           <span>{{detail.user.profession ? detail.user.profession : '健康顾问'}}</span>
-          <span>{{is_member ? detail.user.phone : detail.user.phone.slice(0, 3) + '********'}}</span>
+          <span>{{is_member ? detail.user.phone : '********'}}</span>
         </div>
         <div class="buttons">
           <a :href="is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center phone"
@@ -143,6 +143,11 @@
     computed: {
       user() {
         return this.$store.state.user
+      }
+    },
+    mounted () {
+      if(this.article_type == 'public' && !this.user.phone) {
+        this.user_information_alter = true
       }
     },
     activated() {

@@ -261,7 +261,7 @@
         <input type="hidden" name="age" id="p6" value="">
         <input type="hidden" name="income" id="p7" value="">
         <input type="hidden" name="gender" id="p8" value="">
-        <input type="hidden" name="user_id" :value="user.id">
+        <input type="hidden" name="user_id" :value="consultation_user_id">
       </form>
       <div id="fill" style="clear: both; float: left; visibility: hidden;"></div>
       <!--弹框提示-->

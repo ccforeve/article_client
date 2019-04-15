@@ -29,10 +29,10 @@ module.exports = {
   // 它支持webPack-dev-server的所有选项
   devServer: {
     host: "btl.yxcxin.com",
-    // host: "localhost",
+    // host: "127.0.0.1",
     port: 80, // 端口号
     https: false, // https:{type:Boolean}
-    open: true, //配置自动启动浏览器
+    open: false, //配置自动启动浏览器
     // proxy: 'http://localhost:8080' ,// 配置跨域处理,只有一个代理
 
     // 配置多个代理
