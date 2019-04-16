@@ -19,7 +19,7 @@
           <router-link to="/index" class="site" id="index">事业头条</router-link>
         </div>
 
-        <div class="around consult-box">
+        <!-- <div class="around consult-box">
           <router-link tag="div" :to="'/articles/' + detail.user.id" class="flex center c-img"><img
                   :src="detail.user.avatar" class="radimg"></router-link>
           <router-link :to="'/consultation/normal/' + detail.user.id" class="flex center c-zx"
@@ -41,6 +41,15 @@
               <a href="javascript:;" class="flex center n-btn book" @click="show_qrcode">加微信</a>
             </div>
           </div>
+        </div> -->
+
+        <!-- 新增产品信息 -->
+        <div class="productMess" v-if="product">
+          <p class="prodTitle">{{product.name}}[{{product.sale_unit}}]</p>
+          <div class="prodMess" v-if="product.kind == 1">零售价：{{product.price}}元 会员价：{{product.money}}元 1{{product.unit}}={{product.multiple + product.min_unit}} 上市时间： {{moment(product.listed_at).format('YYYY-MM-DD')}}</div>
+          <div class="prodMess" v-else>零售价：{{product.price}}元 会员价：{{product.money}}元+{{product.ticket}}券 1{{product.unit}}={{product.multiple + product.min_unit}} 上市时间： {{moment(product.listed_at).format('YYYY-MM-DD')}}</div>
+          <img class="prodImg" :src="product.cover.replace('/\/p\//', '/\/pxs\//')" alt="">
+          <div class="prodHr"></div>
         </div>
       </div>
 
@@ -135,6 +144,7 @@
         article_id: this.$route.params.id,
         article_type: this.$route.params.type,
         detail: [],
+        product: [],
         is_member: false,
         user_information_alter: false,
         timer: null
@@ -173,6 +183,7 @@
           let replace_detail = res.article.detail
           res.article.detail = replace_detail.replace(/crossorigin="anonymous"/g, '')
           vm.detail = res
+          vm.product = res.product
           if(vm.moment(res.user.member_lock_at).isAfter(vm.moment())) {
             vm.is_member = true
           }
@@ -279,5 +290,31 @@
   .c-zx {
     background: url('../assets/image/xz.gif') no-repeat !important;
     background-size: contain !important;
+  }
+  .productMess{
+
+  }
+  .prodTitle{
+    padding-left: 0.6rem;
+    font-size: 1.3rem;
+  }
+  .prodMess{
+    font-size: 1.1rem;
+    width: 100%;
+    min-height: 1rem;
+    padding: 1.4rem 3rem 1.4rem 0.4rem;
+    border: 1px solid gainsboro;
+    border-left: 0.4rem solid lightseagreen;
+    margin-top: 0.5rem;
+  }
+  .prodImg{
+    width: 100%;
+    height: auto;
+  }
+  .prodHr{
+    width: 100%;
+    margin: 0.5rem 0;
+    height: 1px;
+    background: lightseagreen;
   }
 </style>

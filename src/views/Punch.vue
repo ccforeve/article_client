@@ -239,7 +239,7 @@
     >
       <router-link tag="div" to="/morning" class="layer__content layer-success__content">
         <img
-          src="https://image.yetingjk.com/images/punch/success.png"
+          src="../assets/image/success.png"
           width="100%"
         >
         <span
