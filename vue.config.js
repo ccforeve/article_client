@@ -38,7 +38,6 @@ module.exports = {
     // 配置多个代理
     proxy: {
       "/": {
-        // target: "http://localhost:8080",
         target: "http://stl.yxcxin.com",
         ws: false,    // 如果要代理 websockets
         changeOrigin: true,   // 将主机标头的原点更改为目标URL

@@ -153,8 +153,8 @@ export default {
   },
   data() {
     return {
-      tabType: 2,
-      category_id: 2,
+      tabType: 1,
+      category_id: 1,
       categories: {},
       tab: {}
     };
@@ -195,7 +195,7 @@ export default {
     },
     // 多mescroll的配置,需通过方法获取,保证每个配置是单例
     getMescrollDown(tabType) {
-      let isAuto = tabType === 2; // 第一个mescroll传入true,列表自动加载
+      let isAuto = tabType === 1; // 第一个mescroll传入true,列表自动加载
       return {
         auto: isAuto,
         callback: this.downCallback

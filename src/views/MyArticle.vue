@@ -31,6 +31,7 @@
           <router-link
             :to="'/article_detail/' + item.user_article_id + '/user'"
             class="flex"
+            v-if="item.article"
           >
             <div class="flexitem lists">
               <div class="img">
@@ -69,7 +70,7 @@
         </router-link>
       </div>
       <a
-        :herf="is_member ? 'tel:' + user_info.phone : 'javascript:;'"
+        :href="is_member ? 'tel:' + user_info.phone : 'javascript:;'"
         class="flexv center item"
         @click="call_phone"
       >
@@ -85,14 +86,22 @@
         <em class="flex center">加微信</em>
       </a>
 
-      <a
-        href=""
-        id="data"
+      <router-link
+        :to="'/consultation/vip_link/' + user_info.id"
         class="flexv center item"
+        v-if="is_member"
       >
         <i class="flex center bls bls-zx-ing"></i>
         <em class="flex center">在线资询</em>
-      </a>
+      </router-link>
+      <router-link
+          :to="'/consultation/normal/' + user_info.id"
+          class="flexv center item"
+          v-else
+      >
+        <i class="flex center bls bls-zx-ing"></i>
+        <em class="flex center">在线资询</em>
+      </router-link>
     </div>
 
     <!--提示-->
@@ -120,10 +129,10 @@
 
 <script>
 import MescrollVue from "mescroll.js/mescroll.vue";
-import { wechatConfig } from "../cookie.js";
 import { MyArticles, getUserInfo } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import { Toast } from "mint-ui";
+import wx from 'weixin-js-sdk'
 
 export default {
   name: "my_article",
@@ -160,25 +169,23 @@ export default {
           //列表第一页无任何数据时,显示的空提示布局; 需配置warpId才显示
           warpId: "listbox", //父布局的id (1.3.5版本支持传入dom元素)
           icon: "http://www.mescroll.com/img/mescroll-empty.jpg", //图标,默认null,支持网络图
-          tip: "暂无相关数据~" //提示
+          tip: "暂无相关数据1~" //提示
         }
       },
       dataList: [] // 列表数据
     };
   },
-  mounted() {
-    let vm = this;
-    let user_info = getUserInfo({ user_id: this.user_id });
-    user_info.then(function(res) {
-      vm.user_info = res;
-      //判断是否是会员
-      if (vm.moment(res.member_lock_at).unix() > vm.moment().unix()) {
-        vm.is_member = true;
-      }
-    });
-  },
   activated() {
-    wechatConfig();
+    let _this = this;
+    getUserInfo({ user_id: this.user_id })
+      .then(function(res) {
+        _this.user_info = res;
+        _this.wechatConfig();
+        //判断是否是会员
+        if (_this.moment(res.member_lock_at).unix() > _this.moment().unix()) {
+          _this.is_member = true;
+        }
+      });
     if (this.has_data) {
       this.has_data = false;
       this.getPoster();
@@ -238,6 +245,25 @@ export default {
     },
     getPoster: function() {
       this.mescroll.resetUpScroll();
+    },
+    wechatConfig () {     //微信jssdk
+      let _this = this
+      wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+        wx.onMenuShareTimeline({
+          title: _this.user_info.nickname + "的文章库", // 分享标题
+          link: 'http://btl.yxcxin.com/articles/' + _this.user_info.id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: _this.user_info.avatar, // 分享图标
+          success: function () {
+            // 用户点击了分享后执行的回调函数
+          }
+        })
+        wx.onMenuShareAppMessage({
+          title: _this.user_info.nickname + "的文章库", // 分享标题
+          desc: "快来查看我的文章库", // 分享描述
+          link: 'http://btl.yxcxin.com/articles/' + _this.user_info.id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: _this.user_info.avatar // 分享图标
+        })
+      })
     }
   },
   beforeRouteEnter(to, from, next) {

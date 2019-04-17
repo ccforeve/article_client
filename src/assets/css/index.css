@@ -390,10 +390,10 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #seek .search .home-sea .sea-text{height: 100%;text-indent: 1rem;font-size: 1.2rem;}
 #seek .search .home-sea span{height:1.5rem;color:#999;font-size: 1.5rem;display: none;}
 #seek .listbox{padding:0 12px;background: #fff;}
-#seek .listbox .lists{border-bottom: 1px solid #f2f2f2;padding-top: 12px;padding-bottom: 10px;}
+#seek .listbox .lists{border-bottom: 1px solid #f2f2f2 !important;padding-top: 12px;padding-bottom: 10px;}
 #seek .listbox .lists:last-child{border-bottom: none;}
 #seek .listbox .lists .img{width:8rem;height:7rem;}
-#seek .listbox .lists .cont{height: 7rem;padding-left:10px;}
+#seek .listbox .lists .cont{height: 7rem;padding: 0 10px;}
 #seek .listbox .lists .cont a{font-size: 1.5rem;color:#424242;overflow: hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;}
 #seek .listbox .lists .cont .base{display: flex;justify-content: space-between;color:#969696;font-size: 1.2rem;padding:0.6rem 0;}
 /*#seek .result p{padding: 2rem 0;color:#7f7f7f;position: relative;font-size: 1.2rem;}*/

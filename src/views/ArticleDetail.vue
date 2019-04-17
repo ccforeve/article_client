@@ -256,12 +256,16 @@
         }, 1000)
       },
       wechatConfig () {     //微信jssdk
-        let _this = this
+        let _this = this,
+            cover = _this.detail.article.cover
+        if(cover.indexOf("//img.lvye100.com") >= 0) {
+          cover = cover.replace("//img.lvye100.com/p/", "http://img.lvye100.com/pxs/")
+        }
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
           wx.onMenuShareTimeline({
             title: _this.detail.article.title, // 分享标题
             link: 'http://btl.yxcxin.com/article_detail/' + _this.detail.user_article_id +'/user', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: _this.detail.article.cover, // 分享图标
+            imgUrl: cover, // 分享图标
             success: function () {
               // 用户点击了分享后执行的回调函数
             }
@@ -270,7 +274,7 @@
             title: _this.detail.article.title, // 分享标题
             desc: _this.detail.article.desc, // 分享描述
             link: 'http://btl.yxcxin.com/article_detail/' + _this.detail.user_article_id +'/user', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: _this.detail.article.cover // 分享图标
+            imgUrl: cover // 分享图标
           })
         })
       }
@@ -301,8 +305,9 @@
   .prodMess{
     font-size: 1.1rem;
     width: 100%;
+    background-color: #e5e5e5;
     min-height: 1rem;
-    padding: 1.4rem 3rem 1.4rem 0.4rem;
+    padding: 1.3rem 3rem 1.3rem 0.4rem;
     border: 1px solid gainsboro;
     border-left: 0.4rem solid lightseagreen;
     margin-top: 0.5rem;
