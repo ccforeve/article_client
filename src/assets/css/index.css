@@ -35,9 +35,9 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .tabbars .middle .user .userimg{width: 4rem;height:4rem;border: 1px solid rgb(69, 182, 56);border-radius: 50%;overflow: hidden;}
 .tabbars em{font-size: 1.2rem;height:1.4rem;}
 .tabbars .item{width:7.5rem;}
-.tabbars .item i{width: 3rem;height:2.2rem; font-size: 1.7rem;}
+.tabbars .item i{width: 3rem;height:2.2rem; font-size: 1.8rem;}
 .tabbars .item .iIndex{font-size: 2.1rem;}
-.tabbars .item .iUser{font-size: 2.3rem;}
+.tabbars .item .iUser{font-size: 1.5rem;}
 .tabbars .item .iFk{font-size: 2.2rem;}
 
 

@@ -37,15 +37,49 @@
     <div class="payment">
       <div class="title">支付方式</div>
       <div class="around paybox">
-        <div class="flex center list" :class="{current_border: pay_type_active === 1}" @click="payTypeSelect(1)">
-          <i class="flex center bls bls-wx-pay" style="color:#45b638"></i>微信安全支付
+        <div
+          class="flex center list"
+          :class="{current_border: pay_type_active === 1}"
+          @click="payTypeSelect(1)"
+        >
+          <i
+            class="flex center bls bls-wx-pay"
+            style="color:#45b638"
+          ></i>微信安全支付
           <div class="current"></div>
         </div>
-        <div class="flex center list" :class="{current_border: pay_type_active === 2}" @click="payTypeSelect(2)">
-          <i class="flex center bls bls-zfb-pay" style="color:#1296db"></i>支付宝安全支付
+        <div
+          class="flex center list"
+          :class="{current_border: pay_type_active === 2}"
+          @click="payTypeSelect(2)"
+        >
+          <i
+            class="flex center bls bls-zfb-pay"
+            style="color:#1296db"
+          ></i>支付宝安全支付
           <div class="current"></div>
         </div>
       </div>
+    </div>
+    <!-- 权限开通信息 -->
+    <div class="vipMess">
+      <h3>会员特权</h3>
+      <p>
+        <p><i class="iconfont logo icon-icon25 iUser" style="background: chocolate;"></i><span class="titleFont">客户追踪</span></p> 
+        <p class="textIndex">1.开通会员之后可以查看每篇文章的具体并分析如何找到对应的客户</p>
+      </p>
+      <p>
+        <p><i class="iconfont logo icon-mingpian iUser" style="background: skyblue;"></i><span class="titleFont">展示获客</span></p>
+        <p class="textIndex">2.开通会员之后可在文章内插入自己的名片进行获客展示</p>
+      </p>
+      <p>
+        <p><i class="iconfont logo icon-qiapian iUser"></i><span class="titleFont">热文分享</span></p>
+        <p class="textIndex">3.开通会员之后可以查看你分享出去的文章都有谁看了及阅读时间</p>
+      </p>
+      <p>
+        <p><i class="iconfont logo icon-mingpian1 iUser" style=" background: blueviolet;"></i><span class="titleFont">人脉倍增</span></p>
+        <p class="textIndex">4.开通会员之后可以查看你分享的文章都有谁帮忙转发<p>
+      </p>
     </div>
     <div class="flexitem end footer">
       <div class="between moneybox">
@@ -159,7 +193,7 @@ export default {
       this.extension_payment = this.payments[index];
     },
     payTypeSelect(index) {
-      this.pay_type_active = index
+      this.pay_type_active = index;
     },
     cancel_alert() {
       this.pay_success = false;
@@ -169,11 +203,11 @@ export default {
       let _this = this;
       wechatPay(_this.list_active, { pay_type: _this.pay_type_active })
         .then(function(res) {
-          if(res.pay_type === 2) {
+          if (res.pay_type === 2) {
             Indicator.close();
-            _this.$router.push('/alipay/' + res.order_id)
-          } else if(res.pay_type === 1) {
-            _this.wechatPay(res)
+            _this.$router.push("/alipay/" + res.order_id);
+          } else if (res.pay_type === 1) {
+            _this.wechatPay(res);
           }
         })
         .catch(function(e) {
@@ -182,7 +216,7 @@ export default {
     },
     wechatPay(res) {
       let _this = this,
-          member_time = _this.moment(_this.$store.state.user.member_lock_at);
+        member_time = _this.moment(_this.$store.state.user.member_lock_at);
       if (member_time.unix() <= _this.moment().unix()) {
         member_time = _this.moment();
       }
@@ -191,12 +225,12 @@ export default {
         Indicator.close();
         return;
       }
-      _this.payCallback(res.config, function () {
+      _this.payCallback(res.config, function() {
         member_time.add(res.member_month, "months");
         _this.member_time = member_time.format("YYYY-MM-D");
         let new_user = JSON.parse(localStorage.user);
         new_user.member_lock_at = _this.member_time;
-        new_user.is_member = 1
+        new_user.is_member = 1;
         localStorage.user = JSON.stringify(new_user);
         _this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
         Indicator.close();
@@ -247,5 +281,46 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+.vipMess {
+  background: #fff;
+  padding: 0.5rem 1.5rem 4rem 1.5rem;
+}
+.vipMess h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+  color: coral;
+  font-weight: 700;
+}
+.vipMess p {
+  font-size: 1.3rem;
+  line-height: 1.4rem;
+  padding: 0.2rem 0.2rem;
+  color: darkgray;
+  letter-spacing: 0.2rem;
+  font-family: sans-serif;
+}
+.vipMess p i {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background: orange;
+  text-align: center;
+  line-height: 2rem;
+  border-radius: 1rem;
+  color: #fff;
+  padding-left: 0.1rem;
+}
+.vipMess .textIndex{
+  padding-left: 2.5rem;
+}
+.iUser {
+  font-size: 1.2rem;
+}
+.titleFont{
+  font-weight: 500;
+  color: black;
+  padding-left: 0.5rem;
 }
 </style>
