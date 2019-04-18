@@ -200,6 +200,14 @@ export const punchCurrentUser = () => {        //省份打卡第一名
   return request('get', '/punch/current_user')
 }
 
+export const orders = () => {     //滚动信息
+  return request('get', '/orders')
+}
+
+export const articleExtension = (data) => {
+  return request('post', '/articles/extension', data)
+}
+
 
 
 

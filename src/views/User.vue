@@ -13,6 +13,15 @@
 
       <user-center-header :center="center"></user-center-header>
 
+      <div class="flipbox">
+        <div class="bor">
+          <div class="flex centerv flip" v-for="(item, index) of order_list">
+            <i class="flex center bls bls-horn"></i>
+            <div class="flex text"> 恭喜“<span class="flexv name">{{item.nickname.length > 4 ? item.nickname.substr(0, 4) : item.nickname}}</span>”成功开通会员进行获客展示</div>
+          </div>
+        </div>
+      </div>
+
       <center-icons></center-icons>
 
       <center-posters :posters="posters"></center-posters>
@@ -31,7 +40,7 @@
   import CenterPosters from '@/components/user_center/Posters.vue'
   import SubscribeAlert from '@/components/user_center/SubscribeAlert.vue'
   import CenterFooter from "@/components/common/Footer.vue"
-  import {getUserInfo, getUserCenter, randPoster} from '../api.js'
+  import {getUserInfo, getUserCenter, randPoster, orders} from '../api.js'
   import {FulfillingBouncingCircleSpinner} from 'epic-spinners'
   import wx from 'weixin-js-sdk'
 
@@ -49,20 +58,23 @@
       return {
         has_data: false,
         center: {},
-        posters: {}
+        posters: {},
+        order_list: {},
+        timer: null
       }
     },
     created() {
       let _this = this
-      let posters = randPoster(4)
-      posters.then(function (res) {
+      _this.roll_list()
+      randPoster(4).then(function (res) {
         _this.posters = res
         _this.has_data = true
       })
     },
     activated() {
       this.getDate()
-      // this.wechatConfig()
+      this.wechatConfig()
+      this.roll()
     },
     computed: {
       is_subscribe() {
@@ -85,6 +97,19 @@
           _this.center = res
         })
       },
+      roll_list () {
+        let _this = this
+        orders().then(function (res) {
+          _this.order_list = res
+        })
+      },
+      roll() {
+        this.timer = setInterval(function roll() {
+          console.log('个人中心')
+          var objh = $('.flip').height();
+          $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({"height":objh+"px"},500));
+        },2000);
+      },
       wechatConfig () {     //微信jssdk
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
           wx.onMenuShareTimeline({
@@ -103,7 +128,11 @@
           })
         })
       }
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+      clearInterval(this.timer);
+      next();
+    },
   }
 </script>
 

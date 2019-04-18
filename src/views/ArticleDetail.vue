@@ -106,13 +106,13 @@
       </div>
 
       <div class="flexv centerv user-info">
-        <div class="userimg">
+        <router-link tag="div" :to="'/articles/' + detail.user.id" class="userimg">
           <img
             :src="detail.user.avatar"
             class="fitimg"
             style="border-radius: 50%;overflow: hidden;"
           >
-        </div>
+        </router-link>
         <p class="flex center name">{{detail.user.nickname}}</p>
         <div class="flex centerh mesg">
           <span>{{detail.user.profession ? detail.user.profession : '健康顾问'}}</span>

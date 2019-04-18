@@ -36,13 +36,17 @@ Axios.interceptors.response.use(
     },
     error => {
       if (error && error.response) {
-        let res = {}
+        let res = {},
+            errors = error.response.data.errors
         res.code = error.response.status
         if (res.code === 401) {      //操作时检测登录是否过期
           Toast({message: '登录已失效', duration: 1000})
           setTimeout(function () {
             router.push({path: '/', query: {redirect: window.location.pathname}})
           }, 1000)
+        }
+        if(errors) {
+          return Promise.reject(errors)
         }
         res.msg = throwErr(error.response.status, error.response) //throwErr 捕捉服务端的http状态码 定义在utils工具类的方法
         return Promise.reject(res)

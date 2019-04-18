@@ -342,6 +342,15 @@ const router = new Router({
         requireAuth: true,
         wechat_jssdk: true
       }
+    }, {    //好文章推荐
+      path: '/article/extension',
+      name: 'article_extension',
+      component: () => import('./components/index/ArticleExtension.vue'),
+      meta: {
+        title: '推荐文章',
+        requireAuth: true,
+        wechat_jssdk: true
+      }
     }, {    //这个路由匹配到404友好页面（暂无页面）
       path: '*',
       component: () => import('./components/visitor/Connection.vue'),

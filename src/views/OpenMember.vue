@@ -16,6 +16,15 @@
     class="flexv wrap"
     v-else
   >
+    <div class="flipbox">
+      <div class="bor">
+        <div class="flex centerv flip" v-for="(item, index) of order_list" :key="index">
+          <i class="flex center bls bls-horn"></i>
+          <div class="flex text"> 恭喜"<span class="flexv name">{{item.nickname.length > 4 ? item.nickname.substr(0, 4) : item.nickname}}</span>"成功开通会员进行获客展示
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="flexv member">
       <div class="title">会员类型</div>
       <div class="fwrap genrebox">
@@ -29,8 +38,6 @@
           <div class="flex center time"><span>{{item.month / 12}}</span>年会员权限</div>
           <div class="price">{{item.price}}/{{item.month / 12}}年</div>
           <div class="original">原价{{item.original_price}}/{{item.month / 12}}年</div>
-          <!--<div class="deduction">已抵扣<span>200元</span>现金红包</div>-->
-          <!--<div class="current">1</div>-->
         </div>
       </div>
     </div>
@@ -65,7 +72,7 @@
     <div class="vipMess">
       <h3>会员特权</h3>
       <p>
-        <p><i class="iconfont logo icon-icon25 iUser" style="background: chocolate;"></i><span class="titleFont">客户追踪</span></p> 
+        <p><i class="iconfont logo icon-icon25 iUser" style="background: chocolate;"></i><span class="titleFont">客户追踪</span></p>
         <p class="textIndex">1.开通会员之后可以查看每篇文章的具体并分析如何找到对应的客户</p>
       </p>
       <p>
@@ -123,7 +130,7 @@
 </template>
 
 <script>
-import { paymenets, wechatPay } from "../api.js";
+import { paymenets, wechatPay, orders } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
 import { Toast, Indicator } from "mint-ui";
@@ -141,7 +148,9 @@ export default {
       pay_type_active: 1,
       payments: {},
       extension_payment: {},
-      member_time: null
+      order_list: {},
+      member_time: null,
+      timer: null
     };
   },
   computed: {
@@ -150,12 +159,49 @@ export default {
     }
   },
   mounted() {
-    this.getPayments();
+    this.getPayments()
+    this.rollList()
   },
   activated() {
-    this.wechatConfig();
+    this.wechatConfig()
+    this.roll()
   },
   methods: {
+    getPayments() {
+      let vm = this;
+      let payments = paymenets();
+      payments.then(function(res) {
+        res = res.data;
+        res.forEach(function(value) {
+          vm.payments[value.id] = value;
+        });
+        vm.extension_payment = res[2];
+        vm.has_data = true;
+      });
+    },
+    rollList () {
+      let _this = this
+      orders().then(function (res) {
+        _this.order_list = res
+      })
+    },
+    changeActive(index) {
+      this.list_active = index;
+      this.extension_payment = this.payments[index];
+    },
+    payTypeSelect(index) {
+      this.pay_type_active = index;
+    },
+    cancel_alert() {
+      this.pay_success = false;
+    },
+    roll () {
+      this.timer = setInterval(function roll() {
+        console.log('开通页面')
+        var objh = $('.flip').height();
+        $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({"height": objh + "px"}, 500));
+      }, 2000);
+    },
     wechatConfig() {
       //微信jssdk
       wx.ready(function() {
@@ -175,28 +221,6 @@ export default {
           imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg" // 分享图标
         });
       });
-    },
-    getPayments() {
-      let vm = this;
-      let payments = paymenets();
-      payments.then(function(res) {
-        res = res.data;
-        res.forEach(function(value) {
-          vm.payments[value.id] = value;
-        });
-        vm.extension_payment = res[2];
-        vm.has_data = true;
-      });
-    },
-    changeActive(index) {
-      this.list_active = index;
-      this.extension_payment = this.payments[index];
-    },
-    payTypeSelect(index) {
-      this.pay_type_active = index;
-    },
-    cancel_alert() {
-      this.pay_success = false;
     },
     handlerPay() {
       Indicator.open();
@@ -272,7 +296,11 @@ export default {
         });
       });
     }
-  }
+  },
+  beforeRouteLeave(to, from, next) {
+    clearInterval(this.timer);
+    next();
+  },
 };
 </script>
 
