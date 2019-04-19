@@ -36,7 +36,7 @@
         <div>
           <router-link
             class="askMe"
-            to="/consultation/vip_link/18"
+            :to="'/consultation/vip_chart/' + detail.user.id"
           >
             点我在线咨询
           </router-link>
@@ -144,7 +144,7 @@
       </div>
 
       <router-link
-        :to="'/consultation/vip_link/' + detail.user.id"
+        :to="'/consultation/vip_chart/' + detail.user.id"
         class="flex center bls bls-kefu service"
         v-if="is_member"
       ></router-link>
@@ -154,8 +154,8 @@
         v-else
       ></router-link>
       <div class="flexv center text-box">
-        <p>本文为 <span>{{detail.user.nickname}}</span> 发布，不代表事业头条立场</p>
-        <p>若内容不规范或涉及违规，可立即 <a href="">举报/报错</a></p>
+        <p>本文为 <span>{{detail.user.nickname}}</span> 发布，不代表事业分享立场</p>
+<!--        <p>若内容不规范或涉及违规，可立即 <a href="">举报/报错</a></p>-->
       </div>
 
       <div

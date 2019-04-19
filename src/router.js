@@ -73,15 +73,6 @@ const router = new Router({
         requireAuth: true,
         wechat_jssdk: true
       }
-    }, {    //会员咨询跳转
-      path: '/consultation/vip_link/:user_id',
-      name: 'vipLink',
-      component: () => import('./components/consultation/VipLink.vue'),
-      meta: {
-        title: '家庭咨询',
-        requireAuth: true,
-        wechat_jssdk: true
-      }
     }, {    //会员咨询
       path: '/consultation/vip_chart/:user_id',
       name: 'vipChart',
