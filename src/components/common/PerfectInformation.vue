@@ -3,6 +3,10 @@
     <div class="mask"></div>
     <div class='content'>
       <template v-if="type === 'article_detail'">
+        <i
+          class="flex center bls bls-cuo cuo"
+          @click="cancelAlert"
+        ></i>
         <h3 class="flex center title">您的信息不完整</h3>
         <p
           class="flex center tis"
@@ -72,8 +76,7 @@ export default {
       for (var i in refs) {
         arr[i] = refs[i].value;
       }
-      let res = perfectInformation(arr);
-      res
+      perfectInformation(arr)
         .then(function(ret) {
           let new_user = JSON.parse(localStorage.user);
           new_user.nickname = arr.nickname;

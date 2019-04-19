@@ -98,31 +98,19 @@
         >立即支付</a>
       </div>
     </div>
-    <div
-      class="alert buy-hint"
-      v-if="pay_success"
-    >
-      <div
-        class="mask"
-        @click="cancel_alert"
-      ></div>
+    <div class="alert buy-hint" v-if="pay_success">
+      <div class="mask" @click="cancel_alert"></div>
       <div class='content trans'>
         <h3 class="flex center">购买成功</h3>
         <div class="img">
-          <img
-            src="../assets/image/dredge_bj.png"
-            class="fitimg"
-          >
+          <img src="../assets/image/dredge_bj.png" class="fitimg">
         </div>
         <div class="flex center indate">
           <div>有效期至：{{member_time}}</div>
           <span></span>
         </div>
         <div class="button">
-          <router-link
-            to="/footprint"
-            class="flex center"
-          >去看看谁查看了我的头条</router-link>
+          <router-link to="/footprint" class="flex center">去看看谁查看了我的头条</router-link>
         </div>
       </div>
     </div>

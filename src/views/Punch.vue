@@ -24,7 +24,7 @@
 
       <div
         class="flex center count-down"
-        data-start="00:00:00"
+        data-start="05:30:00"
         data-end="23:00:00"
         v-show="state === 2 || state === 3"
       >
@@ -233,15 +233,9 @@
     </div>
 
     <!----------打卡成功提示---------->
-    <div
-      class="layer layer-success"
-      v-show="punch_alert"
-    >
+    <div class="layer layer-success" v-show="punch_alert">
       <router-link tag="div" to="/morning" class="layer__content layer-success__content">
-        <img
-          src="../assets/image/success.png"
-          width="100%"
-        >
+        <img src="../assets/image/success.png" width="100%">
         <span
           class="flex center layer-success__close"
           @click="close_punch"

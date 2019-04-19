@@ -31,6 +31,34 @@
         </dl>
       </div>
       <!--问题二-->
+      <div class="p4 hide clear" name="p7" rel="textarea">
+        <dl class="clear">
+          <dt>
+            <div class="avatar"><img :src="consultation_user.avatar"></div>
+          </dt>
+          <dd>
+            <div class="content">
+              <div class="text">请输入你要咨询什么内容</div>
+              <div class="arrow"></div>
+            </div>
+          </dd>
+        </dl>
+        <dl class="right clear">
+          <dt>
+            <div class="avatar"><img :src="user.avatar"></div>
+          </dt>
+          <dd>
+            <div class="content button">
+              <div class="text">
+                <textarea title="咨询内容" maxlength="40" id="message">咨询内容</textarea>
+                <button>确定</button>
+              </div>
+              <div class="arrow"></div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <!--问题三-->
       <div class="p2 hide clear" name="p2" rel="input">
         <dl class="clear">
           <dt>
@@ -61,7 +89,6 @@
                   unselectable="on"
                   onfocus="this.blur()"
                 >
-                <!-- <span style="display:block;width:auto;text-align:center;margin-top:8px;" @click="showPacker">若需修改，点上面</span> -->
                 <button>下一步</button>
               </div>
               <div class="arrow"></div>
@@ -69,7 +96,7 @@
           </dd>
         </dl>
       </div>
-      <!--问题三-->
+      <!--问题四-->
       <div class="p3 hide clear" name="p3" rel="textarea">
         <dl class="clear">
           <dt>
@@ -98,7 +125,7 @@
           </dd>
         </dl>
       </div>
-      <!--问题四-->
+      <!--问题五-->
       <div class="p4 hide clear" name="p4" rel="textarea">
         <dl class="clear">
           <dt>
@@ -126,38 +153,8 @@
           </dd>
         </dl>
       </div>
-      <!--问题五-->
-      <div class="p5 hide clear" name="p5" rel="button">
-        <dl class="clear">
-          <dt>
-            <div class="avatar"><img :src="consultation_user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content">
-              <div class="text">您的家庭结构是怎样的？</div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-        <dl class="right clear">
-          <dt>
-            <div class="avatar"><img :src="user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content button">
-              <div class="text">
-                <button rel="单身贵族">单身贵族</button>
-                <button rel="单身有娃">单身有娃</button>
-                <button rel="已婚无娃">已婚无娃</button>
-                <button rel="已婚有娃">已婚有娃</button>
-              </div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-      </div>
       <!--问题六-->
-      <div class="p6 hide clear" name="p6" rel="input">
+      <div class="p6 hide clear" name="p5" rel="input">
         <dl class="clear">
           <dt>
             <div class="avatar"><img :src="consultation_user.avatar"></div>
@@ -192,40 +189,8 @@
           </dd>
         </dl>
       </div>
-      <!--问题七-->
-      <div class="p7 hide clear" name="p7" rel="button">
-        <dl class="clear">
-          <dt>
-            <div class="avatar"><img :src="consultation_user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content">
-              <div class="text">您的年收入大约是在哪个范围？</div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-        <dl class="right clear">
-          <dt>
-            <div class="avatar"><img :src="user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content button">
-              <div class="text">
-                <button rel="0-10万">0-10万</button>
-                <button rel="10-20万">10-20万</button>
-                <button rel="20-40万">20-40万</button>
-                <button rel="40-60万">40-60万</button>
-                <button rel="60-100万">60-100万</button>
-                <button rel=">100万">&gt;100万</button>
-              </div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-      </div>
       <!--结束-->
-      <div class="p8 hide clear" name="p8" rel="end">
+      <div class="p6 hide clear" name="p6" rel="end">
         <dl class="clear">
           <dt>
             <div class="avatar"><img :src="consultation_user.avatar"></div>
@@ -257,10 +222,9 @@
         <input type="hidden" name="region" id="p2" value="">
         <input type="hidden" name="name" id="p3" value="">
         <input type="hidden" name="phone" id="p4" value="">
-        <input type="hidden" name="family" id="p5" value="">
-        <input type="hidden" name="age" id="p6" value="">
-        <input type="hidden" name="income" id="p7" value="">
-        <input type="hidden" name="gender" id="p8" value="">
+        <input type="hidden" name="age" id="p5" value="">
+        <input type="hidden" name="gender" id="p6" value="">
+        <input type="hidden" name="message" id="p7" value="">
         <input type="hidden" name="user_id" :value="consultation_user_id">
       </form>
       <div id="fill" style="clear: both; float: left; visibility: hidden;"></div>
@@ -412,7 +376,7 @@ export default {
           $self.next().show();
           //  性别
           if ($(this).hasClass("js_sex_button")) {
-            $("input[id=p8]").val($(this).attr("rel"));
+            $("input[id=p6]").val($(this).attr("rel"));
           }
           // 通过div name匹配input ID 名
           $("input#" + $self.attr("name")).val($value);

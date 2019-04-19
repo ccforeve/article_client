@@ -38,7 +38,7 @@
             class="askMe"
             :to="'/consultation/vip_chart/' + detail.user.id"
           >
-            点我在线咨询
+            点我在线留言
           </router-link>
         </div>
         <!-- <div class="around consult-box">
@@ -190,12 +190,25 @@
       </div>
     </div>
 
+    <div class="flex center gzh" v-if="qrcode_alert">
+      <div class="mask"></div>
+      <div class='content'>
+        <h3 class="flex center">关注公众号获取更多资讯</h3>
+        <div class="qrcode">
+          <img src="../assets/image/qrcode.jpg" class="fitimg">
+        </div>
+        <p class="flex center">长按识别二维码</p>
+      </div>
+    </div>
+
     <perfect-information
       type="article_detail"
       :user="user"
       v-if="user_information_alter"
       @change="change"
+      @cancelAlert="cancelAlert"
     ></perfect-information>
+
   </div>
 </template>
 
@@ -228,6 +241,7 @@ export default {
       product: [],
       is_member: false,
       user_information_alter: false,
+      qrcode_alert: false,
       timer: null
     };
   },
@@ -236,16 +250,14 @@ export default {
       return this.$store.state.user;
     }
   },
-  mounted() {
-    if (this.article_type == "public" && !this.user.phone) {
-      this.user_information_alter = true;
-    }
-  },
   activated() {
     this.has_data = false;
     this.show_qrcode_html = false;
     this.article_type = this.$route.params.type;
     this.getDetail(this.$route.params.id);
+    if (this.article_type == "public" && !this.user.phone) {
+      this.user_information_alter = true;
+    }
   },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.timer);
@@ -279,6 +291,9 @@ export default {
         vm.wechatConfig();
       });
     },
+    cancelAlert () {    //关闭完善信息弹窗
+      this.user_information_alter = false
+    },
     show_detail() {
       //查看更多内容
       this.detail_all = true;
@@ -309,6 +324,9 @@ export default {
     },
     change() {
       this.user_information_alter = false;
+      if(!this.user.is_subscribe) {
+        this.qrcode_alert = true
+      }
     },
     becomeMyArticleHandle(article_id) {
       let _this = this;

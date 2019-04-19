@@ -472,7 +472,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .hint .content .qrcode{width: 16rem;margin: 0 auto;}
 .hint .content p{padding: 1rem 0;font-size: 1.2rem;color:#363636;}
 /*提示*/
-.gzh {position: fixed;top:0;left:0;width: 100%;bottom: 0;overflow: hidden;z-index: 20;display: none;}
+.gzh {position: fixed;top:0;left:0;width: 100%;bottom: 0;overflow: hidden;z-index: 20;}
 .gzh .content.trans{animation: zoomIn 0.3s ease;}
 .gzh .content{z-index: 10; width: 66%; background: #fff;border-radius: 1rem;position: absolute;top: 26%;left:17%;}
 .gzh .content h3{color: #DD726B;font-size: 1.5rem;padding: 1rem 0;}
@@ -553,7 +553,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #details .dredge{padding: 10px;}
 #details .dredge .button{width:90%;height: 4rem;font-size:1.8rem;background: #f20a46;border-radius: 5px;color: #fff;}
 #details .dredge p{color: #F20A46;padding: 10px 0;font-size: 1.3rem;}
-#details .qrcode{margin: 10px 0;padding: 5px;}
+#details .qrcode{padding: 5px;}
 #details .qrcode .img{width: 120px;height: 120px;padding: 5px;background: #fff;}
 #details .qrcode .img img{width: 100%;height:100%;}
 #details .qrcode p{color:#333;font-size: 1.4rem;}
@@ -656,7 +656,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 
 /*加微信提示框*/
 #wechat .wechat.trans{animation: zoomIn 0.3s ease;}
-#wechat .wechat{width: 76%; background: #fff;border-radius: 1rem;position: absolute;top: 26%;left:50%;transform:translateX(-50%);}
+#wechat .wechat{width: 76%; background: #fff;border-radius: 1rem;position: absolute;z-index:20;top: 26%;left:50%;transform:translateX(-50%);}
 #wechat .wechat h3{color: #DD726B;font-size: 1.5rem;padding: 1rem 0;}
 #wechat .wechat .qrcode{width: 16rem;margin: 0 auto;}
 #wechat .wechat p{padding: 1rem 0;font-size: 1.2rem;color:#363636;}
@@ -804,7 +804,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 
 /*购买成功弹框*/
 #open_test .buy-hint .content.trans{animation: zoomIn 0.3s ease;}
-#open_test .buy-hint .content{width: 74%;background: #fff;border-radius: 1rem;position: absolute;top:20%;left: 13%;}
+#open_test .buy-hint .content{width: 74%;background: #fff;border-radius: 1rem;position: absolute;top:20%;left: 13%;z-index: 20}
 #open_test .buy-hint .content h3{padding: 1rem 0;font-size: 1.5rem;color:#ffb400;}
 #open_test .buy-hint .content .img{height:18rem;}
 #open_test .buy-hint .content .indate{padding: 0.5rem 0;font-size: 1.2rem;color:#515151;}

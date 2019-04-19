@@ -27,8 +27,8 @@
         <div style="position: relative; overflow: hidden; width: 375px; height: 216px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="750" height="432" style="position: absolute; left: 0px; top: 0px; width: 375px; height: 216px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div>
       </div>
       <div class="flexv center xians">
-        <p class="age">71岁</p>
-        <p class="percent">NaN%</p>
+        <p class="age"></p>
+        <p class="percent"></p>
       </div>
     </div>
     <!--标题-->
@@ -53,16 +53,16 @@
       </div>
     </div>
     <!--咨询按钮-->
-    <div class="flex center zx-btn">
+    <div class="flex center zx-btn" @click="alert_show">
       <a href="javascript:;" class="flex center">咨询健康专家</a>
     </div>
     <!--弹窗提示-->
-    <div id="wechat" class="alert" style="display: none;">
-      <div class="mask"></div>
+    <div id="wechat" class="alert" v-if="qrcode_alert">
+      <div class="mask" @click="alert_close"></div>
       <div class="content wechat trans">
         <h3 class="flex center">加我免费咨询</h3>
         <div class="qrcode">
-          <img src="../../assets/image/smile.png" class="fitimg">
+          <img :src="detail.user.qrcode" class="fitimg">
         </div>
         <p class="flex center">长按识别二维码</p>
       </div>
@@ -71,6 +71,7 @@
 </template>
 <script>
 import { echartsman, echartswoman } from '../../assets/js/echarts.js'
+import {Toast} from "mint-ui"
 import echarts from 'echarts'
 import { messageDetail } from '../../api.js'
 import heart from '../../assets/image/heart.jpg'
@@ -85,6 +86,7 @@ export default {
     return {
       detail: {},
       message_id: this.$route.params.id,
+      qrcode_alert: false
     };
   },
   watch: {
@@ -102,25 +104,24 @@ export default {
       console.log(e)
     })
   },
-  activated () {
-    // this.getData()
-  },
   methods: {
-    getData() {
-      return messageDetail(this.message_id, {type: 'family'})
+    getData () {
+      return messageDetail(this.message_id, {type: 'family', 'include': 'user'})
+    },
+    alert_show () {
+      if(!this.detail.user.qrcode) {
+        Toast('该用户未上传二维码')
+        return
+      }
+      this.qrcode_alert = true
+    },
+    alert_close () {
+      this.qrcode_alert = false
     },
     init() {
-      console.log(this.detail)
       // 获取数据
-      let birthday = this.detail.age
-      let matter = this.detail.type
-      let place = this.detail.region
-      let name = this.detail.name
-      let tel = this.detail.phone
-      let family = this.detail.family
-      let age = birthday.substring(-1, 4)
-      let income = this.detail.income
-      let sex = this.detail.sex === 1 ? "男" : "女"
+      let age = this.detail.age
+      let sex = this.detail.gender
       let deg = 0
       let gzd = ""
 
@@ -143,9 +144,7 @@ export default {
       }
       $(".left-t .date").text(getDate());
       // 健康状况||当前年龄
-      let date = new Date(),
-        year = date.getFullYear(),
-        yx = parseInt(year) - parseInt(age);
+      let yx = age;
       if (yx >= 45) {
         deg = 75;
         gzd = "高";
@@ -489,16 +488,16 @@ export default {
         myChart.setOption(option, true);
       }
 
-      // 弹窗
-      $(".zx-btn a").click(function() {
-        $("#wechat")
-          .show()
-          .find(".content")
-          .addClass("trans");
-      });
-      $(".mask").click(function() {
-        $(".alert").hide();
-      });
+      // // 弹窗
+      // $(".zx-btn a").click(function() {
+      //   $("#wechat")
+      //     .show()
+      //     .find(".content")
+      //     .addClass("trans");
+      // });
+      // $(".mask").click(function() {
+      //   $(".alert").hide();
+      // });
     }
   }
 };

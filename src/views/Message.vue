@@ -20,12 +20,12 @@
         class="flex center read"
         :class="{'elect': type === 'normal'}"
         @click="changeTab(0, 'normal')"
-      >用户咨询留言</span>
+      >快捷咨询留言</span>
       <span
         class="flex center share"
         :class="{'elect': type === 'family'}"
         @click="changeTab(1, 'family')"
-      >家庭保障留言</span>
+      >在线保障留言</span>
     </div>
     <div
       class="flexv center ordinary"

@@ -11,8 +11,12 @@
     </div>
     <div class="info" v-else>
       <div class="p1">
+        <span class="">咨询类型：</span>
+        <span>{{is_member ? detail.type : '***'}}</span>
+      </div>
+      <div class="p1">
         <span class="">姓&ensp;&ensp;&ensp;名：</span>
-        <span>{{is_member ? detail.name + detail.gender : '***'}}</span>
+        <span>{{is_member ? detail.name : '***'}}</span>
       </div>
       <div class="p1">
         <span class="">性&ensp;&ensp;&ensp;别：</span>
@@ -31,22 +35,9 @@
         <span>{{is_member ? detail.region : '***'}}</span>
       </div>
       <div class="p1">
-        <span class="">家庭结构：</span>
-        <span>{{is_member ? detail.family : '***'}}</span>
-      </div>
-      <div class="p1">
-        <span class="">年 收 入：</span>
-        <span>{{is_member ? detail.income : '***'}}</span>
-      </div>
-      <div class="p1">
         <span class="">咨询内容：</span>
-        <span>{{is_member ? detail.type : '***'}}</span>
+        <span>{{is_member ? detail.message : '***'}}</span>
       </div>
-    </div>
-    <!--end-->
-
-    <div class="flexv centerv dredge">
-      <router-link to="/open_member" class="flex center button" v-if="!is_member">开通绿叶事业</router-link>
     </div>
     <!--end-->
     <div class="flexv center qrcode">
@@ -55,6 +46,9 @@
       </div>
       <p>长按识别二维码</p>
       <p>联系客服咨询</p>
+    </div>
+    <div class="flexv centerv dredge">
+      <router-link to="/open_member" class="flex center button" v-if="!is_member">开通绿叶事业</router-link>
     </div>
   </div>
 </template>

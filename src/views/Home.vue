@@ -4,8 +4,7 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-
-    <perfect-information type="article_detail" :user="user" v-if="!user.phone"></perfect-information>
+<!--    <router-link to="/consultation/vip_chart/18" class="flex center renew">提交好文章</router-link>-->
   </div>
 </template>
 

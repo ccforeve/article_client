@@ -5,6 +5,9 @@
     <div class="hint-img">
       <img src="../assets/image/alipay_help.png" class="fitimg">
     </div>
+    <div class="flex center back">
+      <router-link tag="button" to="/index">回到首页</router-link>
+    </div>
   </div>
 </template>
 
@@ -22,3 +25,13 @@
     }
   }
 </script>
+
+<style>
+  #zfb-hint button{
+    width: 7rem;
+    height: 3rem;
+    border: 1px #000000 solid;
+    background: #fff;
+    border-radius: .7rem;
+  }
+</style>

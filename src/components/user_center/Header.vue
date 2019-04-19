@@ -14,11 +14,11 @@
                     <p class="flex lock">
                       有效期至：
                       <span v-if="user.type == 1">永久</span>
-                      <span v-else>{{user.member_lock_at}}</span>
+                      <span v-else>{{moment(user.member_lock_at).format("YYYY-MM-DD")}}</span>
                     </p>
                 </template>
             </div>
-            <router-link to="/open_member" class="flex center renew" v-if="!user.type">开通VIP</router-link>
+            <router-link to="/open_member" class="flex center renew" v-if="!user.type">{{user.is_member ? "续费会员" : "开通VIP"}}</router-link>
         </div>
 
         <div class="flexv centerv around front">

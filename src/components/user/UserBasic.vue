@@ -84,7 +84,8 @@
                   <img :src="image_url.qrcode" width="100%">
                 </div>
               </label>
-              <input type="hidden" ref="qrcode" :value="image_url.qrcode.replace(/http:\/\/cdn.yxcxin.com\/uploads/, '')">
+              <input type="hidden" ref="qrcode" v-if="!image_url.qrcode">
+              <input type="hidden" ref="qrcode" :value="image_url.qrcode.replace(/http:\/\/cdn.yxcxin.com\/uploads/, '')" v-else>
               <input type="file" id="avatar" :value="imgFile" style="position:absolute; clip:rect(0 0 0 0);" accept="image/*;" @change="uploadImg($event, 'qrcode')">
               <i class="flex center bls bls-yjt"></i>
             </div>

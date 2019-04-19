@@ -374,40 +374,41 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   Indicator.close();
   if (to.meta.wechat_jssdk) {
-    let _url = encodeURIComponent(window.location.origin + to.fullPath)
     // 非ios设备，切换路由时候进行重新签名
     if (window.__wxjs_is_wkwebview !== true) {
-      getWechatConfig({url: _url}).then(function (res) {
-        wx.config({
-          debug: false, // 开启调试模式,
-          appId: res.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
-          timestamp: res.timestamp, // 必填，生成签名的时间戳
-          nonceStr: res.nonceStr, // 必填，生成签名的随机串
-          signature: res.signature,// 必填，签名，见附录1
-          url: res.url,
-          jsApiList: ['chooseWXPay', 'onMenuShareTimeline', 'onMenuShareAppMessage'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        })
-      })
+      let url = encodeURIComponent(window.location.origin + to.fullPath)
+      config(url)
     }
     // ios 设备进入页面则进行js-sdk签名
     if (window.__wxjs_is_wkwebview === true) {
-      let _url = encodeURIComponent(window.location.href.split('#')[0])
-      getWechatConfig({url: _url}).then(function (res) {
-        wx.config({
-          debug: false, // 开启调试模式,
-          appId: res.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
-          timestamp: res.timestamp, // 必填，生成签名的时间戳
-          nonceStr: res.nonceStr, // 必填，生成签名的随机串
-          signature: res.signature,// 必填，签名，见附录1
-          jsApiList: ['chooseWXPay', 'onMenuShareTimeline', 'onMenuShareAppMessage'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        })
-      })
+      let url = encodeURIComponent(window.location.href.split('#')[0])
+      config(url)
       if (to.path !== global.location.pathname) {
         location.assign(to.fullPath)
       }
     }
   }
 })
+
+function config(url) {
+  getWechatConfig({url: url}).then(function (res) {
+    let config = res.config,
+        user = res.user
+    let new_user = JSON.parse(localStorage.user);
+    new_user.member_lock_at = user.member_lock_at;
+    new_user.is_member = user.is_member;
+    localStorage.user = JSON.stringify(new_user);
+    store.commit("setTokenAndUser", JSON.parse(localStorage.user));
+    wx.config({
+      debug: false, // 开启调试模式,
+      appId: config.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+      timestamp: config.timestamp, // 必填，生成签名的时间戳
+      nonceStr: config.nonceStr, // 必填，生成签名的随机串
+      signature: config.signature,// 必填，签名，见附录1
+      jsApiList: ['chooseWXPay', 'onMenuShareTimeline', 'onMenuShareAppMessage'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    })
+  })
+}
 
 export default router
 
