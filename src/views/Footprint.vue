@@ -61,7 +61,7 @@
                   <p class="flex centerv">{{citem.created_at}}</p>
                 </div>
               </div>
-              <div class="flex center time">停留<em>{{citem.residence_time}}</em></div>
+              <div class="flex center time">总计停留<em>{{citem.residence_time}}</em></div>
               <router-link
                 :to="'/footprint/' + citem.id"
                 class="flex center btn"

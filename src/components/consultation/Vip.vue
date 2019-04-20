@@ -153,42 +153,6 @@
           </dd>
         </dl>
       </div>
-      <!--问题六-->
-      <div class="p6 hide clear" name="p5" rel="input">
-        <dl class="clear">
-          <dt>
-            <div class="avatar"><img :src="consultation_user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content">
-              <div class="text">您现在的年龄是？</div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-        <dl class="right clear">
-          <dt>
-            <div class="avatar"><img :src="user.avatar"></div>
-          </dt>
-          <dd>
-            <div class="content button">
-              <div class="text">
-                <input
-                  class="site"
-                  type="text"
-                  readonly="readonly"
-                  rel="您的出生日期"
-                  @click="open('picker')"
-                  v-model="inputDate"
-                  placeholder="请选择出生日期"
-                >
-                <button>下一步</button>
-              </div>
-              <div class="arrow"></div>
-            </div>
-          </dd>
-        </dl>
-      </div>
       <!--结束-->
       <div class="p6 hide clear" name="p6" rel="end">
         <dl class="clear">
@@ -197,7 +161,7 @@
           </dt>
           <dd>
             <div class="content">
-              <div class="text">收到，<img src="../../assets/image/smile.png" align="absmiddle" width="24">感谢您参与测评，正在计算请稍等...</div>
+              <div class="text">收到，感谢您的留言，我会在第一时间与您联系。</div>
               <div class="arrow"></div>
             </div>
           </dd>
@@ -209,8 +173,7 @@
           <dd>
             <div class="content button">
               <div class="text">
-                 <button id="mobile_end">查看报告</button>
-                <!--<router-link id="mobile_end" :to="'/consultation/report/:id'">查看报告</router-link>-->
+                 <button id="mobile_end">完成</button>
               </div>
               <div class="arrow"></div>
             </div>
@@ -222,7 +185,6 @@
         <input type="hidden" name="region" id="p2" value="">
         <input type="hidden" name="name" id="p3" value="">
         <input type="hidden" name="phone" id="p4" value="">
-        <input type="hidden" name="age" id="p5" value="">
         <input type="hidden" name="gender" id="p6" value="">
         <input type="hidden" name="message" id="p7" value="">
         <input type="hidden" name="user_id" :value="consultation_user_id">
@@ -231,40 +193,19 @@
       <!--弹框提示-->
       <div id="hint"></div>
     </div>
-    <mt-datetime-picker
-      class="picker_show"
-      ref="picker"
-      type="date"
-      v-model="value"
-      @confirm="handleConfirm"
-      :startDate="startDate"
-      :endDate="endDate"
-    ></mt-datetime-picker>
   </div>
 </template>
 
 <script>
-import { formatDate } from "../../cookie.js";
 import { getUserInfo, submitNormalMessage } from '../../api.js'
 import { Toast, Indicator } from 'mint-ui'
 export default {
   components: {},
-  filters: {
-    //时间转换
-    formatDate(time) {
-      var date = new Date(time);
-      return formatDate(date, "yyyy-MM-dd");
-    }
-  },
   data() {
     return {
       consultation_user: {},
       consultation_user_id: this.$route.params.user_id,
-      value: new Date("2000-01-22"), //定义显示时间
       visible: false,
-      inputDate: "",
-      startDate: new Date("1990-01-22"), //设置开始时间
-      endDate: new Date("2019-01-22"), //设置结束时间
       isShow: true
     };
   },
@@ -289,20 +230,6 @@ export default {
     }
   },
   methods: {
-      handleConfirm() {
-        this.inputDate = this.formatDate(this.$refs.picker.value)
-      },
-    formatDate(date) {
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? "0" + m : m;
-      let d = date.getDate();
-      d = d < 10 ? "0" + d : d;
-      return y + "-" + m + "-" + d;
-    },
-    open(picker) {
-      this.$refs[picker].open(); //设置开始
-    },
     init() {
       let _this = this
       // 地址选择
@@ -416,8 +343,6 @@ export default {
             .css("color", "#aaa");
         }
       });
-
-      //模拟后台数据
       var arr = {};
       $("#mobile_end").click(function() {
         $("form").serializeArray().forEach(function (data) {
@@ -431,7 +356,7 @@ export default {
                   Indicator.close()
                   Toast({message: '咨询完成', duration: 1500})
                   setTimeout(function () {
-                      _this.$router.push('/consultation/report/' + res.data.id)
+                      _this.$router.go(-1)
                   }, 1500)
               }
           }).catch(function (e) {

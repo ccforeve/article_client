@@ -48,136 +48,140 @@ export const getUserArticleDetail = (id, params) => {  //用户文章详情
   return request('get', '/user_articles/' + id, params)
 }
 
+export const shareUserArticle = (id, params) => {
+  return request('get', '/user_articles/' + id + '/share', params)
+}
+
 export const becomeMyArticle = (params) => {  //成为我的文章
   return request('get', '/articles/become_my', params)
 }
 
-export const perfectInformation = (data) => {       //完善个人资料
-  return request('patch', '/user', data)
+export const perfectInformation = (params) => {       //完善个人资料
+  return request('patch', '/user', params)
 }
 
-export const MyArticles = (user_id, data) => {       //用户文章列表
-  return request('get', '/user/' + user_id + '/articles', data)
+export const MyArticles = (user_id, params) => {       //用户文章列表
+  return request('get', '/user/' + user_id + '/articles', params)
 }
 
-export const paymenets = (data) => {       //会员价格列表
-  return request('get', '/payments', data)
+export const paymenets = (params) => {       //会员价格列表
+  return request('get', '/payments', params)
 }
 
-export const getProfit = (data) => {        //收益中心
-  return request('get', '/profit', data)
+export const getProfit = (params) => {        //收益中心
+  return request('get', '/profit', params)
 }
 
-export const getNormalProfitDetail = (data) => {    //普通用户收益
-  return request('get', '/profit/normal', data)
+export const getNormalProfitDetail = (params) => {    //普通用户收益
+  return request('get', '/profit/normal', params)
 }
 
-export const getDealerProfitDetail = (data) => {    //经销商用户收益
-  return request('get', '/profit/dealer', data)
+export const getDealerProfitDetail = (params) => {    //经销商用户收益
+  return request('get', '/profit/dealer', params)
 }
 
-export const withdrawCash = (data) => {          //提现操作
-  return request('post', '/profit/withdraw_cash', data)
+export const withdrawCash = (params) => {          //提现操作
+  return request('post', '/profit/withdraw_cash', params)
 }
 
-export const getWithdrawCashList = (data) => {          //提现记录
-  return request('get', '/profit/withdraw_cash_list', data)
+export const getWithdrawCashList = (params) => {          //提现记录
+  return request('get', '/profit/withdraw_cash_list', params)
 }
 
-export const extensionUsers = (data) => {          //推广的用户列表
-  return request('get', '/profit/extension_users', data)
+export const extensionUsers = (params) => {          //推广的用户列表
+  return request('get', '/profit/extension_users', params)
 }
 
-export const extensionOrders = (data) => {          //推广的用户列表
-  return request('get', '/profit/extension_orders', data)
+export const extensionOrders = (params) => {          //推广的用户列表
+  return request('get', '/profit/extension_orders', params)
 }
 
-export const randPoster = (count, data) => {       //按需海报列表
-  return request('get', '/posters/random/' + count, data)
+export const randPoster = (count, params) => {       //按需海报列表
+  return request('get', '/posters/random/' + count, params)
 }
 
-export const getPosterCategory = (data) => {        //海报分类
-  return request('get', '/poster/categories', data)
+export const getPosterCategory = (params) => {        //海报分类
+  return request('get', '/poster/categories', params)
 }
 
-export const getPosters = (type, id, data) => {     //海报列表
-  return request('get', '/posters/' + type + '/' + id, data)
+export const getPosters = (type, id, params) => {     //海报列表
+  return request('get', '/posters/' + type + '/' + id, params)
 }
 
-export const getPosterDetail = (id, data) => {      //海报详情
-  return request('get', '/posters/' + id, data)
+export const getPosterDetail = (id, params) => {      //海报详情
+  return request('get', '/posters/' + id, params)
 }
 
 export const getPunchPoster = () => {
   return request('get', '/posters/punch');
 }
 
-export const getNextOrLastPoster = (data) => {  //当前分类下上一个或下一下海报
-  return request('get', '/posters/next_or_last', data)
+export const getNextOrLastPoster = (params) => {  //当前分类下上一个或下一下海报
+  return request('get', '/posters/next_or_last', params)
 }
 
-export const sendPoster = (data) => {       //推送推广海报到公众号
-  return request('post', '/posters/send_poster_wechat', data)
+export const sendPoster = (params) => {       //推送推广海报到公众号
+  return request('post', '/posters/send_poster_wechat', params)
 }
 
-export const getVisitor = (data) => {       //访客记录列表
-  return request('get', '/visitor', data)
+export const getVisitor = (params) => {       //访客记录列表
+  return request('get', '/visitor', params)
 }
 
-export const getVisitorReadCustom = (data) => {     //今日阅读和准客户
-  return request('get', '/visitor/read_custom', data)
+export const getVisitorReadCustom = (params) => {     //今日阅读和准客户
+  return request('get', '/visitor/read_custom', params)
 }
 
-export const getVisitorDetail = (id, data) => {     //访客查看详情
-  return request('get', '/visitor/user_article_show/' + id, data)
+export const getVisitorDetail = (id, params) => {     //访客查看详情
+  return request('get', '/visitor/user_article_show/' + id, params)
 }
 
-export const getVisitorRead = (id, data) => {       //访客还看了其他文章
-  return request('get', '/visitor/also_read/' + id, data)
+export const getVisitorRead = (id, params) => {       //访客还看了其他文章
+  return request('get', '/visitor/also_read/' + id, params)
 }
 
-export const getVisitorProspect = (data) => {       //准客户列表
-  return request('get', '/visitor/prospect', data)
+export const getVisitorProspect = (params) => {       //准客户列表
+  return request('get', '/visitor/prospect', params)
 }
 
-export const ifNewVisitor = (data) => {             //查看是否有新的访客
-  return request('get', '/visitor/if_new_footprint', data)
+export const ifNewVisitor = (params) => {             //查看是否有新的访客
+  return request('get', '/visitor/if_new_footprint', params)
 }
 
-export const updateNewVisitorState = (data) => {    //更新访客足迹状态，页面红点去掉
-  return request('get', '/visitor/update_state', data)
+export const updateNewVisitorState = (params) => {    //更新访客足迹状态，页面红点去掉
+  return request('get', '/visitor/update_state', params)
 }
 
-export const message = (data) => {                  //留言列表
-  return request('get', '/messages', data)
+export const message = (params) => {                  //留言列表
+  return request('get', '/messages', params)
 }
 
-export const messageDetail = (id, data) => {        //留言详情
-  return request('get', '/messages/' + id, data)
+export const messageDetail = (id, params) => {        //留言详情
+  return request('get', '/messages/' + id, params)
 }
 
-export const footprint = (type, data) => {          //访客足迹列表
-  return request('get', '/footprints/' + type, data)
+export const footprint = (type, params) => {          //访客足迹列表
+  return request('get', '/footprints/' + type, params)
 }
 
-export const footprintFind = (user_id, data) => {          //找到访客
-  return request('get', '/footprints/find_visitor/' + user_id, data)
+export const footprintFind = (user_id, params) => {          //找到访客
+  return request('get', '/footprints/find_visitor/' + user_id, params)
 }
 
-export const submitNormalMessage = (type, data) => {          //用户咨询留言提交
-  return request('post', '/messages?cate=' + type, data)
+export const submitNormalMessage = (type, params) => {          //用户咨询留言提交
+  return request('post', '/messages?cate=' + type, params)
 }
 
 export const getFamilyMessageCount = () => {          //用户咨询留言提交
   return request('get', '/messages/family/total')
 }
 
-export const updateReadTime = (id, data) => {          //用户咨询留言提交
-  return request('patch', '/footprints/update_read_time/' + id, data)
+export const updateReadTime = (id, params) => {          //用户咨询留言提交
+  return request('patch', '/footprints/update_read_time/' + id, params)
 }
 
-export const wechatPay = (id, data) => {          //微信支付
-  return request('post', '/pay/' + id, data)
+export const wechatPay = (id, params) => {          //微信支付
+  return request('post', '/pay/' + id, params)
 }
 
 export const punchIndex = () => {        //打卡页面
@@ -204,8 +208,8 @@ export const orders = () => {     //滚动信息
   return request('get', '/orders')
 }
 
-export const articleExtension = (data) => {
-  return request('post', '/articles/extension', data)
+export const articleExtension = (params) => {
+  return request('post', '/articles/extension', params)
 }
 
 

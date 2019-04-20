@@ -27,10 +27,6 @@
         <span>{{is_member ? detail.phone : detail.phone.substr(0,3) + '********'}}</span>
       </div>
       <div class="p1">
-        <span class="">年&ensp;&ensp;&ensp;龄：</span>
-        <span>{{is_member ? detail.age : '***'}}</span>
-      </div>
-      <div class="p1">
         <span class="">地&ensp;&ensp;&ensp;区：</span>
         <span>{{is_member ? detail.region : '***'}}</span>
       </div>

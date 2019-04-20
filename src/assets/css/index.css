@@ -425,7 +425,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .user-info .col{position: absolute;top:1rem;left:0; bottom:2rem;width: 2px; background: -webkit-linear-gradient(#fff, #f83c39, #fff);}
 .user-info .row.last{top:initial;bottom: 0;}
 .user-info .col.last{left:initial;right: 0;}
-#article .contents .qrcode{margin-top: 2rem;padding: 1rem 0; position: relative; background: url("../image/article_bj.png") no-repeat 50% 10%;background-size: 110%;}
+#article .contents .qrcode{margin-top: 2rem;padding: 1rem 0; position: relative; background-size: 110%;}
 #article .contents .qrcode .img{width:10rem;height:10rem;padding: 4px;position:relative;}
 #article .contents .qrcode .img #put{width:100%;height:100%;opacity: 0;position:absolute;top: 0;left: 0;}
 #article .contents .qrcode p{padding:1rem 0;font-size: 1.2rem;}
@@ -768,14 +768,6 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .similar-brands__item:nth-child(2n-1){margin-right: 5vw;}
 .similar-brands__footer{text-align: center;line-height: 10vw;border-top: 1px solid #ccc;}
 .similar-brands__custom{color: red;}
-
-/*首页红包*/
-.red_bag .box-img{position:absolute;top:10%;left:4%;width:90%;animation: zoomIn .5s ease;}
-.red_bag .box-img a.btn1{width:6.6rem;height:6.6rem;background:url("/index/image/ling.png")no-repeat;background-size:cover;position:absolute;top:32%;left:38%;animation: flipY 1.8s ease infinite .5s;animation-fill-mode: both;}
-.red_bag .box-img a.btn2{width:10rem;height:3rem;background:#fee938;border-radius:.2rem;font-size:1.4rem;color:#fa4f35;position:absolute;bottom:6%;left:34%}
-.box-img .close{width:2rem;height:2rem;border:1px solid #fff;border-radius:50%;position:absolute;bottom:-4rem;right:45%;}
-.box-img .close:before{content:'';width:100%;height:1px;background:#fff;position:absolute;top:45%;left:0;transform:rotate(45deg);}
-.box-img .close:after{content:'';width:100%;height:1px;background:#fff;position:absolute;top:45%;left:0;transform:rotate(-45deg);}
 
 /*************************************** 开通会员 **************************************/
 #open_test .member{background:#fff;}

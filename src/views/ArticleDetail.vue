@@ -41,30 +41,6 @@
             点我在线留言
           </router-link>
         </div>
-        <!-- <div class="around consult-box">
-          <router-link tag="div" :to="'/articles/' + detail.user.id" class="flex center c-img"><img
-                  :src="detail.user.avatar" class="radimg"></router-link>
-          <router-link :to="'/consultation/normal/' + detail.user.id" class="flex center c-zx"
-                       v-if="is_member"></router-link>
-          <router-link :to="'/consultation/normal/' + detail.user.id" class="flex center c-zx" v-else></router-link>
-          <div class="flexv no">
-            <div class="between phone">
-              <i class="flex center bls bls-shouji" style="color:#0178d6;"></i>
-              <div class="flex center number">
-                <span>{{is_member ? detail.user.phone : '********'}}</span>
-              </div>
-              <a  :href="is_member ? 'tel:' + detail.user.phone : 'javascript:;'" class="flex center n-btn">打电话</a>
-            </div>
-            <div class="between wx">
-              <i class="flex center bls bls-wx" style="width:1.6rem;color:#4ba601;"></i>
-              <div class="flex center number">
-                <span>{{is_member ? detail.user.wechat : '********'}}</span>
-              </div>
-              <a href="javascript:;" class="flex center n-btn book" @click="show_qrcode">加微信</a>
-            </div>
-          </div>
-        </div> -->
-
         <!-- 新增产品信息 -->
         <div
           class="productMess"
@@ -219,7 +195,8 @@ import {
   getIndexArticleDetail,
   getUserArticleDetail,
   becomeMyArticle,
-  updateReadTime
+  updateReadTime,
+  shareUserArticle
 } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
@@ -237,6 +214,7 @@ export default {
       show_qrcode_html: false,
       article_id: this.$route.params.id,
       article_type: this.$route.params.type,
+      from: this.$route.query.from,
       detail: [],
       product: [],
       is_member: false,
@@ -269,7 +247,7 @@ export default {
       if (this.article_type === "public") {
         data = getIndexArticleDetail(id);
       } else if (this.article_type === "user") {
-        data = getUserArticleDetail(id);
+        data = getUserArticleDetail(id, {from: this.$route.query.from});
       }
       let vm = this;
       data.then(function(res) {
@@ -383,23 +361,24 @@ export default {
         //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({
           title: _this.detail.article.title, // 分享标题
-          link:
-            "http://btl.yxcxin.com/article_detail/" +
-            _this.detail.user_article_id +
-            "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          link: "http://btl.yxcxin.com/article_detail/" + _this.detail.user_article_id + "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: cover, // 分享图标
           success: function() {
-            // 用户点击了分享后执行的回调函数
+            if(_this.article_type === 'user' && _this.detail.user.id != _this.user.id) {
+              shareUserArticle(_this.detail.user_article_id, {user_id: _this.user.id, from: _this.from})
+            }
           }
         });
         wx.onMenuShareAppMessage({
           title: _this.detail.article.title, // 分享标题
           desc: _this.detail.article.desc, // 分享描述
-          link:
-            "http://btl.yxcxin.com/article_detail/" +
-            _this.detail.user_article_id +
-            "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: cover // 分享图标
+          link: "http://btl.yxcxin.com/article_detail/" + _this.detail.user_article_id + "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: cover, // 分享图标
+          success: function() {
+            if(_this.article_type === 'user' && _this.detail.user.id != _this.user.id) {
+              shareUserArticle(_this.detail.user_article_id, {user_id: _this.user.id, from: _this.from})
+            }
+          }
         });
       });
     }
@@ -408,54 +387,49 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background: #fff !important;
-}
+  body {
+    background: #fff !important;
+  }
 
-.service {
-  color: #fff !important;
-}
-
-.c-zx {
-  background: url("../assets/image/xz.gif") no-repeat !important;
-  background-size: contain !important;
-}
-.productMess {
-}
-.prodTitle {
-  padding: 10px 0 .6rem 6px;
-  font-size: 1.3rem;
-}
-.prodMess {
-  font-size: 1.1rem;
-  width: 100%;
-  min-height: 1rem;
-  background: #fdfdfd;
-  padding: 1.3rem 3rem 1.3rem 0.4rem;
-  border: 1px solid #f3eeee;
-  border-left: 0.4rem solid #20b2aa;
-  margin: 0.5rem 0 1rem 0;
-}
-.prodImg {
-  width: 100%;
-  height: auto;
-}
-.prodHr {
-  width: 100%;
-  margin: 0.5rem 0;
-  height: 1px;
-  background: lightseagreen;
-}
-.askMe {
-  display: block;
-  width: 95%;
-  text-align: center;
-  margin: 0 auto;
-  padding: 0.7rem 0;
-  color: #fff !important;
-  background: chocolate;
-  border-radius: 2rem;
-  letter-spacing: 0.2rem;
-  font-size: 1.5rem;
-}
+  .service {
+    color: #fff !important;
+  }
+  .productMess {
+  }
+  .prodTitle {
+    padding: 10px 0 .6rem 6px;
+    font-size: 1.3rem;
+  }
+  .prodMess {
+    font-size: 1.1rem;
+    width: 100%;
+    min-height: 1rem;
+    background: #fdfdfd;
+    padding: 1.3rem 3rem 1.3rem 0.4rem;
+    border: 1px solid #f3eeee;
+    border-left: 0.4rem solid #20b2aa;
+    margin: 0.5rem 0 1rem 0;
+  }
+  .prodImg {
+    width: 100%;
+    height: auto;
+  }
+  .prodHr {
+    width: 100%;
+    margin: 0.5rem 0;
+    height: 1px;
+    background: lightseagreen;
+  }
+  .askMe {
+    display: block;
+    width: 95%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0.7rem 0;
+    color: #fff !important;
+    background: chocolate;
+    border-radius: 2rem;
+    letter-spacing: 0.2rem;
+    font-size: 1.5rem;
+  }
 </style>
