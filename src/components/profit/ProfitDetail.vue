@@ -25,26 +25,6 @@
                     <div class="flex center datum-cont">{{normal_profit.pay_money_today}}元</div>
                 </li>
             </ul>
-
-            <ul class="today-datum-list" v-if="type">
-                <li class="between">
-                    <div class="flex center title sub-title">下级推广抽成(10%×付费金额)</div>
-                    <div class="flex center datum-cont">{{dealer_profit.today_profit}}元</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">推广人数</div>
-                    <div class="flex center datum-cont">{{dealer_profit.ex_user_today}}人</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">付费人数</div>
-                    <div class="flex center datum-cont">{{dealer_profit.pay_user_today}}人</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">付费金额</div>
-                    <div class="flex center datum-cont">{{dealer_profit.pay_money_today}}元</div>
-                </li>
-            </ul>
-
         </div>
 
         <div class="partner-container" style="margin-top:28px;">
@@ -82,25 +62,6 @@
                     <div class="flex center datum-cont">{{normal_profit.pay_money_total}}元</div>
                 </li>
             </ul>
-
-            <ul class="today-datum-list" v-if="type">
-                <li class="between">
-                    <div class="flex center title sub-title">下级推广抽成(10%×付费金额)</div>
-                    <div class="flex center datum-cont">{{dealer_profit.total_profit}}元</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">推广人数</div>
-                    <div class="flex center datum-cont">{{dealer_profit.ex_user_total}}人</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">付费人数</div>
-                    <div class="flex center datum-cont">{{dealer_profit.pay_user_total}}人</div>
-                </li>
-                <li class="between">
-                    <div class="flex center title">付费金额</div>
-                    <div class="flex center datum-cont">{{dealer_profit.pay_money_total}}元</div>
-                </li>
-            </ul>
         </div>
 
         <!--<a href="" class="flex center make-btn">推广明细></a>-->
@@ -108,7 +69,7 @@
 </template>
 
 <script>
-    import {getNormalProfitDetail, getDealerProfitDetail} from '../../api.js'
+    import {getNormalProfitDetail} from '../../api.js'
 
     export default {
         name: "ProfitDetail",
@@ -130,14 +91,6 @@
                 _this.today_profit = res.today_profit
                 _this.total_profit = res.total_profit
             })
-            if(user_type === 1) {
-                let dealer = getDealerProfitDetail()
-                dealer.then(function (res) {
-                    _this.dealer_profit = res
-                    _this.today_profit += res.today_profit
-                    _this.total_profit += res.total_profit
-                })
-            }
         }
     }
 </script>

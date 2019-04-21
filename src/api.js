@@ -76,10 +76,6 @@ export const getNormalProfitDetail = (params) => {    //普通用户收益
   return request('get', '/profit/normal', params)
 }
 
-export const getDealerProfitDetail = (params) => {    //经销商用户收益
-  return request('get', '/profit/dealer', params)
-}
-
 export const withdrawCash = (params) => {          //提现操作
   return request('post', '/profit/withdraw_cash', params)
 }
