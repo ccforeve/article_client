@@ -116,8 +116,14 @@
         <li
           class="flex centerv area-rank__item"
           v-if="rank.province.length > 0"
+          style="background:#fff;"
         >
-          <i class="flex center area-rank__icon iconfont icon-cup"></i>
+          <svg
+            class="icon"
+            aria-hidden="true"
+          >
+            <use xlink:href="#icon-guanjun"></use>
+          </svg>
           <div
             class="img area-rank__img lazy"
             :style="'background-image: url(' + rank.province[0].user.avatar +')'"
@@ -131,10 +137,31 @@
         <li
           class="flex centerv area-rank__item"
           v-show="rank.province.length"
+          style="background:#fff;"
           v-for="(item, index) of rank.province"
           :key="index"
         >
-          <i class="flex center area-rank__icon iconfont icon-badge"></i>
+          <svg
+            class="icon"
+            aria-hidden="true"
+            v-if="index === 0"
+          >
+            <use xlink:href="#icon-diyiming"></use>
+          </svg>
+          <svg
+            class="icon"
+            aria-hidden="true"
+            v-if="index === 1"
+          >
+            <use xlink:href="#icon-dierming"></use>
+          </svg>
+          <svg
+            class="icon"
+            aria-hidden="true"
+            v-if="index === 2"
+          >
+            <use xlink:href="#icon-disanming"></use>
+          </svg>
           <div
             class="img area-rank__img lazy"
             :style="'background-image: url(' + item.user.avatar +')'"
@@ -233,9 +260,19 @@
     </div>
 
     <!----------打卡成功提示---------->
-    <div class="layer layer-success" v-show="punch_alert">
-      <router-link tag="div" to="/morning" class="layer__content layer-success__content">
-        <img src="../assets/image/success.png" width="100%">
+    <div
+      class="layer layer-success"
+      v-show="punch_alert"
+    >
+      <router-link
+        tag="div"
+        to="/morning"
+        class="layer__content layer-success__content"
+      >
+        <img
+          src="../assets/image/success.png"
+          width="100%"
+        >
         <span
           class="flex center layer-success__close"
           @click="close_punch"
@@ -541,5 +578,13 @@ a,
 }
 .total-rank {
   background: #fff;
+  width: 100%;
+}
+.icon {
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 </style>

@@ -13,6 +13,7 @@ import 'mint-ui/lib/style.css'
 import "./assets/js/jquery.min.js"
 import "./assets/js/functions.js"
 import "./assets/js/echarts.js"
+import "./assets/css/font/iconfont.js"
 import packedAxios from "./axios.js"
 
 import moment from "moment";

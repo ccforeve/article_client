@@ -6,7 +6,7 @@
     >
       <i
         class="flex center bls bls-mp"
-        style="background:#fbc45d; "
+        style="background:#0ae612; "
       ></i>
       <span class="flex center text">设置名片</span>
     </router-link>
@@ -37,8 +37,8 @@
       class=" userLink downMargin"
     >
       <i
-        class="flex center bls bls-generalize"
-        style="background:#35f921;"
+        class="flex center iconfont logo icon-qian"
+        style="background:#fdd602;"
       ></i>
       <span class="flex center text">推广中心</span>
     </router-link>
@@ -51,6 +51,16 @@
         style="background:#ffc0cb"
       ></i>
       <span class="flex center text">留言管理</span>
+    </router-link>
+    <router-link
+      to="/system"
+      class=" userLink"
+    >
+      <i
+        class="flex center iconfont logo icon-huaban"
+        style="background: gray;"
+      ></i>
+      <span class="flex center text">系统设置</span>
     </router-link>
   </div>
 </template>

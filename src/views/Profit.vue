@@ -46,7 +46,7 @@
           class="flexitem centerv tx"
         >
           <i
-            class="flex center bls bls-tixian"
+            class="flex center iconfont logo icon-withdraw"
             style="background:#3399fd;"
           ></i>
           <span class="flex center text">申请提现</span>
@@ -60,6 +60,16 @@
             style="background:#ea1c61;"
           ></i>
           <span class="flex center text">提现记录</span>
+        </router-link>
+        <router-link
+          to="/invitation"
+          class="flexitem centerv jl"
+        >
+          <i
+            class="flex center iconfont logo icon-qian"
+            style="background:#fdd602;"
+          ></i>
+          <span class="flex center text">推广赚钱</span>
         </router-link>
       </div>
     </div>

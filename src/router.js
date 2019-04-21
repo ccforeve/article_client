@@ -15,6 +15,7 @@ import Footprint from './views/Footprint.vue'
 import Punch from './views/Punch.vue'
 import Morning from './views/Morning.vue'
 import Alipay from './views/Alipay.vue'
+import System from './views/System.vue'
 import store from './store'
 import {getCookie} from "./cookie"
 import {getWechatConfig} from './api.js'
@@ -154,7 +155,17 @@ const router = new Router({
         requireAuth: true,
         wechat_jssdk: true
       }
-    }, {    //推广详情
+    },
+    {    //系统设置
+      path: '/system',
+      name: 'system',
+      component: System,
+      meta: {
+        title: '系统设置',
+        requireAuth: true,
+        wechat_jssdk: true
+      }
+    },{    //推广详情
       path: '/profit/detail',
       name: 'profit_detail',
       component: () => import('./components/profit/ProfitDetail.vue'),
@@ -338,7 +349,7 @@ const router = new Router({
       name: 'article_extension',
       component: () => import('./components/index/ArticleExtension.vue'),
       meta: {
-        title: '推荐文章',
+        title: '推荐文章p',
         requireAuth: true,
         wechat_jssdk: true
       }
