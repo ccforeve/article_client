@@ -11,7 +11,7 @@
 
     <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
       <div class="listbox" id="listbox" style="height: 100%">
-        <a href="" class="flex" v-for="(item, index) of dataList" :key="index">
+        <!-- <a @click="toDetail(item.id)" class="flex" v-for="(item, index) of dataList" :key="index">
           <div class="between lists" v-if="item.covers.length < 3 && !item.cover_state">
             <div class="flexitemv cont">
               <h2 class="flexitemv">{{item.title}}</h2>
@@ -43,7 +43,45 @@
                         </span>
             </div>
           </div>
-        </a>
+        </a> -->
+        <router-link
+          :to="'/article_detail/' + item.id + '/public'"
+          class="flex"
+          v-for="(item, index) of dataList"
+          :key="index"
+        >
+          <div class="between lists" v-if="item.covers.length < 3 && !item.cover_state">
+            <div class="flexitemv cont">
+              <h2 class="flexitemv">{{item.title}}</h2>
+              <div class="flex base">
+                            <span class="flex center" style="padding-right: 30px">
+                                <i class="flex center bls"
+                                   :class="[item.category_id == 2 ? 'bls-listen' : 'bls-ck']"></i>
+                                {{item.read_count}}
+                            </span>
+              </div>
+            </div>
+            <div class="img">
+              <img class="fitimg" :src="item.cover"/>
+            </div>
+          </div>
+          <div class="flexv lists" v-else>
+            <div class="flexitemv cont">
+              <h2 class="flexitemv">{{item.title}}</h2>
+            </div>
+            <div class="around imgbox">
+              <div class="img" v-for="(cover, index) of item.covers" :key="index">
+                <img class="fitimg" :src="'http://stl.yxcxin.com/uploads/' + cover"/>
+              </div>
+            </div>
+            <div class="flex base">
+              <span class="flex center" style="padding-right: 30px"><i class="flex center bls bls-ck"></i>{{item.read_count}}</span>
+              <span class="flex center">
+                            <i class="flex center bls bls-time">{{item.created_at}}</i>
+                        </span>
+            </div>
+          </div>
+        </router-link>
       </div>
     </mescroll-vue>
   </div>
@@ -97,6 +135,10 @@
       }
     },
     methods: {
+      // 跳转文章详情
+      // toDetail(id){
+      //   this.$router.push("'/article_detail/' + item.id + '/public'")
+      // },
       //mescroll组件初始化的回调,可获取到mescroll对象 (如果this.mescroll并没有使用到,可不用写mescrollInit)
       mescrollInit(mescroll) {
         this.mescroll = mescroll

@@ -22,7 +22,7 @@ export default {
           : "";
         let url = "http://btl.yxcxin.com?redirect=" + redirect;
         window.location.href =
-          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa7b58cf37b2d3bd&redirect_uri=" +
+          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe910075ca3b12399&redirect_uri=" +
           url +
           "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
       }

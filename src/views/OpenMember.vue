@@ -106,7 +106,7 @@
           <img src="../assets/image/dredge_bj.png" class="fitimg">
         </div>
         <div class="flex center indate">
-          <div>有效期至：{{member_time}}</div>
+          <!-- <div>有效期至：{{member_time}}</div> -->
           <span></span>
         </div>
         <div class="button">
@@ -185,7 +185,6 @@ export default {
     },
     roll () {
       this.timer = setInterval(function roll() {
-        console.log('开通页面')
         var objh = $('.flip').height();
         $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({"height": objh + "px"}, 500));
       }, 2000);

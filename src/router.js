@@ -349,7 +349,7 @@ const router = new Router({
       name: 'article_extension',
       component: () => import('./components/index/ArticleExtension.vue'),
       meta: {
-        title: '推荐文章p',
+        title: '推荐文章',
         requireAuth: true,
         wechat_jssdk: true
       }
@@ -401,6 +401,7 @@ router.afterEach((to, from) => {
   }
 })
 
+// 更新用户信息
 function config(url) {
   getWechatConfig({url: url}).then(function (res) {
     let config = res.config,
@@ -408,6 +409,8 @@ function config(url) {
     let new_user = JSON.parse(localStorage.user);
     new_user.member_lock_at = user.member_lock_at;
     new_user.is_member = user.is_member;
+    new_user.avatar = user.avatar
+    new_user.wechat_qrcode = user.qrcode
     localStorage.user = JSON.stringify(new_user);
     store.commit("setTokenAndUser", JSON.parse(localStorage.user));
     wx.config({

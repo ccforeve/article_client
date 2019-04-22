@@ -31,7 +31,7 @@
             to="/index"
             class="site"
             id="index"
-          >事业头条</router-link>
+          >事业分享</router-link>
         </div>
         <div>
           <router-link

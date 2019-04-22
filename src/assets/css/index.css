@@ -13,7 +13,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .endh{-webkit-box-pack: end;}  /*水平向右*/
 .endv{-webkit-box-align: end;} /*垂直向下*/
 .end{-webkit-box-align: end; -webkit-box-pack: end;}
-.between{display:flex;justify-content:space-between;align-items: center;} /*两端对齐*/
+.between{display:flex;justify-content:space-between;align-items: center;width: 100%;} /*两端对齐*/
 .around{display:flex;justify-content:space-around;align-items: center;}  /*等间距*/
 .fwrap{display: flex;flex-wrap:wrap;}  /*换行*/
 /*************************** 动画 *****************************/

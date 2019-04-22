@@ -1,7 +1,7 @@
 <template>
     <div class="picture" style="padding-bottom: 15px">
         <div class="between title">
-            <div class="tex">展示美图</div>
+            <div class="tex">展业美图</div>
             <router-link to="/poster" class="flex center more">更多 <i class="flex center bls bls-yjt"></i></router-link>
         </div>
         <div class="flex imgbox">

@@ -38,7 +38,7 @@
     <!--end-->
     <div class="flexv center qrcode">
       <div class="img">
-        <img src="../../assets/image/qrcode.jpg"/>
+        <img src="../../assets/image/serviceOne.jpg"/>
       </div>
       <p>长按识别二维码</p>
       <p>联系客服咨询</p>
