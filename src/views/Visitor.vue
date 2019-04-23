@@ -70,7 +70,7 @@
                 </div>
               </div>
               <router-link
-                to=""
+                :to="'/article_detail/' + item.id + '/user'"
                 class="link"
               ></router-link>
             </div>

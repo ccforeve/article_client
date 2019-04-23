@@ -16,6 +16,8 @@ import Punch from './views/Punch.vue'
 import Morning from './views/Morning.vue'
 import Alipay from './views/Alipay.vue'
 import System from './views/System.vue'
+import ProductList from './views/ProductList.vue'
+
 import store from './store'
 import {getCookie} from "./cookie"
 import {getWechatConfig} from './api.js'
@@ -40,6 +42,15 @@ const router = new Router({
         wechat_jssdk: false
       }
     }, {    //首页
+      path: '/productList',
+      name: 'productList',
+      component: ProductList,
+      meta: {
+        title: '产品列表',
+        requireAuth: true,
+        wechat_jssdk: true
+      }
+    },{    //首页
       path: '/index',
       name: 'index',
       component: Home,
