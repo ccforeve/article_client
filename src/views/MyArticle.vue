@@ -1,44 +1,17 @@
 <template>
-  <div
-    id="headlines"
-    class="flexv wrap"
-  >
-    <div
-      class="loading"
-      v-if="!has_data"
-    >
+  <div id="headlines" class="flexv wrap">
+    <div class="loading" v-if="!has_data">
       <div class="loading-icon">
-        <fulfilling-bouncing-circle-spinner
-          :animation-duration="4000"
-          :size="60"
-          color="#ff1d5e"
-        />
+        <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e" />
       </div>
     </div>
-    <mescroll-vue
-      ref="mescroll"
-      :down="mescrollDown"
-      :up="mescrollUp"
-      @init="mescrollInit"
-    >
+    <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
       <div class="flexitemv mainbox">
-        <div
-          class="listbox"
-          id="listbox"
-          v-for="(item, index) of dataList"
-          :key="index"
-        >
-          <router-link
-            :to="'/article_detail/' + item.user_article_id + '/user'"
-            class="flex"
-            v-if="item.article"
-          >
+        <div class="listbox" id="listbox" v-for="(item, index) of dataList" :key="index">
+          <router-link :to="'/article_detail/' + item.user_article_id + '/user'" class="flex" v-if="item.article">
             <div class="flexitem lists">
               <div class="img">
-                <img
-                  class="fitimg"
-                  :src="item.cover"
-                />
+                <img class="fitimg" :src="item.cover" />
               </div>
               <div class="flexitemv cont">
                 <h2 class="flexv">{{item.title}}</h2>
@@ -56,70 +29,39 @@
 
     <div class="flex tabbars">
       <div class="flexitem center middle">
-        <router-link
-          to="/index"
-          class="flexv center user"
-        >
+        <router-link to="/index" class="flexv center user">
           <span class="flex userimg">
-            <img
-              class="fitimg"
-              :src="user_info.avatar"
-            />
+            <img class="fitimg" :src="user_info.avatar" />
           </span>
           <em class="flex center">首页</em>
         </router-link>
       </div>
-      <a
-        :href="is_member ? 'tel:' + user_info.phone : 'javascript:;'"
-        class="flexv center item"
-        @click="call_phone"
-      >
+      <a :href="is_member ? 'tel:' + user_info.phone : 'javascript:;'" class="flexv center item" @click="call_phone">
         <i class="flex center bls bls-dh"></i>
         <em class="flex center">拨手机</em>
       </a>
-      <a
-        href="javascript:;"
-        class="flexv center item"
-        @click="show_qrcode"
-      >
+      <a href="javascript:;" class="flexv center item" @click="show_qrcode">
         <i class="flex center bls bls-weixin"></i>
         <em class="flex center">加微信</em>
       </a>
 
-      <router-link
-        :to="'/consultation/vip_link/' + user_info.id"
-        class="flexv center item"
-        v-if="is_member"
-      >
+      <a @click="askMe('/consultation/vip_chart/' + user_id)" class="flexv center item" v-if="is_member">
         <i class="flex center bls bls-zx-ing"></i>
         <em class="flex center">在线资询</em>
-      </router-link>
-      <router-link
-          :to="'/consultation/normal/' + user_info.id"
-          class="flexv center item"
-          v-else
-      >
+      </a>
+      <a @click="askMe('/consultation/normal/' + user_id)" class="flexv center item" v-else>
         <i class="flex center bls bls-zx-ing"></i>
         <em class="flex center">在线资询</em>
-      </router-link>
+      </a>
     </div>
 
     <!--提示-->
-    <div
-      class="flex center hint"
-      v-show="is_show_qrcode"
-    >
-      <div
-        class="mask"
-        @click="show_qrcode"
-      ></div>
+    <div class="flex center hint" v-show="is_show_qrcode">
+      <div class="mask" @click="show_qrcode"></div>
       <div class='content'>
         <h3 class="flex center">加我免费咨询</h3>
         <div class="qrcode">
-          <img
-            :src="user_info.wechat_qrcode"
-            class="fitimg"
-          >
+          <img :src="user_info.wechat_qrcode" class="fitimg">
         </div>
         <p class="flex center">长按识别二维码</p>
       </div>
@@ -178,7 +120,7 @@ export default {
   activated() {
     let _this = this;
     getUserInfo({ user_id: this.user_id })
-      .then(function(res) {
+      .then(function (res) {
         _this.user_info = res;
         _this.wechatConfig();
         //判断是否是会员
@@ -191,7 +133,20 @@ export default {
       this.getPoster();
     }
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   methods: {
+    askMe(url) { 
+      debugger    //留言
+      if (this.user.id === JSON.parse(this.user_id)) {
+        Toast({ message: '不能给自己留言喔', duration: 1000 })
+        return
+      }
+      this.$router.push(url)
+    },
     //打电话
     call_phone() {
       if (!this.is_member) {
@@ -243,10 +198,10 @@ export default {
           mescroll.endErr();
         });
     },
-    getPoster: function() {
+    getPoster: function () {
       this.mescroll.resetUpScroll();
     },
-    wechatConfig () {     //微信jssdk
+    wechatConfig() {     //微信jssdk
       let _this = this
       wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({

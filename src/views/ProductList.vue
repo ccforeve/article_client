@@ -14,7 +14,7 @@
       <div class="listbox" style="height: 100%">
         <div class="prodTitle"><i class="borderLeft"></i><span>搜索结果</span></div>
         <div class="listbox" id="listbox">
-          <router-link :to="'/article_detail/' + item.id + '/public'"v-for="(item, index) of dataList" :key="index" class="flex prodBox">
+          <router-link :to="'/article_detail/' + item.article.id + '/public'"v-for="(item, index) of dataList" :key="index" class="flex prodBox">
             <div class="between lists boxBorder">
               <div class="img">
                 <img class="fitimg" :src="item.cover" />

@@ -9,9 +9,17 @@
     >
       <div class="flex center search">
         <div class="flex centerv home-sea">
-          <input type="text" v-model="key" class="flexitem sea-text" placeholder="输入关键字，找文章">
+          <input
+            type="text"
+            v-model="key"
+            class="flexitem sea-text"
+            placeholder="输入关键字，找文章"
+          >
           <i class="flex smtxt"></i>
-          <span class="flex center bls bls-fdj" @click="search"></span>
+          <span
+            class="flex center bls bls-fdj"
+            @click="search"
+          ></span>
         </div>
       </div>
     </form>
@@ -37,8 +45,8 @@
             class="between lists"
             v-if="item.covers.length < 3 && !item.cover_state"
           >
-            <div class="flexitemv cont">
-              <h2 class="flexitemv">{{item.title}}</h2>
+            <div class="flexitemv cont ">
+              <h2 class="flexitemv flexTitle">{{item.title}}</h2>
               <div class="flex base">
                 <span
                   class="flex center"
@@ -63,8 +71,8 @@
             class="flexv lists"
             v-else
           >
-            <div class="flexitemv cont">
-              <h2 class="flexitemv">{{item.title}}</h2>
+            <div class="flexitemv cont ">
+              <h2 class="flexitemv flexTitle">{{item.title}}</h2>
             </div>
             <div class="around imgbox">
               <div
@@ -97,8 +105,8 @@
 <script>
 import { getIndexArticleList } from "../../api.js";
 import MescrollVue from "mescroll.js/mescroll.vue";
-import top from "../../assets/image/mescroll-totop.png"
-import empty from "../../assets/image/mescroll-empty.jpg"
+import top from "../../assets/image/mescroll-totop.png";
+import empty from "../../assets/image/mescroll-empty.jpg";
 
 let _ = require("lodash");
 
@@ -170,7 +178,7 @@ export default {
           mescroll.endErr();
         });
     },
-    search () {
+    search() {
       this.mescroll.triggerDownScroll();
     }
   },
@@ -186,7 +194,7 @@ export default {
     // 找到当前mescroll的ref,调用子组件mescroll-vue的beforeRouteLeave方法
     this.$refs.mescroll && this.$refs.mescroll.beforeRouteLeave(); // 退出路由时,记录列表滚动的位置,隐藏回到顶部按钮和isBounce的配置
     next();
-  },
+  }
 };
 </script>
 
@@ -210,5 +218,15 @@ export default {
   top: 80px;
   bottom: 0;
   height: auto;
+}
+.flexTitle {
+  font-weight: normal;
+  height: 4.2rem;
+  line-height: 26px;
+  font-size: 1.4rem;
+  color: #424242;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 </style>
