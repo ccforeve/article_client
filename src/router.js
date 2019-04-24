@@ -41,7 +41,7 @@ const router = new Router({
         requireAuth: false,
         wechat_jssdk: false
       }
-    }, {    //首页
+    }, {    //产品列表
       path: '/productList',
       name: 'productList',
       component: ProductList,

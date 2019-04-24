@@ -9,13 +9,9 @@
     >
       <div class="flex center search">
         <div class="flex centerv home-sea">
-          <input
-            type="text"
-            v-model="key"
-            class="flexitem sea-text"
-            placeholder="输入关键字，找文章"
-          >
-          <span class="flex center bls bls-cuo empty"></span>
+          <input type="text" v-model="key" class="flexitem sea-text" placeholder="输入关键字，找文章">
+          <i class="flex smtxt"></i>
+          <span class="flex center bls bls-fdj" @click="search"></span>
         </div>
       </div>
     </form>
@@ -101,6 +97,8 @@
 <script>
 import { getIndexArticleList } from "../../api.js";
 import MescrollVue from "mescroll.js/mescroll.vue";
+import top from "../../assets/image/mescroll-totop.png"
+import empty from "../../assets/image/mescroll-empty.jpg"
 
 let _ = require("lodash");
 
@@ -116,7 +114,7 @@ export default {
       mescrollDown: {}, //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
       mescrollUp: {
         // 上拉加载的配置.
-        auto: false,
+        auto: true,
         callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
         //以下是一些常用的配置,当然不写也可以的.
         page: {
@@ -127,13 +125,13 @@ export default {
         noMoreSize: 6, //如果列表已无数据,可设置列表总数大于5才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
         toTop: {
           //回到顶部按钮
-          src: "http://www.mescroll.com/img/mescroll-totop.png", //图片路径,默认null,支持网络图
+          src: top, //图片路径,默认null,支持网络图
           offset: 1000 //列表滚动1000px才显示回到顶部按钮
         },
         empty: {
           //列表第一页无任何数据时,显示的空提示布局; 需配置warpId才显示
           warpId: "listbox", //父布局的id (1.3.5版本支持传入dom元素)
-          icon: "http://www.mescroll.com/img/mescroll-empty.jpg", //图标,默认null,支持网络图
+          icon: empty, //图标,默认null,支持网络图
           tip: "暂无相关数据~" //提示
         }
       },
@@ -143,14 +141,9 @@ export default {
   watch: {
     key(val) {
       this.key = val;
-      this.getArticle(val);
     }
   },
   methods: {
-    // 跳转文章详情
-    // toDetail(id){
-    //   this.$router.push("'/article_detail/' + item.id + '/public'")
-    // },
     //mescroll组件初始化的回调,可获取到mescroll对象 (如果this.mescroll并没有使用到,可不用写mescrollInit)
     mescrollInit(mescroll) {
       this.mescroll = mescroll;
@@ -177,9 +170,9 @@ export default {
           mescroll.endErr();
         });
     },
-    getArticle: _.debounce(function() {
+    search () {
       this.mescroll.triggerDownScroll();
-    }, 1000)
+    }
   },
   beforeRouteEnter(to, from, next) {
     // 如果没有配置回到顶部按钮或isBounce,则beforeRouteEnter不用写
@@ -194,9 +187,6 @@ export default {
     this.$refs.mescroll && this.$refs.mescroll.beforeRouteLeave(); // 退出路由时,记录列表滚动的位置,隐藏回到顶部按钮和isBounce的配置
     next();
   },
-  activated() {
-    this.getArticle();
-  }
 };
 </script>
 

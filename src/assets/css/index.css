@@ -51,14 +51,12 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #home .nav .item span{height:4rem;font-size: 1.2rem;border-bottom: 2px solid transparent;}
 #home .nav .more{width:3rem;font-size:1.5rem;}
 #home .nav .item.current span{border-bottom-color:rgb(69, 182, 56);color:rgb(69, 182, 56);}
-#home .banner{width:100%; height:44.8vw;}
-#home .banner .swiper-container{width:100%;height:44.8vw;}
-#home .search{padding: 10px 8px;border-bottom: 1px solid #f2f2f2;}
-#home .search .home-sea{width:80%;height:3rem;background: #f4f4f4;padding: 0 10px;border-radius: 60px;}
-#home .search .home-sea input::-webkit-input-placeholder {color:#959595;}
-#home .search .home-sea .sea-text{height: 100%;text-indent: 1rem;font-size: 1rem;}
-#home .search .home-sea i{width: 1px;height:50%;background: #a6a6a6;}
-#home .search .home-sea span{width: 4rem;height:2rem;color:#999;font-size: 1.5rem;}
+.search{padding: 10px 8px;border-bottom: 1px solid #f2f2f2;}
+.search .home-sea{width:80%;height:3rem;background: #f4f4f4;padding: 0 10px;border-radius: 60px;}
+.search .home-sea input::-webkit-input-placeholder {color:#959595;}
+.search .home-sea .sea-text{height: 100%;text-indent: 1rem;font-size: 1rem;}
+.search .home-sea i{width: 1px;height:50%;background: #a6a6a6;}
+.search .home-sea span{width: 4rem;height:2rem;color:#999;font-size: 1.5rem;}
 #article .content.max{max-height:30rem;overflow:hidden;}
 #article .content .img{padding:1rem 0;}
 #home .listbox{padding:0 12px;}
@@ -388,7 +386,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #seek .search .home-sea{width:90%;height:3rem;background: #f4f4f4;padding: 0 10px;border-radius: 60px;}
 #seek .search .home-sea input::-webkit-input-placeholder {color:#959595;}
 #seek .search .home-sea .sea-text{height: 100%;text-indent: 1rem;font-size: 1.2rem;}
-#seek .search .home-sea span{height:1.5rem;color:#999;font-size: 1.5rem;display: none;}
+#seek .search .home-sea span{height:1.5rem;color:#999;font-size: 1.5rem;}
 #seek .listbox{padding:0 12px;background: #fff;}
 #seek .listbox .lists{border-bottom: 1px solid #f2f2f2 !important;padding-top: 12px;padding-bottom: 10px;}
 #seek .listbox .lists:last-child{border-bottom: none;}

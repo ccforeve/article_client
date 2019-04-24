@@ -204,8 +204,12 @@ export const orders = () => {     //滚动信息
   return request('get', '/orders')
 }
 
-export const articleExtension = (params) => {
+export const articleExtension = (params) => {     //推荐好文章
   return request('post', '/articles/extension', params)
+}
+
+export const searchProduct = (params) => {    //搜索产品列表
+  return request('get', '/products/search', params)
 }
 
 
