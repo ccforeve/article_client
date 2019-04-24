@@ -33,13 +33,13 @@
             id="index"
           >事业分享</router-link>
         </div>
-        <div>
-          <router-link
-            class="askMe"
-            :to="'/consultation/vip_chart/' + detail.user.id"
-          >
+        <div style="margin-bottom: 13px">
+          <a class="askMe" v-if="is_member" @click="askMe('/consultation/vip_chart/' + detail.user.id)">
             点我在线留言
-          </router-link>
+          </a>
+          <a class="askMe" v-else @click="askMe('/consultation/normal/' + detail.user.id)">
+            点我在线留言
+          </a>
         </div>
         <!-- 新增产品信息 -->
         <div
@@ -119,19 +119,10 @@
         <span class="col last"></span>
       </div>
 
-      <router-link
-        :to="'/consultation/vip_chart/' + detail.user.id"
-        class="flex center bls bls-kefu service"
-        v-if="is_member"
-      ></router-link>
-      <router-link
-        :to="'/consultation/normal/' + detail.user.id"
-        class="flex center bls bls-kefu service"
-        v-else
-      ></router-link>
+      <a class="flex center bls bls-kefu service" v-if="is_member" @click="askMe('/consultation/vip_chart/' + detail.user.id)"></a>
+      <a class="flex center bls bls-kefu service" v-else @click="askMe('/consultation/normal/' + detail.user.id)"></a>
       <div class="flexv center text-box">
         <p>本文为 <span>{{detail.user.nickname}}</span> 发布，不代表事业分享立场</p>
-<!--        <p>若内容不规范或涉及违规，可立即 <a href="">举报/报错</a></p>-->
       </div>
 
       <div
@@ -268,6 +259,13 @@ export default {
         }
         vm.wechatConfig();
       });
+    },
+    askMe(url) {     //留言
+      if(this.user.id === this.detail.user.id){
+        Toast({message: '不能给自己留言喔', duration: 1000})
+        return
+      }
+      this.$router.push(url)
     },
     cancelAlert () {    //关闭完善信息弹窗
       this.user_information_alter = false

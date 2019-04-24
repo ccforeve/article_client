@@ -32,7 +32,7 @@
       v-if="!is_member && type ==='family'"
     >
       <h2 class="tit">您还未开通正式会员</h2>
-      <p class="s-tit">开通后才可以体验"家庭保障留言"功能</p>
+      <p class="s-tit">开通后才可以体验"在线保障留言"功能</p>
       <router-link
         to="/open_member"
         class="flex center btn"
@@ -68,10 +68,10 @@
               </div>
               <div class="flexitemv info">
                 <p class="flex centerv">
-                  {{citem.nickname}}
+                  {{is_member ? citem.nickname : '***'}}
                 </p>
                 <p class="flex centerv">
-                  {{citem.phone}}
+                  {{is_member ? citem.phone : citem.phone.substr(0,3) + "********"}}
                 </p>
               </div>
               <div class="flex endh">{{citem.created_at}}</div>

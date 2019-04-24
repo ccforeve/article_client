@@ -19,9 +19,9 @@
         <dd>
           <div class="content button">
             <p class="text">
-              <button rel="1">咨询健康问题</button>
-              <button rel="2">了解加盟事业</button>
-              <button rel="3">其他</button>
+              <button rel="咨询健康问题">咨询健康问题</button>
+              <button rel="了解加盟事业">了解加盟事业</button>
+              <button rel="其他">其他</button>
             </p>
             <div class="arrow"></div>
           </div>
@@ -105,7 +105,7 @@
         <dd>
           <div class="content button">
             <p class="text">
-              <textarea rel="您的手机号码" title="请填写您的手机号码" id="mobile">请填写您的手机号码</textarea>
+              <textarea rel="您的手机号码" title="请填写您的手机号码" maxlength="11" id="mobile">请填写您的手机号码</textarea>
               <button id="mobile_submit">确定</button>
             </p>
             <div class="arrow"></div>
