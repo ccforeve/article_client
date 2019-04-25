@@ -25,7 +25,11 @@ export const uploadImage = (params) => {   //上传头像和二维码
 }
 
 export const getPublicQrcode = (params) => {   //获取公众号临时二维码
-  return request('get', '/user/wechat_public_qrcode', params)
+  return request('get', '/user/wechat_qrcode_and_user_avatar', params)
+}
+
+export const getWechatQrcode = (id) => {   //获取公众号临时二维码
+  return request('get', '/user/wechat_qrcode/' + id)
 }
 
 export const getUserCenter = (params) => {   //个人中心
@@ -110,10 +114,6 @@ export const getPosterDetail = (id, params) => {      //海报详情
 
 export const getPunchPoster = () => {
   return request('get', '/posters/punch');
-}
-
-export const getNextOrLastPoster = (params) => {  //当前分类下上一个或下一下海报
-  return request('get', '/posters/next_or_last', params)
 }
 
 export const sendPoster = (params) => {       //推送推广海报到公众号

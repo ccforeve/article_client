@@ -1,55 +1,29 @@
 <template>
   <div>
     <div class="toPayLink">
-      <router-link
-        to="/open_member"
-        class="toPayLink"
-      >
+      <router-link to="/open_member" class="toPayLink">
         <div class="linkWord"><span>线上客户等着你发掘</span>
-          <router-link
-            to="/open_member"
-            class="toPayLibk"
-          >立即获客</router-link>
+          <router-link to="/open_member" class="toPayLibk">立即获客</router-link>
         </div>
       </router-link>
     </div>
     <div style="position: fixed;width:100%;background:#fff;top:3rem;">
       <div class="flexitemv box">
         <div class="flex center nav">
-          <span
-            class="flex center item"
-            v-for="(item, index) of categories"
-            :key="index"
-            :class="{'current':tabType == item.id}"
-          >
-            <span
-              class="flex center item"
-              @click="changeTab(item.id)"
-            >
+          <span class="flex center item" v-for="(item, index) of categories" :key="index" :class="{'current':tabType == item.id}">
+            <span class="flex center item" @click="changeTab(item.id)">
               {{item.title}}
             </span>
           </span>
         </div>
         <div class="flex center search">
           <span class="flex userimg">
-            <img
-              class="Indexfitimg"
-              :src="user_avatar"
-            />
+            <img class="Indexfitimg" :src="user_avatar"/>
           </span>
           <div class="flex centerv home-sea">
-            <input
-              type="text"
-              name="key"
-              class="flexitem sea-text"
-              placeholder="输入关键字，找文章"
-              ref="search_key"
-            >
+            <input type="text" name="key" class="flexitem sea-text" placeholder="输入关键字，找文章" ref="search_key">
             <i class="flex smtxt"></i>
-            <span
-              class="flex center bls bls-fdj"
-              @click="search"
-            ></span>
+            <span class="flex center bls bls-fdj" @click="search"></span>
           </div>
         </div>
       </div>
@@ -65,73 +39,33 @@
       @init="mescrollInit"
       class="article-list"
     >
-      <div
-        class="listbox"
-        :id="'dataList' + items.id"
-      >
-        <router-link
-          :to="'/article_detail/' + item.id + '/public'"
-          class="flex"
-          v-for="(item, index) of tab[items.id].list"
-          :key="index"
-        >
-          <div
-            class="between lists"
-            v-if="item.covers.length < 3 && !item.cover_state"
-          >
+      <div class="listbox" :id="'dataList' + items.id">
+        <router-link :to="'/article_detail/' + item.id + '/public'" class="flex" v-for="(item, index) of tab[items.id].list" :key="index">
+          <div class="between lists" v-if="item.covers.length < 3 && !item.cover_state">
             <div class="flexitemv cont">
               <h2 class="flexitemv">{{item.title}}</h2>
               <div class="flex base">
-                <span
-                  class="flex center"
-                  style="padding-right: 30px"
-                >
-                  <i
-                    class="flex center bls"
-                    :class="[item.category_id == 2 ? 'bls-listen' : 'bls-ck']"
-                  ></i>
+                <span class="flex center" style="padding-right: 30px">
+                  <i class="flex center bls" :class="[item.category_id == 2 ? 'bls-listen' : 'bls-ck']"></i>
                   {{item.read_count}}
                 </span>
-                <!-- <span class="flex center">
-                  <i class="flex center bls bls-time"></i>
-                  {{item.created_at}}
-                </span> -->
               </div>
             </div>
             <div class="img">
-              <img
-                class="fitimg"
-                :src="item.cover"
-              />
+              <img class="fitimg" :src="item.cover"/>
             </div>
           </div>
-          <div
-            class="flexv lists"
-            v-else
-          >
+          <div class="flexv lists" v-else>
             <div class="flexitemv cont">
               <h2 class="flexitemv">{{item.title}}</h2>
             </div>
             <div class="around imgbox">
-              <div
-                class="img"
-                v-for="(cover, index) of item.covers"
-                :key="index"
-              >
-                <img
-                  class="fitimg"
-                  :src="'http://stl.yxcxin.com/uploads/' + cover"
-                />
+              <div class="img" v-for="(cover, index) of item.covers" :key="index">
+                <img class="fitimg" :src="'http://stl.yxcxin.com/uploads/' + cover"/>
               </div>
             </div>
             <div class="flex base">
-              <span
-                class="flex center"
-                style="padding-right: 30px"
-              ><i class="flex center bls bls-ck"></i>{{item.read_count}}</span>
-              <!-- <span class="flex center">
-                <i class="flex center bls bls-time">{{item.created_at}}</i>
-              </span> -->
+              <span class="flex center" style="padding-right: 30px"><i class="flex center bls bls-ck"></i>{{item.read_count}}</span>
             </div>
           </div>
         </router-link>

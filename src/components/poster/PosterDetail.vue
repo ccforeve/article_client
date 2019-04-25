@@ -57,7 +57,7 @@
 <script>
   import PosterList from '@/components/poster/Detail'
   import PerfectInformation from '@/components/common/PerfectInformation'
-  import {getPosterDetail, getPublicQrcode, getNextOrLastPoster, randPoster, sendPoster} from '../../api.js'
+  import {getPosterDetail, getPublicQrcode, randPoster, sendPoster} from '../../api.js'
   import {Indicator, Toast} from 'mint-ui'
   import {FulfillingBouncingCircleSpinner} from 'epic-spinners'
 

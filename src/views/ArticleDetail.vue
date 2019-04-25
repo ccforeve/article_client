@@ -9,7 +9,7 @@
       <div class="title max">
         <h2 class="flex">{{detail.article.title}}</h2>
         <div class="flex subhead">
-          <span class="date">{{moment(detail.article.created_at).format('YYYY-MM-DD')}}</span>
+<!--          <span class="date"><img :src="detail.user.avatar" class="fitimg" style="border-radius: 50%;overflow: hidden;"></span>-->
           <router-link tag="span" :to="'/articles/' + detail.user.id" class="name">{{detail.user.nickname}}
           </router-link>
           <router-link to="/index" class="site" id="index">事业分享</router-link>
@@ -71,7 +71,6 @@
       <div class="flexv center text-box">
         <p>本文为 <span>{{detail.user.nickname}}</span> 发布，不代表事业分享立场</p>
       </div>
-
       <div class="flex center fixed-btn" v-if="user.id !== detail.user.id">
         <a href="javascript:;" class="flex center cut" @click="becomeMyArticleHandle(detail.article.id)">免费换成我的名片 >></a>
       </div>
@@ -89,11 +88,11 @@
     </div>
 
     <div class="flex center gzh" v-if="qrcode_alert">
-      <div class="mask"></div>
+      <div class="mask" @click="close_qrcode_alert"></div>
       <div class='content'>
         <h3 class="flex center">关注公众号获取更多资讯</h3>
         <div class="qrcode">
-          <img src="../assets/image/qrcode.jpg" class="fitimg">
+          <img :src="qrcode" class="fitimg">
         </div>
         <p class="flex center">长按识别二维码</p>
       </div>
@@ -112,7 +111,8 @@ import {
   getUserArticleDetail,
   becomeMyArticle,
   updateReadTime,
-  shareUserArticle
+  shareUserArticle,
+  getWechatQrcode
 } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
@@ -135,6 +135,7 @@ export default {
       product: [],
       is_member: false,
       user_information_alter: false,
+      qrcode: null,
       qrcode_alert: false,
       timer: null
     };
@@ -202,37 +203,51 @@ export default {
     },
     show_qrcode() {
       //显示二维码
-      if (this.user.is_member) {
+      if (this.is_member) {
         if (!this.detail.user.qrcode) {
-          Toast("该用户未上传二维码");
+          if (this.user.id != this.detail.user.id) {
+            Toast("该用户未上传二维码");
+          } else {
+            Toast("您未上传二维码");
+          }
           return;
         }
+        this.show_qrcode_html = !this.show_qrcode_html;
       } else {
-        Toast("该用户未开通此服务");
-        return;
-      }
-      this.show_qrcode_html = !this.show_qrcode_html;
-    },
-    call_phone() {
-      //打电话
-      if (!this.user.is_member) {
-        if (localStorage.user.id != this.detail.article.user_id) {
+        if (this.user.id != this.detail.user.id) {
           Toast("该用户未开通此服务");
         } else {
           Toast("您未开通此服务");
         }
       }
     },
-    change() {
-      this.user_information_alter = false;
-      if (!this.user.is_subscribe) {
-        this.qrcode_alert = true
+    call_phone() {
+      //打电话
+      if (!this.is_member) {
+        if (this.user.id != this.detail.user.id) {
+          Toast("该用户未开通此服务");
+        } else {
+          Toast("您未开通此服务");
+        }
       }
     },
-    becomeMyArticleHandle(article_id) {
+    close_qrcode_alert () {     //关闭二维码弹窗
+      this.qrcode_alert = false
+    },
+    change() {    //完善信息后
+      this.user_information_alter = false;
+      if (!this.user.is_subscribe) {
+        this.getQrcode()
+      }
+    },
+    becomeMyArticleHandle(article_id) {     //成为我的文章操作
       let _this = this;
       if (!_this.user.phone) {
         _this.user_information_alter = true;
+        return;
+      }
+      if (!_this.user.is_subscribe) {
+        this.getQrcode()
         return;
       }
       becomeMyArticle({ article_id: article_id })
@@ -247,7 +262,14 @@ export default {
           console.log(e);
         });
     },
-    logTime(logid) {
+    getQrcode () {
+      let _this = this
+      _this.qrcode_alert = true
+      getWechatQrcode(this.detail.user.id).then(function (res) {
+        _this.qrcode = res.qrcode
+      })
+    },
+    logTime(logid) {    //浏览时间
       //更新阅读时间
       let seconds = 0,
         btn = true;

@@ -378,7 +378,7 @@ if (localStorage.user) {
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-    if (getCookie('token')) {  // 通过vuex state获取当前的token是否存在
+    if (getCookie('token') && localStorage.user) {  // 通过vuex state获取当前的token是否存在
       next();
     } else {
       next({
@@ -422,6 +422,7 @@ function config(url) {
     new_user.is_member = user.is_member;
     new_user.avatar = user.avatar
     new_user.wechat_qrcode = user.qrcode
+    new_user.is_subscribe = user.subscribe
     localStorage.user = JSON.stringify(new_user);
     store.commit("setTokenAndUser", JSON.parse(localStorage.user));
     wx.config({

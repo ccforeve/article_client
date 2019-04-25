@@ -1,15 +1,9 @@
 <template>
-  <div
-    id="home"
-    class="flexv wrap"
-  >
+  <div id="home" class="flexv wrap">
     <article-list />
     <index-footer />
     <!--推荐好文章-->
-    <router-link
-      to="/article/extension"
-      class="flex center renew"
-    >提交好文章</router-link>
+    <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
     <!-- <router-link to="/productList?search_key=麦片" class="flex center renew">提交好文章</router-link> -->
   </div>
 </template>
