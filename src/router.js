@@ -76,34 +76,17 @@ const router = new Router({
         requireAuth: true,
         wechat_jssdk: true
       }
-    }, {    //普通咨询
-      path: '/consultation/normal/:user_id',
-      name: 'normal',
-      component: () => import('./components/consultation/Normal.vue'),
+    }, {    //咨询
+      path: '/consultation/message/:user_id',
+      name: 'message',
+      component: () => import('./components/consultation/Message.vue'),
       meta: {
         title: '咨询',
         requireAuth: true,
         wechat_jssdk: true
       }
-    }, {    //会员咨询
-      path: '/consultation/vip_chart/:user_id',
-      name: 'vipChart',
-      component: () => import('./components/consultation/Vip.vue'),
-      meta: {
-        title: '家庭咨询',
-        requireAuth: true,
-        wechat_jssdk: true
-      }
-    }, {    //报告详情
-      path: '/consultation/report/:id',
-      name: 'report',
-      component: () => import('./components/consultation/Report.vue'),
-      meta: {
-        title: '咨询报告',
-        requireAuth: true,
-        wechat_jssdk: true
-      }
-    }, {    //个人中心
+    },
+    {    //个人中心
       path: '/user',
       name: 'user',
       component: UserCenter,
@@ -292,19 +275,11 @@ const router = new Router({
         requireAuth: true,
         wechat_jssdk: true
       }
-    }, {    //留言详情
-      path: '/message/:id/normal',
-      name: 'message_detail_normal',
-      component: () => import('./components/message/NormalDetail.vue'),
-      meta: {
-        title: '留言详情',
-        requireAuth: true,
-        wechat_jssdk: true
-      }
-    }, {    //家庭留言详情
-      path: '/message/:id/family',
-      name: 'message_detail_family',
-      component: () => import('./components/message/FamilyDetail.vue'),
+    },
+    {    //留言详情
+      path: '/message/:id',
+      name: 'message_detail',
+      component: () => import('./components/message/Detail.vue'),
       meta: {
         title: '留言详情',
         requireAuth: true,

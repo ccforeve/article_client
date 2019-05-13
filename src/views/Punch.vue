@@ -34,51 +34,22 @@
         </p>
       </div>
 
-      <a
-        href="javascript:"
-        class="punch-btn punch-btn--sub"
-        type="button"
-        v-if="state === 0"
-        @click="subscribe = false"
-      >
+      <a href="javascript:" class="punch-btn punch-btn--sub" type="button" v-if="state === 0" @click="subscribe = false">
         关注公众号，参与打卡
       </a>
-      <router-link
-        to="/morning"
-        class="punch-btn punch-btn--go"
-        v-else-if="state === 1"
-      >
+      <router-link to="/morning" class="punch-btn punch-btn--go" v-else-if="state === 1">
         免费领取事业宣传海报
       </router-link>
-      <a
-        href="javascript:"
-        class="punch-btn punch-btn--default"
-        v-else-if="state === 2"
-        @click="punch"
-      >
+      <a href="javascript:" class="punch-btn punch-btn--default" v-else-if="state === 2" @click="punch">
         马上打卡
       </a>
-      <a
-        href="javascript:"
-        class="punch-btn punch-btn--disabled"
-        type="button"
-        data-src=""
-        v-else-if="state === 3"
-      >
+      <a href="javascript:" class="punch-btn punch-btn--disabled" type="button" data-src="" v-else-if="state === 3">
         打卡还未开始
       </a>
-      <a
-        href="javascript:"
-        class="punch-btn punch-btn--miss"
-        type="button"
-        v-else-if="state === 4"
-      >
+      <a href="javascript:" class="punch-btn punch-btn--miss" type="button" v-else-if="state === 4">
         错过打卡啦，明日加油早起吧
       </a>
-      <div
-        class="f12 punch-intro"
-        style="text-align: center;"
-      >
+      <div class="f12 punch-intro" style="text-align: center;">
         明日打卡时间：<span class="punch-intro__time f20">05:30:00</span><br>打卡完成后，可获专属爆图。
       </div>
     </div>
@@ -260,24 +231,13 @@
     </div>
 
     <!----------打卡成功提示---------->
-    <div
-      class="layer layer-success"
-      v-show="punch_alert"
-    >
-      <router-link
-        tag="div"
-        to="/morning"
-        class="layer__content layer-success__content"
-      >
-        <img
-          src="../assets/image/success.png"
-          width="100%"
-        >
-        <span
-          class="flex center layer-success__close"
-          @click="close_punch"
-        >×</span>
-      </router-link>
+    <div class="layer layer-success" v-show="punch_alert">
+      <div class="layer__content layer-success__content">
+        <router-link to="/morning" >
+          <img src="../assets/image/success.png" width="100%">
+        </router-link>
+        <span class="flex center layer-success__close" @click="close_punch">×</span>
+      </div>
     </div>
 
     <!----------关注公众号---------->

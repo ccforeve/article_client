@@ -350,7 +350,7 @@ export default {
         })
         // 这里写提交数据接口
           Indicator.open()
-          let submit = submitNormalMessage('family', arr)
+          let submit = submitNormalMessage(arr)
           submit.then(function (res) {
               if(res.code === 0) {
                   Indicator.close()

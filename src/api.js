@@ -164,8 +164,8 @@ export const footprintFind = (user_id, params) => {          //找到访客
   return request('get', '/footprints/find_visitor/' + user_id, params)
 }
 
-export const submitNormalMessage = (type, params) => {          //用户咨询留言提交
-  return request('post', '/messages?cate=' + type, params)
+export const submitNormalMessage = (params) => {          //用户咨询留言提交
+  return request('post', '/messages', params)
 }
 
 export const getFamilyMessageCount = () => {          //用户咨询留言提交

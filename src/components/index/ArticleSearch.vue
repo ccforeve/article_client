@@ -1,96 +1,43 @@
 <template>
-  <div
-    id="seek"
-    class="flexv wrap"
-  >
-    <form
-      action=""
-      method="get"
-    >
+  <div id="seek" class="flexv wrap">
+    <form action="" method="get">
       <div class="flex center search">
         <div class="flex centerv home-sea">
-          <input
-            type="text"
-            v-model="key"
-            class="flexitem sea-text"
-            placeholder="输入关键字，找文章"
-          >
+          <input type="text" v-model="key" class="flexitem sea-text" placeholder="输入关键字，找文章">
           <i class="flex smtxt"></i>
-          <span
-            class="flex center bls bls-fdj"
-            @click="search"
-          ></span>
+          <span class="flex center bls bls-fdj" @click="search"></span>
         </div>
       </div>
     </form>
 
-    <mescroll-vue
-      ref="mescroll"
-      :down="mescrollDown"
-      :up="mescrollUp"
-      @init="mescrollInit"
-    >
-      <div
-        class="listbox"
-        id="listbox"
-        style="height: 100%"
-      >
-        <router-link
-          :to="'/article_detail/' + item.id + '/public'"
-          class="flex"
-          v-for="(item, index) of dataList"
-          :key="index"
-        >
-          <div
-            class="between lists"
-            v-if="item.covers.length < 3 && !item.cover_state"
-          >
+    <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
+      <div class="listbox" id="listbox" style="height: 100%">
+        <router-link :to="'/article_detail/' + item.id + '/public'" class="flex" v-for="(item, index) of dataList" :key="index">
+          <div class="between lists" v-if="item.covers.length < 3 && !item.cover_state">
             <div class="flexitemv cont ">
               <h2 class="flexitemv flexTitle">{{item.title}}</h2>
               <div class="flex base">
-                <span
-                  class="flex center"
-                  style="padding-right: 30px"
-                >
-                  <i
-                    class="flex center bls"
-                    :class="[item.category_id == 2 ? 'bls-listen' : 'bls-ck']"
-                  ></i>
+                <span class="flex center" style="padding-right: 30px">
+                  <i class="flex center bls" :class="[item.category_id == 2 ? 'bls-listen' : 'bls-ck']"></i>
                   {{item.read_count}}
                 </span>
               </div>
             </div>
             <div class="img">
-              <img
-                class="fitimg"
-                :src="item.cover"
-              />
+              <img class="fitimg" :src="item.cover"/>
             </div>
           </div>
-          <div
-            class="flexv lists"
-            v-else
-          >
+          <div class="flexv lists" v-else>
             <div class="flexitemv cont ">
               <h2 class="flexitemv flexTitle">{{item.title}}</h2>
             </div>
             <div class="around imgbox">
-              <div
-                class="img"
-                v-for="(cover, index) of item.covers"
-                :key="index"
-              >
-                <img
-                  class="fitimg"
-                  :src="'http://stl.yxcxin.com/uploads/' + cover"
-                />
+              <div class="img" v-for="(cover, index) of item.covers" :key="index">
+                <img class="fitimg" :src="'http://stl.yxcxin.com/uploads/' + cover"/>
               </div>
             </div>
             <div class="flex base">
-              <span
-                class="flex center"
-                style="padding-right: 30px"
-              ><i class="flex center bls bls-ck"></i>{{item.read_count}}</span>
+              <span class="flex center" style="padding-right: 30px"><i class="flex center bls bls-ck"></i>{{item.read_count}}</span>
               <span class="flex center">
                 <i class="flex center bls bls-time">{{item.created_at}}</i>
               </span>
@@ -107,6 +54,7 @@ import { getIndexArticleList } from "../../api.js";
 import MescrollVue from "mescroll.js/mescroll.vue";
 import top from "../../assets/image/mescroll-totop.png";
 import empty from "../../assets/image/mescroll-empty.jpg";
+import {wechatConfig} from "../../cookie.js";
 
 let _ = require("lodash");
 
@@ -144,12 +92,15 @@ export default {
         }
       },
       dataList: [] // 列表数据
-    };
+    }
   },
   watch: {
     key(val) {
       this.key = val;
     }
+  },
+  activated() {
+    wechatConfig();
   },
   methods: {
     //mescroll组件初始化的回调,可获取到mescroll对象 (如果this.mescroll并没有使用到,可不用写mescrollInit)

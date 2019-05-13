@@ -9,16 +9,12 @@
       <div class="title max">
         <h2 class="flex">{{detail.article.title}}</h2>
         <div class="flex subhead">
-<!--          <span class="date"><img :src="detail.user.avatar" class="fitimg" style="border-radius: 50%;overflow: hidden;"></span>-->
           <router-link tag="span" :to="'/articles/' + detail.user.id" class="name">{{detail.user.nickname}}
           </router-link>
           <router-link to="/index" class="site" id="index">事业分享</router-link>
         </div>
         <div style="margin-bottom: 13px">
-          <a class="askMe" v-if="is_member" @click="askMe('/consultation/vip_chart/' + detail.user.id)">
-            点我在线留言
-          </a>
-          <a class="askMe" v-else @click="askMe('/consultation/normal/' + detail.user.id)">
+          <a class="askMe" @click="askMe('/consultation/message/' + detail.user.id)">
             点我在线留言
           </a>
         </div>
@@ -66,8 +62,7 @@
         <span class="col last"></span>
       </div>
 
-      <a class="flex center bls bls-kefu service" v-if="is_member" @click="askMe('/consultation/vip_chart/' + detail.user.id)"></a>
-      <a class="flex center bls bls-kefu service" v-else @click="askMe('/consultation/normal/' + detail.user.id)"></a>
+      <a class="flex center bls bls-kefu service" @click="askMe('/consultation/message/' + detail.user.id)"></a>
       <div class="flexv center text-box">
         <p>本文为 <span>{{detail.user.nickname}}</span> 发布，不代表事业分享立场</p>
       </div>
