@@ -212,6 +212,10 @@ export const searchProduct = (params) => {    //搜索产品列表
   return request('get', '/products/search', params)
 }
 
+export const updateArticleShareCount = (article_id) => {    //更新分享文章id
+  return request('patch', '/articles/' + article_id)
+}
+
 
 
 

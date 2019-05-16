@@ -107,7 +107,8 @@ import {
   becomeMyArticle,
   updateReadTime,
   shareUserArticle,
-  getWechatQrcode
+  getWechatQrcode,
+  updateArticleShareCount
 } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
@@ -304,6 +305,7 @@ export default {
           link: "http://btl.yxcxin.com/article_detail/" + _this.detail.user_article_id + "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: cover, // 分享图标
           success: function () {
+            updateArticleShareCount(_this.detail.article.id)
             if (_this.article_type === 'user' && _this.detail.user.id != _this.user.id) {
               shareUserArticle(_this.detail.user_article_id, { user_id: _this.user.id, from: _this.from })
             }
@@ -315,6 +317,7 @@ export default {
           link: "http://btl.yxcxin.com/article_detail/" + _this.detail.user_article_id + "/user", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: cover, // 分享图标
           success: function () {
+            updateArticleShareCount(_this.detail.article.id)
             if (_this.article_type === 'user' && _this.detail.user.id != _this.user.id) {
               shareUserArticle(_this.detail.user_article_id, { user_id: _this.user.id, from: _this.from })
             }
