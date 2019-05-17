@@ -21,15 +21,15 @@ module.exports = {
   devServer: {
     host: "btl.yxcxin.com",
     // host: "127.0.0.1",
-    port: 80, // 端口号
-    https: false, // https:{type:Boolean}
-    open: false, //配置自动启动浏览器
+    port: 443, // 端口号
+    https: true, // https:{type:Boolean}
+    open: true, //配置自动启动浏览器
     // proxy: 'http://localhost:8080' ,// 配置跨域处理,只有一个代理
 
     // 配置多个代理
     proxy: {
       "/": {
-        target: "http://stl.yxcxin.com",
+        target: "https://stl.yxcxin.com",
         ws: false, // 如果要代理 websockets
         changeOrigin: true, // 将主机标头的原点更改为目标URL
         // pathRewrite: {

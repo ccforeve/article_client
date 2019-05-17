@@ -4,9 +4,13 @@ export const userLogin = (params) => {   //登录
   return request('get', '/user/login', params)
 }
 
-export const checkToken = (params) => {   //token验证
-  return request('get', '/check_token', params)
-}
+// export const testLogin = (params) => {   //测试登录
+//   return request('get', '/test_login', params)
+// }
+//
+// export const checkToken = (params) => {   //token验证
+//   return request('get', '/check_token', params)
+// }
 
 export const getWechatConfig = (params) => {   //获取微信jssdk配置
   return request('get', '/wechat/config', params)

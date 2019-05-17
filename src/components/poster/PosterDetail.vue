@@ -92,25 +92,20 @@
     mounted () {
       this.changePosterList()
     },
-    activated() {
+    async activated() {
       this.poster_id = this.$route.params.id
+      let qrcode = await getPublicQrcode()
+      this.base64Image = qrcode
       this.makePoster()
-      let _this = this
-      getPublicQrcode().then(function (res) {
-        _this.base64Image = res
-      })
     },
     methods: {
-      makePoster() {
+      async makePoster() {
         let _this = this
         Indicator.open('正在生成海报中，请稍等...')
-        let detail = getPosterDetail(_this.poster_id)
-        detail.then(function (res) {
-          _this.detail = res
-          _this.canvasMakePoster(res)
-        }).catch(function (e) {
-          console.log(e)
-        })
+        let detail = await getPosterDetail(_this.poster_id)
+        _this.detail = detail
+        _this.canvasMakePoster(detail)
+
       },
       canvasMakePoster(poster) {
         let _this = this

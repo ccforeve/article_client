@@ -133,7 +133,8 @@ export default {
       user_information_alter: false,
       qrcode: null,
       qrcode_alert: false,
-      timer: null
+      timer: null,
+      is_miniprogram: false
     };
   },
   computed: {
@@ -299,6 +300,10 @@ export default {
         );
       }
       wx.ready(function () {
+        wx.miniProgram.getEnv(function (res) {
+          _this.is_miniprogram = res.miniprogram
+          console.log(res.miniprogram) // true
+        })
         //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({
           title: _this.detail.article.title, // 分享标题
