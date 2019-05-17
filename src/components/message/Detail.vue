@@ -30,7 +30,7 @@
         <span class="">咨询内容：</span>
         <span>{{detail.message}}</span>
       </div>
-      <div class="delete-tip" v-if="!is_member && detail.show">如未开通会员联系客户，留言将于24小时后释放</div>
+      <div class="delete-tip" v-if="!is_member && detail.show">您是非付费会员，线索将在留言24小时后消失。避免客户流失请尽快开通。</div>
     </div>
     <!--end-->
     <div class="flexv centerv dredge" v-if="!is_member">

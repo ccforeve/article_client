@@ -23,7 +23,7 @@
           <p class="prodTitle">{{product.name}}[{{product.sale_unit}}]</p>
           <div class="prodMess" v-if="product.kind == 1">零售价：{{product.price}}元 会员价：{{product.money}}元 1{{product.unit}}={{product.multiple + product.min_unit}} 上市时间： {{moment(product.listed_at).format('YYYY-MM-DD')}}</div>
           <div class="prodMess" v-else>零售价：{{product.price}}元 会员价：{{product.money}}元+{{product.ticket}}券 1{{product.unit}}={{product.multiple + product.min_unit}} 上市时间： {{moment(product.listed_at).format('YYYY-MM-DD')}}</div>
-          <img class="prodImg" :src="product.cover.replace('/\/p\//', '/\/pxs\//')" alt="">
+          <img class="prodImg" :src="product.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')" alt="">
           <div class="prodHr"></div>
         </div>
       </div>
@@ -166,10 +166,17 @@ export default {
       let vm = this;
       data.then(function (res) {
         let replace_detail = res.article.detail;
-        res.article.detail = replace_detail.replace(
-          /crossorigin="anonymous"/g,
-          ""
-        );
+        if (res.article.product_id) {
+          res.article.detail = replace_detail.replace(
+            /\/\/img.lvye100.com/g,
+            "http://img.lvye100.com"
+          );
+        } else {
+          res.article.detail = replace_detail.replace(
+            /crossorigin="anonymous"/g,
+            ""
+          );
+        }
         vm.detail = res;
         vm.product = res.product;
         if (vm.moment(res.user.member_lock_at).isAfter(vm.moment())) {
