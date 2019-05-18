@@ -97,19 +97,23 @@
       upCallback(page, mescroll) {
         let _this = this
         // 联网请求
-        let data = getVisitorRead(this.user_id, {page: page.num})
-        data.then((response) => {
+        getVisitorRead(this.user_id, {page: page.num}).then((response) => {
           _this.has_data = true
           _this.user = response.user
           // 请求的列表数据
-          let arr = response.footprint.data
+          let visitorReads = response.footprint.data
+          visitorReads.forEach(function (visitor) {
+            if(visitor.product_id) {
+              visitor.cover = visitor.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')
+            }
+          })
           // 如果是第一页需手动制空列表
           if (page.num === 1) _this.dataList = []
           // 把请求到的数据添加到列表
-          this.dataList = this.dataList.concat(arr)
+          this.dataList = this.dataList.concat(visitorReads)
           // 数据渲染成功后,隐藏下拉刷新的状态
           this.$nextTick(() => {
-            mescroll.endSuccess(arr.length)
+            mescroll.endSuccess(visitorReads.length)
           })
         }).catch((e) => {
           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;

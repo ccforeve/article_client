@@ -21,6 +21,11 @@ export default {
     IndexFooter,
     PerfectInformation
   },
+  data() {
+    return {
+      is_miniprogram: false
+    }
+  },
   computed: {
     user() {
       return this.$store.state.user;
@@ -28,6 +33,16 @@ export default {
   },
   activated() {
     this.wechatConfig();
+    let _this = this
+    wx.miniProgram.getEnv(function (res) {
+      _this.is_miniprogram = res.miniprogram
+    })
+  },
+  beforeRouteLeave(to, from, next) {
+    if(to.path === '/' && this.is_miniprogram) {
+      wx.miniProgram.navigateBack()
+    }
+    next();
   },
   methods: {
     wechatConfig() {

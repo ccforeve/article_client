@@ -2,11 +2,7 @@
   <div id="lately" class="flexv wrap">
     <div class="loading" v-if="!has_data">
       <div class="loading-icon">
-        <fulfilling-bouncing-circle-spinner
-                :animation-duration="4000"
-                :size="60"
-                color="#ff1d5e"
-        />
+        <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e"/>
       </div>
     </div>
     <div class="flexitemv mainbox mescorll">
@@ -139,19 +135,22 @@
       upCallback(page, mescroll) {
         let _this = this
         // 联网请求
-        let data = getVisitorDetail(this.detail_id, {page: page.num})
-        data.then((response) => {
+        getVisitorDetail(this.detail_id, {page: page.num}).then((response) => {
           _this.has_data = true
-          _this.article = response.article
+          let articleResponse = response.article
+          if(articleResponse.product_id) {
+            articleResponse.cover = articleResponse.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')
+          }
+          _this.article = articleResponse
           // 请求的列表数据
-          let arr = response.footprint.data
+          let visitor_details = response.footprint.data
           // 如果是第一页需手动制空列表
           if (page.num === 1) _this.dataList = []
           // 把请求到的数据添加到列表
-          this.dataList = this.dataList.concat(arr)
+          this.dataList = this.dataList.concat(visitor_details)
           // 数据渲染成功后,隐藏下拉刷新的状态
           this.$nextTick(() => {
-            mescroll.endSuccess(arr.length)
+            mescroll.endSuccess(visitor_details.length)
           })
         }).catch((e) => {
           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;

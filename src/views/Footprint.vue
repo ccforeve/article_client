@@ -1,60 +1,22 @@
 <template>
-  <div
-    id="read"
-    class="flexv"
-  >
-    <div
-      class="loading"
-      v-if="!has_data"
-    >
+  <div id="read" class="flexv">
+    <div class="loading" v-if="!has_data">
       <div class="loading-icon">
-        <fulfilling-bouncing-circle-spinner
-          :animation-duration="4000"
-          :size="60"
-          color="#ff1d5e"
-        />
+        <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e"/>
       </div>
     </div>
     <div class="flex center title">
-      <span
-        class="flex center read"
-        :class="{'elect': type === 'read'}"
-        @click="changeTab(1, 'read')"
-      >阅读</span>
-      <span
-        class="flex center share"
-        :class="{'elect': type === 'share'}"
-        @click="changeTab(2, 'share')"
-      >分享</span>
+      <span class="flex center read" :class="{'elect': type === 'read'}" @click="changeTab(1, 'read')">阅读</span>
+      <span class="flex center share" :class="{'elect': type === 'share'}" @click="changeTab(2, 'share')">分享</span>
     </div>
-    <mescroll-vue
-      v-for="i of 2"
-      :key="i"
-      :ref="'mescroll'+ i"
-      :index="i"
-      v-show="tabType === i"
-      :down="getMescrollDown(i)"
-      :up="getMescrollUp(i)"
-      @init="mescrollInit"
-      class="article-list"
-    >
+    <mescroll-vue v-for="i of 2" :key="i" :ref="'mescroll'+ i" :index="i" v-show="tabType === i" :down="getMescrollDown(i)" :up="getMescrollUp(i)" @init="mescrollInit" class="article-list">
       <div class="flexitemv mainbox box">
-        <div
-          class="shares"
-          id="shares"
-        >
-          <div
-            class="listbox"
-            :id="'dataList' + i"
-            v-for="(citem, cindex) of tab[i].list"
-          >
+        <div class="shares" id="shares">
+          <div class="listbox" :id="'dataList' + i" v-for="(citem, cindex) of tab[i].list">
             <div class="between top">
               <div class="flex">
                 <div class="headimg">
-                  <img
-                    :src="citem.avatar"
-                    class="fitimg"
-                  >
+                  <img :src="citem.avatar" class="fitimg">
                 </div>
                 <div class="flexitemv info">
                   <p class="flex centerv">{{citem.nickname}}</p>
@@ -62,23 +24,14 @@
                 </div>
               </div>
               <div class="flex center time">总计停留<em>{{citem.residence_time}}</em></div>
-              <router-link
-                :to="'/footprint/' + citem.id"
-                class="flex center btn"
-              >找到他</router-link>
+              <router-link :to="'/footprint/' + citem.id" class="flex center btn">找到他</router-link>
             </div>
             <div class="flex lists">
               <div class="img">
-                <img
-                  class="fitimg"
-                  :src="citem.article.cover"
-                />
+                <img class="fitimg" :src="citem.article.cover"/>
               </div>
               <div class="flexitemv cont">
-                <router-link
-                  to=""
-                  class="flexitemv"
-                >{{citem.article.title}}</router-link>
+                <router-link to="" class="flexitemv">{{citem.article.title}}</router-link>
               </div>
             </div>
           </div>
@@ -165,15 +118,12 @@ export default {
       this.getListDataFromNet(
         mescroll.tabType,
         page.num,
-        curPageData => {
-          mescroll.endSuccess(
+        curPageData => {mescroll.endSuccess(
             curPageData.per_page,
             curPageData.next_page_url ? true : false
           ); // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
           if (page.num === 1) this.tab[mescroll.tabType].list = []; // 如果是第一页需手动制空列表
-          this.tab[mescroll.tabType].list = this.tab[
-            mescroll.tabType
-          ].list.concat(curPageData.data); // 追加新数据
+          this.tab[mescroll.tabType].list = this.tab[mescroll.tabType].list.concat(curPageData.data); // 追加新数据
           this.has_data = true;
         },
         () => {
@@ -212,13 +162,16 @@ export default {
       let res = {};
       try {
         res = footprint(this.type, { page: pageNum });
-        res
-          .then(res => {
-            successCallback && successCallback(res);
+        res.then(res => {
+          res.data.forEach(function (footprint) {
+            if(footprint.article.product_id) {
+              footprint.article.cover = footprint.article.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')
+            }
           })
-          .catch(function(err) {
-            console.log(err);
-          });
+          successCallback && successCallback(res);
+        }).catch(function(err) {
+          console.log(err);
+        });
       } catch (e) {
         // 联网失败的回调
         errorCallback && errorCallback();

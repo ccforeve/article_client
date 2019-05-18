@@ -1,35 +1,19 @@
 <template>
-  <div
-    id="visitor"
-    class="flexv wrap"
-  >
-    <div
-      class="loading"
-      v-if="!has_data"
-    >
+  <div id="visitor" class="flexv wrap">
+    <div class="loading" v-if="!has_data">
       <div class="loading-icon">
-        <fulfilling-bouncing-circle-spinner
-          :animation-duration="4000"
-          :size="60"
-          color="#ff1d5e"
-        />
+        <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e"/>
       </div>
     </div>
     <div class="flexv centerv around front">
-      <a
-        href="javascript:;"
-        class="flexitemv center myfront"
-      >
+      <a href="javascript:;" class="flexitemv center myfront">
         <em class="flex">{{read_custom.today_footprint}}</em>
         <div class="flex">
           <span class="flex center">今日浏览</span>
         </div>
       </a>
       <div class="flex line"></div>
-      <router-link
-        to="/visitor/prospect"
-        class="flexitemv center myfront"
-      >
+      <router-link to="/visitor/prospect" class="flexitemv center myfront">
         <em class="flex">{{read_custom.customer}}</em>
         <div class="flex">
           <span class="flex center">准客户</span>
@@ -37,76 +21,36 @@
       </router-link>
     </div>
     <!-- 有数据的情况则显示 -->
-    <div
-      class="flexitemv mainbox box mescroll"
-      id="mescroll"
-      v-if="is_member"
-    >
-      <mescroll-vue
-        ref="mescroll"
-        :down="mescrollDown"
-        :up="mescrollUp"
-        @init="mescrollInit"
-      >
+    <div class="flexitemv mainbox box mescroll" id="mescroll" v-if="is_member">
+      <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
         <div class="lists data-content">
-          <div
-            class="listbox"
-            v-for="(item, index) of dataList"
-            :key="index"
-          >
+          <div class="listbox" v-for="(item, index) of dataList" :key="index">
             <div class="flex lists">
               <div class="img">
-                <img
-                  class="fitimg"
-                  :src="item.cover"
-                />
+                <img class="fitimg" :src="item.cover"/>
               </div>
               <div class="flexitemv cont">
                 <h2 class="flexitemv">{{item.title}}</h2>
                 <div class="between base">
                   <span><em>{{item.created_at}}</em></span>
-                  <span><em>{{item.read_count}}</em>浏览</span>
+<!--                  <span><em>{{item.read_count}}</em>浏览</span>-->
                   <span class="flex center"><em>{{item.custom}}</em></span>
                 </div>
               </div>
-              <router-link
-                :to="'/article_detail/' + item.id + '/user'"
-                class="link"
-              ></router-link>
+              <router-link :to="'/article_detail/' + item.id + '/user'" class="link"></router-link>
             </div>
             <div class="flex details">
               <div class="flex center imgbox">
-                <div
-                  class="flex center userimg"
-                  v-for="(citem, cindex) of item.user"
-                  :key="cindex"
-                >
-                  <img
-                    :src="citem.avatar"
-                    class="fitimg"
-                    v-if="is_member"
-                  >
-                  <img
-                    src="../assets/image/avatar.png"
-                    class="fitimg"
-                    v-else
-                  >
+                <div class="flex center userimg" v-for="(citem, cindex) of item.user" :key="cindex">
+                  <img :src="citem.avatar" class="fitimg" v-if="is_member">
+                  <img src="../assets/image/avatar.png" class="fitimg" v-else>
                 </div>
               </div>
               <div class="flexitem endh lock">
-                <router-link
-                  :to="'/visitor/detail/' + item.id"
-                  class="flex center"
-                  v-if="is_member"
-                >
+                <router-link :to="'/visitor/detail/' + item.id" class="flex center" v-if="is_member">
                   谁看了？
                 </router-link>
-                <a
-                  href="javascript:;"
-                  class="flex center"
-                  v-else
-                  @click="notMember"
-                >
+                <a href="javascript:;" class="flex center" v-else @click="notMember">
                   谁看了？
                 </a>
               </div>
@@ -122,10 +66,7 @@
         <p>开通会员之后才能追踪用户,</p>
         <p>你已错过<span>很多</span>次跟进客户机会,</p>
         <p>还有多少机会可以继续错过?</p>
-        <router-link
-          to="/open_member"
-          class="toOpen"
-        >
+        <router-link to="/open_member" class="toOpen">
           立即开通会员
         </router-link>
       </div>
@@ -217,24 +158,27 @@ export default {
     // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
     upCallback(page, mescroll) {
       let _this = this;
-      let data = getVisitor({ page: page.num });
-      data
-        .then(response => {
+      getVisitor({ page: page.num }).then(response => {
           // 请求的列表数据
-          let arr = response.data;
-          // 如果是第一页需手动制空列表
-          if (page.num === 1) _this.dataList = [];
-          // 把请求到的数据添加到列表
-          this.dataList = _this.dataList.concat(arr);
-          // 数据渲染成功后,隐藏下拉刷新的状态
-          this.$nextTick(() => {
-            mescroll.endSuccess(arr.length);
-          });
+        let visitors = response.data;
+        visitors.forEach(function (visitor) {
+          if(visitor.product_id) {
+            visitor.cover = visitor.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')
+          }
         })
-        .catch(e => {
-          // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
-          mescroll.endErr();
+        // 如果是第一页需手动制空列表
+        if (page.num === 1) _this.dataList = [];
+        // 把请求到的数据添加到列表
+        this.dataList = _this.dataList.concat(visitors);
+        // 数据渲染成功后,隐藏下拉刷新的状态
+        this.$nextTick(() => {
+          mescroll.endSuccess(visitors.length);
         });
+      })
+      .catch(e => {
+        // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+        mescroll.endErr();
+      });
     },
     notMember() {
       Toast({

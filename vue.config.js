@@ -21,9 +21,9 @@ module.exports = {
   devServer: {
     host: "btl.yxcxin.com",
     // host: "127.0.0.1",
-    port: 80, // 端口号
-    https: false, // https:{type:Boolean}
-    open: true, //配置自动启动浏览器
+    port: 443, // 端口号
+    https: true, // https:{type:Boolean}
+    open: false, //配置自动启动浏览器
     // proxy: 'http://localhost:8080' ,// 配置跨域处理,只有一个代理
 
     // 配置多个代理

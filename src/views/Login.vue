@@ -20,7 +20,7 @@
           let redirect = this.$route.query.redirect
               ? this.$route.query.redirect
               : "";
-          let url = "http://btl.yxcxin.com?redirect=" + redirect;
+          let url = "https://btl.yxcxin.com?redirect=" + redirect;
           window.location.href =
               "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe910075ca3b12399&redirect_uri=" +
               url +
