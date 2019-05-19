@@ -1,21 +1,10 @@
 <template>
-  <div
-    class="loading"
-    v-if="!has_data"
-  >
+  <div class="loading" v-if="!has_data">
     <div class="loading-icon">
-      <fulfilling-bouncing-circle-spinner
-        :animation-duration="4000"
-        :size="60"
-        color="#ff1d5e"
-      />
+      <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e"/>
     </div>
   </div>
-  <div
-    id="open_test"
-    class="flexv wrap"
-    v-else
-  >
+  <div id="open_test" class="flexv wrap" v-else>
     <div class="flipbox">
       <div class="bor">
         <div class="flex centerv flip" v-for="(item, index) of order_list" :key="index">
@@ -28,11 +17,7 @@
     <div class="flexv member">
       <div class="title">会员类型</div>
       <div class="fwrap genrebox">
-        <div
-          class="flexv center list"
-          v-for="(item, index) of payments"
-          :key="index"
-          :class="{'commend': item.extension, 'current_border': item.id == list_active}"
+        <div class="flexv center list" v-for="(item, index) of payments" :key="index" :class="{'commend': item.extension, 'current_border': item.id == list_active}"
           @click="changeActive(item.id)"
         >
           <div class="flex center time"><span>{{item.month / 12}}</span>年会员权限</div>
@@ -44,26 +29,12 @@
     <div class="payment">
       <div class="title">支付方式</div>
       <div class="around paybox">
-        <div
-          class="flex center list"
-          :class="{current_border: pay_type_active === 1}"
-          @click="payTypeSelect(1)"
-        >
-          <i
-            class="flex center bls bls-wx-pay"
-            style="color:#45b638"
-          ></i>微信安全支付
+        <div class="flex center list" :class="{current_border: pay_type_active === 1}" @click="payTypeSelect(1)">
+          <i class="flex center bls bls-wx-pay" style="color:#45b638"></i>微信安全支付
           <div class="current"></div>
         </div>
-        <div
-          class="flex center list"
-          :class="{current_border: pay_type_active === 2}"
-          @click="payTypeSelect(2)"
-        >
-          <i
-            class="flex center bls bls-zfb-pay"
-            style="color:#1296db"
-          ></i>支付宝安全支付
+        <div class="flex center list" :class="{current_border: pay_type_active === 2}" v-if="!is_miniprogram" @click="payTypeSelect(2)">
+          <i class="flex center bls bls-zfb-pay" style="color:#1296db"></i>支付宝安全支付
           <div class="current"></div>
         </div>
       </div>
@@ -91,11 +62,7 @@
     <div class="flexitem end footer">
       <div class="between moneybox">
         <div class="money">应付金额：<span>¥ {{extension_payment.price}}</span></div>
-        <a
-          href="javascript:;"
-          class="flex center pay_btn"
-          @click="handlerPay"
-        >立即支付</a>
+        <a href="javascript:;" class="flex center pay_btn" @click="handlerPay">立即支付</a>
       </div>
     </div>
     <div class="alert buy-hint" v-if="pay_success">
@@ -138,7 +105,8 @@ export default {
       extension_payment: {},
       order_list: {},
       member_time: null,
-      timer: null
+      timer: null,
+      is_miniprogram: false
     };
   },
   computed: {
@@ -153,6 +121,10 @@ export default {
   activated() {
     this.wechatConfig()
     this.roll()
+    let _this = this
+    wx.miniProgram.getEnv(function (res) {
+      _this.is_miniprogram = res.miniprogram
+    })
   },
   methods: {
     getPayments() {
@@ -214,11 +186,19 @@ export default {
       let _this = this;
       wechatPay(_this.list_active, { pay_type: _this.pay_type_active })
         .then(function(res) {
-          if (res.pay_type === 2) {
+          if (res.pay_type === 2) {   //支付宝支付
             Indicator.close();
             _this.$router.push("/alipay/" + res.order_id);
-          } else if (res.pay_type === 1) {
-            _this.wechatPay(res);
+          } else if (res.pay_type === 1) {    //微信支付
+            if(_this.is_miniprogram) {   //判断是否是小程序
+              //点击微信支付后，调取统一下单接口生成微信小程序支付需要的支付参数
+              let params = 'timestamp=' + res.config.timestamp +'&nonceStr=' + res.config.nonceStr + '&package=' + res.config.signType + '&paySign=' + res.config.paySign,
+                  path = '/pages/pay?' + params; //定义path 与小程序的支付页面的路径相对应
+              Indicator.close();
+              wx.miniProgram.navigateTo({url: path});   //跳回小程序支付
+            } else {
+              _this.wechatPay(res);
+            }
           }
         })
         .catch(function(e) {
