@@ -192,7 +192,8 @@ export default {
           } else if (res.pay_type === 1) {    //微信支付
             if(_this.is_miniprogram) {   //判断是否是小程序
               //点击微信支付后，调取统一下单接口生成微信小程序支付需要的支付参数
-              let params = 'timestamp=' + res.config.timestamp +'&nonceStr=' + res.config.nonceStr + '&package=' + res.config.signType + '&paySign=' + res.config.paySign,
+              console.log(res.config)
+              let params = 'timestamp=' + res.config.timestamp +'&nonceStr=' + res.config.nonceStr + '&package=' + res.config.package.replace('prepay_id=', '') + '&paySign=' + res.config.paySign,
                   path = '/pages/pay?' + params; //定义path 与小程序的支付页面的路径相对应
               Indicator.close();
               wx.miniProgram.navigateTo({url: path});   //跳回小程序支付
