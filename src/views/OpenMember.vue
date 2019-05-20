@@ -106,7 +106,8 @@ export default {
       order_list: {},
       member_time: null,
       timer: null,
-      is_miniprogram: false
+      is_miniprogram: false,
+      miniprogram: 0
     };
   },
   computed: {
@@ -124,6 +125,9 @@ export default {
     let _this = this
     wx.miniProgram.getEnv(function (res) {
       _this.is_miniprogram = res.miniprogram
+      if(res.miniprogram) {
+        _this.miniprogram = 1
+      }
     })
   },
   methods: {
@@ -184,22 +188,18 @@ export default {
     handlerPay() {
       Indicator.open();
       let _this = this;
-      wechatPay(_this.list_active, { pay_type: _this.pay_type_active })
+      wechatPay(_this.list_active, { pay_type: _this.pay_type_active, is_miniprogram: _this.miniprogram })
         .then(function(res) {
           if (res.pay_type === 2) {   //支付宝支付
             Indicator.close();
             _this.$router.push("/alipay/" + res.order_id);
           } else if (res.pay_type === 1) {    //微信支付
-            if(_this.is_miniprogram) {   //判断是否是小程序
-              //点击微信支付后，调取统一下单接口生成微信小程序支付需要的支付参数
-              console.log(res.config)
-              let params = 'timestamp=' + res.config.timestamp +'&nonceStr=' + res.config.nonceStr + '&package=' + res.config.package.replace('prepay_id=', '') + '&paySign=' + res.config.paySign,
-                  path = '/pages/pay?' + params; //定义path 与小程序的支付页面的路径相对应
-              Indicator.close();
-              wx.miniProgram.navigateTo({url: path});   //跳回小程序支付
-            } else {
               _this.wechatPay(res);
-            }
+          } else if (res.pay_type === 3) {
+            //点击微信支付后，调取统一下单接口生成微信小程序支付需要的支付参数
+            Indicator.close();
+            let path = `/pages/pay?order_id=${res.order_id}&user_id=${res.user_id}`; //定义path 与小程序的支付页面的路径相对应
+            wx.miniProgram.navigateTo({url: path});   //跳回小程序支付
           }
         })
         .catch(function(e) {
