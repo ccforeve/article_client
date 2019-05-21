@@ -97,18 +97,19 @@ export default {
     // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
     upCallback(page, mescroll) {
       // 联网请求
-      let data = searchProduct({ search_key: this.key, page: page.num });
-      data
-        .then(response => {
+      searchProduct({ search_key: this.key, page: page.num }).then(response => {
           // 请求的列表数据
-          let arr = response.data;
+        let productList = response.data;
+        productList.forEach(function (product) {
+            product.cover = product.cover.replace('//img.lvye100.com', 'http://img.lvye100.com')
+        })
           // 如果是第一页需手动制空列表
           if (page.num === 1) this.dataList = [];
           // 把请求到的数据添加到列表
-          this.dataList = this.dataList.concat(arr);
+          this.dataList = this.dataList.concat(productList);
           // 数据渲染成功后,隐藏下拉刷新的状态
           this.$nextTick(() => {
-            mescroll.endSuccess(arr.length);
+            mescroll.endSuccess(productList.length);
           });
         })
         .catch(e => {

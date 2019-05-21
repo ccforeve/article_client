@@ -17,10 +17,9 @@
         if (this.$route.query.code) {
           this.login();
         } else {
-          let redirect = this.$route.query.redirect
-              ? this.$route.query.redirect
-              : "";
-          let url = "https://btl.yxcxin.com?redirect=" + redirect;
+          let redirect = this.$route.query.redirect ? this.$route.query.redirect : "",
+              unionid = this.$route.query.unionid ? this.$route.query.unionid : ""
+          let url = "https://btl.yxcxin.com?redirect=" + redirect + "&unionid=" + unionid;
           window.location.href =
               "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe910075ca3b12399&redirect_uri=" +
               url +
@@ -32,7 +31,7 @@
     },
     methods: {
       login() {
-        let login = userLogin({code: this.$route.query.code});
+        let login = userLogin({code: this.$route.query.code, unionid: this.$route.query.unionid});
         let vm = this;
         login.then(function (res) {
           localStorage.user = JSON.stringify(res)
