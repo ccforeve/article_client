@@ -134,6 +134,7 @@ export default {
       qrcode: null,
       qrcode_alert: false,
       timer: null,
+      is_miniprogram: false
     };
   },
   computed: {
@@ -142,6 +143,10 @@ export default {
     }
   },
   activated() {
+    let _this = this
+    wx.miniProgram.getEnv(function (res) {
+      _this.is_miniprogram = res.miniprogram
+    })
     this.has_data = false;
     this.show_qrcode_html = false;
     this.article_type = this.$route.params.type;
@@ -162,10 +167,10 @@ export default {
       } else if (this.article_type === "user") {
         data = getUserArticleDetail(id, { from: this.$route.query.from });
       }
-      let vm = this;
+      let _this = this;
       data.then(function (res) {
         let replace_detail = res.article.detail;
-        if (res.article.product_id) {
+        if (res.article.product_id) {   // 如果是产品文章，给图片链接加上http
           res.article.detail = replace_detail.replace(
             /\/\/img.lvye100.com/g,
             "http://img.lvye100.com"
@@ -176,17 +181,24 @@ export default {
             ""
           );
         }
-        vm.detail = res;
-        vm.product = res.product;
-        if (vm.moment(res.user.member_lock_at).isAfter(vm.moment())) {
-          vm.is_member = true;
+        // 如果是小程序打开的话去掉视频并提示
+        if (_this.is_miniprogram) {
+          res.article.detail = replace_detail.replace(
+              /<iframe("[^"]*"|'[^']*'|[^'">])*>/,
+              "<span style='display:block;text-align: center;font-size: 1.4rem;color: red'>小程序内暂不可播放视频</span>"
+          );
         }
-        vm.has_data = true;
+        _this.detail = res;
+        _this.product = res.product;
+        if (_this.moment(res.user.member_lock_at).isAfter(_this.moment())) {
+          _this.is_member = true;
+        }
+        _this.has_data = true;
         let footprint = res.footprint;
         if (footprint) {
-          vm.logTime(footprint);
+          _this.logTime(footprint);
         }
-        vm.wechatConfig();
+        _this.wechatConfig();
       });
     },
     askMe(url) {     //留言
