@@ -311,7 +311,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 #cash .cashes .disable{background: #eee;}
 #cash .tips{position: relative; height: 3rem;}
 #cash .tips:after{content: ''; position: absolute; top: 50%; left: 2rem; right: 2rem; height: 1px; background: #e1e1e1;}
-#cash .tips span{position: relative; z-index: 6; font-size: 1.3rem; color: #888; background: #f2f2f2; padding: 0 1rem;}
+#cash .tips span{position: relative; font-size: 1.3rem; color: #888; background: #f2f2f2; padding: 0 1rem;}
 #cash .tip{padding: 1rem 2rem; font-size: 1.3rem; color: #999;}
 #cash .tip p{margin-bottom: 0.8rem;}
 /******************************** 绑定账户 *****************************/
