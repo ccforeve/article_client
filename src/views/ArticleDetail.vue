@@ -61,6 +61,7 @@
         <span class="row last"></span>
         <span class="col last"></span>
       </div>
+      <router-link to="/turntable" class="flex center turntable">奖</router-link>
 
       <a class="flex center bls bls-kefu service" @click="askMe('/consultation/message/' + detail.user.id)"></a>
       <div class="flexv center text-box">
@@ -184,8 +185,8 @@ export default {
         // 如果是小程序打开的话去掉视频并提示
         if (_this.is_miniprogram) {
           res.article.detail = replace_detail.replace(
-              /<iframe("[^"]*"|'[^']*'|[^'">])*>/,
-              "<span style='display:block;text-align: center;font-size: 1.4rem;color: red'>小程序内暂不可播放视频</span>"
+            /<iframe("[^"]*"|'[^']*'|[^'">])*>/,
+            "<span style='display:block;text-align: center;font-size: 1.4rem;color: red'>小程序内暂不可播放视频</span>"
           );
         }
         _this.detail = res;
@@ -246,7 +247,7 @@ export default {
         }
       }
     },
-    close_qrcode_alert () {     //关闭二维码弹窗
+    close_qrcode_alert() {     //关闭二维码弹窗
       this.qrcode_alert = false
     },
     change() {    //完善信息后
@@ -277,7 +278,7 @@ export default {
           console.log(e);
         });
     },
-    getQrcode () {
+    getQrcode() {
       let _this = this
       _this.qrcode_alert = true
       getWechatQrcode(this.detail.user.id).then(function (res) {
@@ -393,5 +394,18 @@ body {
   border-radius: 2rem;
   letter-spacing: 0.2rem;
   font-size: 1.5rem;
+}
+.turntable{
+    position: fixed;
+    bottom: 33%;
+    right: 0;
+    width: 5rem;
+    height: 4rem;
+    padding-left: 0.5rem;
+    border-top-left-radius: 5rem;
+    border-bottom-left-radius: 5rem;
+    background: gold;
+    font-size: 2.5rem;
+    color: #fff;
 }
 </style>

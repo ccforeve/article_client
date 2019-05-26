@@ -10,9 +10,7 @@
   </div>
   <div id="focus" class="flexv wrap redbag" v-else>
     <div class="flexitemv mainbox datum">
-
       <user-center-header :center="center"></user-center-header>
-
       <div class="flipbox">
         <div class="bor">
           <div class="flex centerv flip" v-for="(item, index) of order_list">
@@ -21,9 +19,7 @@
           </div>
         </div>
       </div>
-
       <center-icons></center-icons>
-
       <center-posters :posters="posters"></center-posters>
     </div>
 

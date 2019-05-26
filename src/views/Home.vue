@@ -4,6 +4,7 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
+    <router-link to="/turntable" class="flex center turntable">奖</router-link>
     <!-- <router-link to="/productList?search_key=麦片" class="flex center renew">提交好文章</router-link> -->
   </div>
 </template>
@@ -69,8 +70,21 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .mescroll-totop {
   bottom: 75px !important;
+}
+.turntable{
+    position: fixed;
+    bottom: 28%;
+    right: 0;
+    width: 5rem;
+    height: 4rem;
+    padding-left: 0.5rem;
+    border-top-left-radius: 5rem;
+    border-bottom-left-radius: 5rem;
+    background: gold;
+    font-size: 2.5rem;
+    color: #fff;
 }
 </style>
