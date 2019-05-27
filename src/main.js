@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import "./assets/css/award.css"
+// import "./assets/css/award.css"
 import "./assets/css/base.css"
 import "./assets/css/icon.css"
 import "./assets/css/font/iconfont.css";

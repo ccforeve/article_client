@@ -24,9 +24,6 @@
     </div>
 
     <center-footer></center-footer>
-
-    <!--提示关注公众号-->
-    <!--<subscribe-alert @subscribe="subscribe" v-if="!is_subscribe"></subscribe-alert>-->
   </div>
 </template>
 
@@ -101,7 +98,6 @@
       },
       roll() {
         this.timer = setInterval(function roll() {
-          console.log('个人中心')
           var objh = $('.flip').height();
           $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({"height":objh+"px"},500));
         },2000);

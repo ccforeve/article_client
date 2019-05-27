@@ -6,7 +6,7 @@
       <img class="animated bounceIn img_2_2" src="../assets/image/img_2.png">
       <div class="kePublic">
         <!--转盘效果开始-->
-        <p class="last_num">剩余抽奖次数：{{last_num}}</p>
+        <p class="last_num">剩余抽奖次数：{{user.luck_draw}}</p>
         <div style="margin:0 auto">
           <div class="banner">
             <div class="turnplate">
@@ -24,10 +24,9 @@
       <!--------------滚动中奖纪录---------------->
       <div class="record_line" id="Marquee">
         <div class="boroll_box">
-          <div class="flip" v-for="(item, index) of order_list">
-            <div v-for="(itemLow, ind) of item">
-              恭喜 {{itemLow.nickname}} <span v-if="itemLow.phone">{{itemLow.phone}}</span> 的用户抽中 <span id="gift_coupon">{{itemLow.money}}</span>
-            </div>
+          <div class="flex centerv flip" v-for="(item, index) of draw_list" :key="index">
+            <i class="flex center bls bls-horn"></i>
+            恭喜 {{item.nickname}} <span v-if="item.phone">{{item.phone}}</span> 的用户抽中 <span id="gift_coupon">{{item.money}}</span>
           </div>
         </div>
       </div>
@@ -50,87 +49,33 @@
     </div>
 
     <!-------------中奖弹窗页面-------------->
-    <div class="zj-main" id="zj-main">
+    <div class="zj-main" id="zj-main" v-if="draw">
       <div class="txzl">
         <div class="zj_text">
-          中奖啦<br>恭喜获得<span id="jiangpin"></span>一份<br>可在我的钱包中查看
+          中奖啦<br>恭喜获得<span id="jiangpin">{{ prize }}</span>一份<br>可在我的钱包中查看
         </div>
-        <div class="close_zj">关闭</div>
+        <div class="close_zj" @click="closeDraw">关闭</div>
       </div>
     </div>
 
-    <!-------------谢谢参与弹窗-------------->
-    <div class="xxcy-main" id="xxcy-main">
-      <div class="xxcy">
-        <div class="xxcy_text">
-          很遗憾<br>没有抽中礼品
+    <div class="zj-main" v-if="!is_draw">
+      <div class="txzl">
+        <div class="zj_text">
+          没有抽奖机会
         </div>
-        <div class="close_xxcy">关闭</div>
+        <div class="close_zj" @click="closeDrawTip">关闭</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {Toast} from "mint-ui";
+import {judgeActivity, activityDraw, activityDrawStore} from "../api";
 export default {
   data() {
     return {
-      last_num: 3,
-      order_list: [
-        [{
-          id: 123,
-          nickname: "11111",
-          phone: '13507812335',
-          money: "999元现金红包"
-        },
-        {
-          id: 345,
-          nickname: "22222",
-          phone: '13507812335',
-          money: "200元县级红包"
-        },
-        {
-          id: 567,
-          nickname: "33333",
-          phone: '13507812335',
-          money: "5元现金红包"
-        }],
-        [{
-          id: 123,
-          nickname: "oooo",
-          phone: '13507812335',
-          money: "999元现金红包"
-        },
-        {
-          id: 345,
-          nickname: "ZqweJ",
-          phone: '13507812335',
-          money: "200元县级红包"
-        },
-        {
-          id: 567,
-          nickname: "kkk",
-          phone: '13507812335',
-          money: "5元现金红包"
-        }],
-        [{
-          id: 123,
-          nickname: "zxczxc",
-          phone: '13507812335',
-          money: "999元现金红包"
-        },
-        {
-          id: 345,
-          nickname: "zxczxczxc",
-          phone: '13507812335',
-          money: "200元县级红包"
-        },
-        {
-          id: 567,
-          nickname: "qweqweqw",
-          phone: '13507812335',
-          money: "5元现金红包"
-        }],
-      ],
+      prize: '',
+      draw_list: {},
       turnplate: {
         restaraunts: ["5元现金红包", "10元现金红包", "20元现金红包", "999元现金红包", "50元现金红包", "华为M5平板电脑", "5元现金红包", "10元现金红包", "华为P30 Pro"], //大转盘奖品名称
         colors: ["#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FFEB64"], //大转盘奖品区块对应背景颜色
@@ -140,43 +85,65 @@ export default {
         insideRadius: 65, //大转盘内圆的半径
         startAngle: 0, //开始角度
         bRotate: false //false:停止;ture:旋转
-      }
+      },
+      timer: null,
+      draw: false,
+      is_draw: false
+    }
+  },
+  activated() {
+    this.roll()
+    this.judgeActivity()
+    if(this.user.luck_draw) {
+      this.is_draw = true
     }
   },
   mounted() {
     this.initStart()
     this.start()
-    // this.roll()
+    this.activityDraw()
   },
-  activated() {
-    this.roll()
+  computed: {
+    user() {
+      return this.$store.state.user
+    }
   },
   methods: {
+    async judgeActivity() {
+      let _this = this
+      let activity = await judgeActivity()
+      if(activity.data) {
+        Toast({message: "活动尚未开始", duration: 1500});
+        setTimeout(function () {
+          _this.$router.push('/index')
+        }, 1500)
+      }
+    },
+    activityDraw() {
+      activityDraw().then(function (res) {
+        console.log(res)
+      })
+    },
     start() {
       var Mar = document.getElementById("Marquee");
       var child_div = Mar.getElementsByTagName("div")
-      var picH = 35; //移动高度 
-      var scrollstep = 3; //移动步幅,越大越快 
-      var scrolltime = 50; //移动频度(毫秒)越大越慢 
-      var stoptime = 3000; //间断时间(毫秒) 
+      var picH = 35; //移动高度
+      var scrollstep = 3; //移动步幅,越大越快
       var tmpH = 0;
       Mar.innerHTML += Mar.innerHTML;
       if (tmpH < picH) {
         tmpH += scrollstep;
         if (tmpH > picH) tmpH = picH;
         Mar.scrollTop = tmpH;
-        let funStart = this.start
-        setTimeout(funStart, stoptime);
       } else {
         tmpH = 0;
         Mar.appendChild(child_div[0]);
         Mar.scrollTop = 0;
-        let funStart = this.start
-        setTimeout(funStart, stoptime);
       }
     },
-    //旋转转盘 item:奖品位置; txt：提示语;
+    //旋转转盘 item:奖品位置; txt：提示语
     rotateFn(item, txt, data) {
+      let _this = this
       var turnplate = this.turnplate
       var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length * 2));
       if (angles < 270) {
@@ -190,65 +157,45 @@ export default {
         animateTo: angles + 1800,
         duration: 6000,
         callback: function () {
-          $("#zj-main").fadeIn();
-          var resultTxt = txt.replace(/[\r\n]/g, ""); //去掉回车换行
-          $("#jiangpin").text(data.msg);
-          save();
+          activityDrawStore({prize: item}).then(function (res) {
+            console.log(res)
+            let new_user = JSON.parse(localStorage.user);
+            new_user.luck_draw = new_user.luck_draw - 1;
+            localStorage.user = JSON.stringify(new_user);
+            _this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
+            _this.prize = txt
+            _this.tip = true
+          })
           turnplate.bRotate = !turnplate.bRotate;
         }
       });
     },
-    theEnd() {
-      $('#tupBtn').unbind('click'); //提交成功解除点击事件。   
-      return 2;
-    },
     roll() {
-      this.timer = setInterval(function roll() {
-        console.log('个人中心')
-        var objh = $('.flip').height();
-        $("#Marquee .boroll_box").append($("#Marquee .boroll_box .flip").first().height(0).animate({ "height": objh + "px" }, 500));
+      this.timer = setInterval(function () {
+        // var objh = $('.flip').height();
+        // $("#Marquee .boroll_box").append($("#Marquee .boroll_box .flip").first().height(0).animate({ "height": objh + "px" }, 1500));
       }, 2000);
     },
     initStart() {
-      var turnplate = this.turnplate
       var Mar = document.getElementById("Marquee");
-      var child_div = Mar.getElementsByTagName("div")
-      var picH = 35; //移动高度 
-      var scrollstep = 3; //移动步幅,越大越快 
-      var scrolltime = 50; //移动频度(毫秒)越大越慢 
-      var stoptime = 3000; //间断时间(毫秒) 
-      var tmpH = 0;
+      var stoptime = 3000; //间断时间(毫秒)
       Mar.innerHTML += Mar.innerHTML;
       let funStart = this.start
       setTimeout(funStart, stoptime);
-      /********弹窗页面控制**********/
-      $('.close_zj').click(function () {
-        $('#zj-main').fadeOut();
-        $('#tx-main').fadeIn(); //提醒框显示
-        //判断用户是否确认放弃
-        $(".do").click(function () { //点确认就默认放弃
-          $('#tx-main').fadeOut();
-          this.theEnd();
-          // save();
-        });
-        $(".not_do").click(function () { //点取消就回到提交页面
-          $('#tx-main').fadeOut();
-          $('#zj-main').fadeIn();
-        });
-
-        $('#ml-main').fadeIn();
-
-      });
-
-      $('.close_xxcy').click(function () {
-        $('#xxcy-main').fadeOut();
-      });
-
-      /********抽奖开始**********/
+      /********开始画抽奖图**********/
       this.drawRouletteWheel()
-
+    },
+    closeDraw () {
+      this.draw = false
+    },
+    closeDrawTip() {
+      this.is_draw = true
     },
     tupBtn() {
+      if(this.user.luck_draw <= 0) {
+        this.is_draw = false
+        return
+      }
       var turnplate = {
         restaraunts: ["5元现金红包", "10元现金红包", "20元现金红包", "999元现金红包", "50元现金红包", "华为M5平板电脑", "5元现金红包", "10元现金红包", "华为P30 Pro"], //大转盘奖品名称
         colors: ["#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FFEB64"], //大转盘奖品区块对应背景颜色
@@ -258,15 +205,6 @@ export default {
         insideRadius: 65, //大转盘内圆的半径
         startAngle: 0, //开始角度
         bRotate: false //false:停止;ture:旋转
-      }
-      var gamed = $("#gamed").val();
-      var gameState = $("#gameState").val();
-      var cardCode = $("#cardCode").val();
-      var mId = $("#mId").val();
-      if (gamed == 1) {
-        $(".xxcy_text").html("今日抽奖次数已用完<br>每天分享可以增加一次抽奖机会");
-        $("#xxcy-main").fadeIn();
-        return;
       }
       if (turnplate.bRotate) return;
       turnplate.bRotate = !turnplate.bRotate;
@@ -288,7 +226,7 @@ export default {
         var ctx = canvas.getContext("2d");
         //在给定矩形内清空一个矩形
         ctx.clearRect(0, 0, 516, 516);
-        //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式  
+        //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
         ctx.strokeStyle = "#FFBE04";
         //font 属性设置或返回画布上文本内容的当前字体属性
         ctx.font = 'bold 22px Microsoft YaHei';
@@ -296,7 +234,7 @@ export default {
           var angle = turnplate.startAngle + i * arc;
           ctx.fillStyle = turnplate.colors[i];
           ctx.beginPath();
-          //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）    
+          //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
           ctx.arc(258, 258, turnplate.outsideRadius, angle, angle + arc, false);
           ctx.arc(258, 258, turnplate.insideRadius, angle + arc, angle, true);
           ctx.stroke();
@@ -311,43 +249,40 @@ export default {
           var line_height = 30;
           //translate方法重新映射画布上的 (0,0) 位置
           ctx.translate(258 + Math.cos(angle + arc / 2) * turnplate.textRadius, 258 + Math.sin(angle + arc / 2) * turnplate.textRadius);
-
           //rotate方法旋转当前的绘图
           ctx.rotate(angle + arc / 2 + Math.PI / 2);
-
           /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
           if (text.indexOf("\n") > 0) { //换行
             var texts = text.split("\n");
             for (var j = 0; j < texts.length; j++) {
               ctx.font = j == 0 ? '22px Microsoft YaHei' : '22px Microsoft YaHei';
-              //ctx.fillStyle = j == 0?'#FFFFFF':'#FFFFFF';
               if (j == 0) {
-                //ctx.fillText(texts[j]+"M", -ctx.measureText(texts[j]+"M").width / 2, j * line_height);
                 ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
               } else {
                 ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
               }
             }
-          } else if (text.indexOf("\n") == -1 && text.length > 6) { //奖品名称长度超过一定范围 
+          } else if (text.indexOf("\n") == -1 && text.length > 6) { //奖品名称长度超过一定范围
             text = text.substring(0, 6) + "||" + text.substring(6);
             var texts = text.split("||");
             for (var j = 0; j < texts.length; j++) {
               ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
             }
           } else {
-
             //在画布上绘制填色的文本。文本的默认颜色是黑色
-            //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
             ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
           }
-
-          //把当前画布返回（调整）到上一个save()状态之前 
+          //把当前画布返回（调整）到上一个save()状态之前
           ctx.restore();
           //----绘制奖品结束----
         }
       }
     }
-  }
+  },
+  beforeRouteLeave(to, from, next) {
+    clearInterval(this.timer);
+    next();
+  },
 }
 </script>
 <style scoped>
@@ -377,6 +312,210 @@ export default {
   position: absolute;
   width: 100%;
 }
+
+/*****抽奖页面****/
+.ml-main {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #F82D2B;
+  position: absolute;
+  *zoom: 1;
+  z-index: 1;
+  left: center;
+  top: 0;
+  overflow: scroll;
+}
+
+.main_back {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.img_2_1 {
+  width: 60vw;
+  position: absolute;
+  top: 6vw;
+  left: 22vw;
+  animation-delay: 0.25s;
+  animation-duration: 1s;
+  z-index: 2;
+}
+
+.img_2_2 {
+  width: 15vw;
+  position: absolute;
+  top: 15vw;
+  right: 3vw;
+  animation-delay: 0.5s;
+  animation-duration: 1s;
+  z-index: 2;
+}
+
+.ml-main .kePublic {
+  width: 80%;
+  height: auto;
+  position: absolute;
+  top: 69vw;
+  left: 10%;
+  z-index: 999;
+}
+
+.bottom_shadow {
+  width: 50vw;
+  position: absolute;
+  top: 139vw;
+  left: 25vw;
+  z-index: 1;
+}
+
+.kePublic_back {
+  width: 85vw;
+  position: absolute;
+  top: 72vw;
+  left: 6vw;
+  z-index: 2;
+}
+
+.record_line {
+  width: 90vw;
+  height: 8vw;
+  position: relative;
+  overflow: hidden;
+  top: 154vw;
+  left: 5vw;
+  line-height: 8vw;
+  font-size: 3vw;
+  color: #EECFCF;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 2;
+}
+
+.record_line div {
+  overflow: hidden;
+}
+
+#gift_coupon {
+  color: #F3D008;
+}
+
+.rule_title {
+  width: 40vw;
+  position: absolute;
+  top: 182vw;
+  left: 30vw;
+  z-index: 2;
+}
+
+/* 大转盘样式 */
+.banner {
+  display: block;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.banner .turnplate {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.banner .turnplate canvas.item {
+  width: 100%;
+}
+
+.banner .turnplate #tupBtn {
+  position: absolute;
+  width: 27.5%;
+  height: 33.5%;
+  left: 36%;
+  top: 30.5%;
+  border: 0;
+  background: none;
+}
+
+.banner .turnplate img {
+  width: 100%;
+  height: auto;
+}
+/*******中奖页面*******/
+
+.zj-main {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  background-size: 100% 100%;
+  position: absolute;
+  overflow: hidden;
+  *zoom: 1;
+  z-index: 10;
+  left: center;
+  top: 0;
+}
+
+.zj-main .txzl {
+  width: 70%;
+  height: auto;
+  position: absolute;
+  top: 28%;
+  left: 15%;
+  background: white;
+  border-radius: 5px;
+  color: #7A312D;
+  text-align: center;
+  font-size: 4vw;
+  line-height: 6vw;
+}
+
+.zj-main .txzl .zj_text {
+  margin: 6vw auto;
+}
+
+.zj-main .close_zj {
+  width: 25vw;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 5vw;
+  line-height: 9vw;
+  color: #E1CE85;
+  background: #BA2D1C;
+  border-radius: 5px;
+  font-size: 4vw;
+}
+
+@media (min-width:320px) and (max-width:359px) {
+  html {
+    font-size: 31% !important
+  }
+}
+
+@media (min-width:360px) and (max-width:399px) {
+  html {
+    font-size: 36% !important
+  }
+}
+
+@media (min-width:400px) and (max-width:479px) {
+  html {
+    font-size: 40% !important
+  }
+}
+
+@media (min-width:480px) and (max-width:639px) {
+  html {
+    font-size: 49% !important
+  }
+}
+
 </style>
 
 

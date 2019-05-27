@@ -23,8 +23,9 @@
       <div class="flex center tips"><span>温馨提示</span></div>
       <div class="tip">
         <p>1、单次提现需大于100，最多200元</p>
-        <p>2、提现金额最晚在下一个工作日24:00之前到账</p>
-<!--        <p>3、周六、周日与节假日顺延至下一个工作日！</p>-->
+        <p>2、提现成功请前往事业分享公众号领取红包</p>
+        <p>3、提现金额最晚在下一个工作日24:00之前到账</p>
+        <p>4、如提现失败，请添加客服微信号进行提现</p>
       </div>
     </div>
     <!--客服微信-->
@@ -124,7 +125,7 @@
                   _this.$store.commit("updateSurplusProfit", _this.surplus_profit - surplus_profit);
                 }).catch(function (e) {
                   Indicator.close();
-                  Toast({message: e.msg, duration: 1500});
+                  Toast({message: e.msg, duration: 2000});
                   _this.$store.commit("updateSurplusProfit", _this.surplus_profit - surplus_profit);
                 });
               layer.close(index);
@@ -140,4 +141,5 @@
 <style scoped>
   @import "../../assets/css/layer.css";
   #app{height: 100% !important;}
+  .kf-qrcode{top: 80% !important;}
 </style>

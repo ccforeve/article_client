@@ -220,6 +220,18 @@ export const updateArticleShareCount = (article_id) => {    //更新分享文章
   return request('patch', '/articles/' + article_id)
 }
 
+export const judgeActivity = () => {    //判断活动是否开始
+  return request('get', '/activity/judge')
+}
+
+export const activityDrawStore = (data) => {    //写入抽中的奖品
+  return request('post', '/activity/draws', data)
+}
+
+export const activityDraw = () => {    //抽中奖品列表
+  return request('get', '/activity/draws')
+}
+
 
 
 

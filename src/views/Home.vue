@@ -4,7 +4,7 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-    <router-link to="/turntable" class="flex center turntable">奖</router-link>
+    <router-link to="/turntable" class="flex center turntable" v-if="is_activity || user.id === 50 || user.id === 42">奖</router-link>
     <!-- <router-link to="/productList?search_key=麦片" class="flex center renew">提交好文章</router-link> -->
   </div>
 </template>
@@ -14,6 +14,7 @@
 import ArticleList from "@/components/index/ArticleList.vue";
 import IndexFooter from "@/components/common/Footer.vue";
 import PerfectInformation from "@/components/common/PerfectInformation.vue";
+import {judgeActivity} from "../api";
 import wx from "weixin-js-sdk";
 export default {
   name: "home",
@@ -24,7 +25,8 @@ export default {
   },
   data() {
     return {
-      is_miniprogram: false
+      is_miniprogram: false,
+      is_activity: false,
     }
   },
   computed: {
@@ -33,8 +35,9 @@ export default {
     }
   },
   activated() {
-    this.wechatConfig();
     let _this = this
+    _this.wechatConfig()
+    _this.judgeActivity()
     wx.miniProgram.getEnv(function (res) {
       _this.is_miniprogram = res.miniprogram
     })
@@ -46,6 +49,10 @@ export default {
     next();
   },
   methods: {
+    async judgeActivity() {
+      let activity = await judgeActivity()
+      this.is_activity = activity.data
+    },
     wechatConfig() {
       //微信jssdk
       wx.ready(function() {
