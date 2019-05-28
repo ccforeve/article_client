@@ -61,7 +61,11 @@
         <span class="row last"></span>
         <span class="col last"></span>
       </div>
-      <router-link to="/turntable" class="flex center turntable">奖</router-link>
+      <router-link
+              to="/turntable"
+              class="flex center turntable"
+              v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
+      >奖</router-link> <!---v-if="is_activity"--->
 
       <a class="flex center bls bls-kefu service" @click="askMe('/consultation/message/' + detail.user.id)"></a>
       <div class="flexv center text-box">
@@ -109,7 +113,8 @@ import {
   updateReadTime,
   shareUserArticle,
   getWechatQrcode,
-  updateArticleShareCount
+  updateArticleShareCount,
+  judgeActivity
 } from "../api.js";
 import { FulfillingBouncingCircleSpinner } from "epic-spinners";
 import wx from "weixin-js-sdk";
@@ -135,7 +140,8 @@ export default {
       qrcode: null,
       qrcode_alert: false,
       timer: null,
-      is_miniprogram: false
+      is_miniprogram: false,
+      is_activity: false    //是否活动期间
     };
   },
   computed: {
@@ -161,6 +167,10 @@ export default {
     next();
   },
   methods: {
+    async judgeActivity() {
+      let activity = await judgeActivity()
+      this.is_activity = activity.data
+    },
     getDetail(id) {
       let data = [];
       if (this.article_type === "public") {

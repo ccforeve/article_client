@@ -46,10 +46,10 @@ Axios.interceptors.response.use(
           }, 1000)
         }
         if (res.code === 500) {      //操作时检测登录是否过期
-          Toast({message: '服务器错误，请联系管理员', duration: 1000})
+          Toast({message: '服务器错误，请联系管理员', duration: 2000})
           setTimeout(function () {
             router.push({path: '/'})
-          }, 1000)
+          }, 2000)
         }
         if(errors) {
           return Promise.reject(errors)

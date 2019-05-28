@@ -155,8 +155,8 @@
         }).catch((e) => {
           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
           mescroll.endErr()
-          Toast({message: '成为会员即可查看', duration: 1000})
-          setTimeout(function () {_this.$router.push('/open_member')}, 1000)
+          Toast({message: '成为会员即可查看', duration: 2000})
+          setTimeout(function () {_this.$router.push('/open_member')}, 2000)
         })
       },
       update () {

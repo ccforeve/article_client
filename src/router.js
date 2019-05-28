@@ -416,13 +416,14 @@ function config(url) {
     url: url
   }).then(function (res) {
     let config = res.config,
-      user = res.user
+      user = res.user;
     let new_user = JSON.parse(localStorage.user);
     new_user.member_lock_at = user.member_lock_at;
     new_user.is_member = user.is_member;
     new_user.avatar = user.avatar
     new_user.wechat_qrcode = user.qrcode
     new_user.is_subscribe = user.subscribe
+    new_user.luck_draw = user.luck_draw
     localStorage.user = JSON.stringify(new_user);
     store.commit("setTokenAndUser", JSON.parse(localStorage.user));
     wx.config({

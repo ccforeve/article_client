@@ -4,8 +4,12 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-    <router-link to="/turntable" class="flex center turntable" v-if="is_activity || user.id === 50 || user.id === 42">奖</router-link>
-    <!-- <router-link to="/productList?search_key=麦片" class="flex center renew">提交好文章</router-link> -->
+    <router-link
+            to="/turntable"
+            class="flex center turntable"
+            v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
+    >奖</router-link><!---v-if="is_activity"--->
+
   </div>
 </template>
 

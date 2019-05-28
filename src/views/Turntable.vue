@@ -34,16 +34,17 @@
       <img class="rule_title" src="../assets/image/rule_title.png">
       <!-- 抽奖规则说明 -->
       <div class="rule_message">
-        <p>* 1 活动时间：2019年6月6号 -- 2019年6月16号</p>
-        <p>* 2 参与群体：本次活动针对群体为事业分享网站付费会员。抽奖次数为：一年会员/一次，两年会员/两次，五年会员/三次。续费根据客户后续续费年限增加抽奖次数</p>
+        <p>* 1、活动时间：2019年6月6号 -- 2019年6月16号</p>
+        <p>* 2、参与群体：本次活动针对群体为事业分享网站付费会员。抽奖次数为：一年会员/一次，两年会员/两次，五年会员/三次。续费根据客户后续续费年限增加抽奖次数</p>
         <p></p>
-        <p>* 3 活动奖品：</p>
+        <p>* 3、活动奖品：</p>
         <p>一等奖：华为P30 Pro 521G(麒麟980) 价值6788元 10份</p>
         <p>二等奖：华为M5平板 青春版 64G 价值1899元 20份</p>
         <p>三等奖：现金红包 999元 50份</p>
         <p>幸运奖： 20元/10元/5元现金红包送不停</p>
         <p></p>
-        <p>* 4 领奖方式：中将之后会弹出工作人员微信二维码。请长按二维码扫描添加，出示您得获奖信息，待工作人员核实之后为您发放奖品。</p>
+        <p>* 4、实物领奖方式：中奖之后会弹出工作人员微信二维码。请长按二维码扫描添加，出示您得获奖信息，待工作人员核实之后为您发放奖品。</p>
+        <p>* 5、三等奖和幸运奖领奖方式：中奖之后公众号会发送微信红包，请尽快领取红包，否则24小时之后红包过期，如未接收到红包，请联系客服。</p>
         <p style="text-align: right;margin-top: 1.5rem;">活动最终解释权归事业分享工作室所有。</p>
       </div>
     </div>
@@ -51,9 +52,7 @@
     <!-------------中奖弹窗页面-------------->
     <div class="zj-main" id="zj-main" v-if="draw">
       <div class="txzl">
-        <div class="zj_text">
-          中奖啦<br>恭喜获得<span id="jiangpin">{{ prize }}</span>一份<br>可在我的钱包中查看
-        </div>
+        <div class="zj_text" v-html="prize"></div>
         <div class="close_zj" @click="closeDraw">关闭</div>
       </div>
     </div>
@@ -71,11 +70,12 @@
 <script>
 import {Toast} from "mint-ui";
 import {judgeActivity, activityDraw, activityDrawStore} from "../api";
+import {wechatConfig} from "../cookie.js";
 export default {
   data() {
     return {
-      prize: '',
-      draw_list: {},
+      prize: '',    // 奖品
+      draw_list: {},  // 滚动获奖列表
       turnplate: {
         restaraunts: ["5元现金红包", "10元现金红包", "20元现金红包", "999元现金红包", "50元现金红包", "华为M5平板电脑", "5元现金红包", "10元现金红包", "华为P30 Pro"], //大转盘奖品名称
         colors: ["#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FFEB64"], //大转盘奖品区块对应背景颜色
@@ -86,17 +86,16 @@ export default {
         startAngle: 0, //开始角度
         bRotate: false //false:停止;ture:旋转
       },
-      timer: null,
-      draw: false,
-      is_draw: false
+      timer: null,  // 定时器
+      draw: false,  // 奖品弹窗
+      is_draw: true,  // 抽奖次数弹窗
+      is_start: true,  // 是否可以抽奖
     }
   },
   activated() {
     this.roll()
     this.judgeActivity()
-    if(this.user.luck_draw) {
-      this.is_draw = true
-    }
+    wechatConfig()
   },
   mounted() {
     this.initStart()
@@ -112,7 +111,8 @@ export default {
     async judgeActivity() {
       let _this = this
       let activity = await judgeActivity()
-      if(activity.data) {
+      if(!activity.data) {
+        _this.is_start = false
         Toast({message: "活动尚未开始", duration: 1500});
         setTimeout(function () {
           _this.$router.push('/index')
@@ -158,13 +158,13 @@ export default {
         duration: 6000,
         callback: function () {
           activityDrawStore({prize: item}).then(function (res) {
-            console.log(res)
-            let new_user = JSON.parse(localStorage.user);
-            new_user.luck_draw = new_user.luck_draw - 1;
-            localStorage.user = JSON.stringify(new_user);
-            _this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
-            _this.prize = txt
-            _this.tip = true
+            _this.prize = '中奖啦<br>恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+            _this.draw = true
+            _this.is_start = true
+          }).catch(function (e) {
+            _this.prize = e.msg
+            _this.draw = true
+            _this.is_start = true
           })
           turnplate.bRotate = !turnplate.bRotate;
         }
@@ -192,24 +192,35 @@ export default {
       this.is_draw = true
     },
     tupBtn() {
-      if(this.user.luck_draw <= 0) {
+      if(!this.is_start) {
+        return;
+      }
+      if(this.user.luck_draw <= 0) {    // 没有抽奖次数
         this.is_draw = false
         return
       }
+      this.is_start = false
+      // 抽奖次数减一
+      let new_user = JSON.parse(localStorage.user);
+      new_user.luck_draw = new_user.luck_draw - 1;
+      localStorage.user = JSON.stringify(new_user);
+      this.$store.commit("setTokenAndUser", JSON.parse(localStorage.user));
+
       var turnplate = {
-        restaraunts: ["5元现金红包", "10元现金红包", "20元现金红包", "999元现金红包", "50元现金红包", "华为M5平板电脑", "5元现金红包", "10元现金红包", "华为P30 Pro"], //大转盘奖品名称
-        colors: ["#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FFEB64"], //大转盘奖品区块对应背景颜色
+        restaraunts: this.turnplate.restaraunts, //大转盘奖品名称
+        colors: this.turnplate.colors, //大转盘奖品区块对应背景颜色
         //fontcolors:[],				//大转盘奖品区块对应文字颜色
-        outsideRadius: 222, //大转盘外圆的半径
-        textRadius: 165, //大转盘奖品位置距离圆心的距离
-        insideRadius: 65, //大转盘内圆的半径
-        startAngle: 0, //开始角度
-        bRotate: false //false:停止;ture:旋转
+        outsideRadius: this.turnplate.outsideRadius, //大转盘外圆的半径
+        textRadius: this.turnplate.textRadius, //大转盘奖品位置距离圆心的距离
+        insideRadius: this.turnplate.insideRadius, //大转盘内圆的半径
+        startAngle: this.turnplate.startAngle, //开始角度
+        bRotate: this.turnplate.bRotate //false:停止;ture:旋转
       }
-      if (turnplate.bRotate) return;
-      turnplate.bRotate = !turnplate.bRotate;
+      console.log(turnplate.bRotate)
+      // if (turnplate.bRotate) return;
+      // turnplate.bRotate = !turnplate.bRotate;
       // 随机抽取
-      var arr = [0, 1, 2, 7, 6, 0, 1]
+      var arr = [0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 1, 1, 7, 2]
       var index = Math.floor((Math.random() * arr.length));
       var item = arr[index];
       var data = {
