@@ -65,7 +65,7 @@
               to="/turntable"
               class="flex center turntable"
               v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
-      >奖</router-link> <!---v-if="is_activity"--->
+      ></router-link> <!---v-if="is_activity"--->
 
       <a class="flex center bls bls-kefu service" @click="askMe('/consultation/message/' + detail.user.id)"></a>
       <div class="flexv center text-box">
@@ -405,17 +405,18 @@ body {
   letter-spacing: 0.2rem;
   font-size: 1.5rem;
 }
-.turntable{
-    position: fixed;
-    bottom: 33%;
-    right: 0;
-    width: 5rem;
-    height: 4rem;
-    padding-left: 0.5rem;
-    border-top-left-radius: 5rem;
-    border-bottom-left-radius: 5rem;
-    background: gold;
-    font-size: 2.5rem;
-    color: #fff;
+.turntable {
+  position: fixed;
+  bottom: 28%;
+  right: 0;
+  width: 5.4rem;
+  height: 6rem;
+  padding-left: 0.5rem;
+  background-image: url(../assets/image/low.gif);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-color: #f95c49;
+  border: 1px solid #f95c49;
+  font-size: 2.5rem;
 }
 </style>

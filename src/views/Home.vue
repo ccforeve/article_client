@@ -4,11 +4,8 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-    <router-link
-            to="/turntable"
-            class="flex center turntable"
-            v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
-    >奖</router-link><!---v-if="is_activity"--->
+    <router-link to="/turntable" class="flex center turntable" v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"></router-link>
+    <!---v-if="is_activity"--->
 
   </div>
 </template>
@@ -18,7 +15,7 @@
 import ArticleList from "@/components/index/ArticleList.vue";
 import IndexFooter from "@/components/common/Footer.vue";
 import PerfectInformation from "@/components/common/PerfectInformation.vue";
-import {judgeActivity} from "../api";
+import { judgeActivity } from "../api";
 import wx from "weixin-js-sdk";
 export default {
   name: "home",
@@ -47,7 +44,7 @@ export default {
     })
   },
   beforeRouteLeave(to, from, next) {
-    if(to.path === '/' && this.is_miniprogram) {
+    if (to.path === '/' && this.is_miniprogram) {
       wx.miniProgram.navigateBack()
     }
     next();
@@ -59,13 +56,13 @@ export default {
     },
     wechatConfig() {
       //微信jssdk
-      wx.ready(function() {
+      wx.ready(function () {
         //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({
           title: "欢迎进入绿叶事业", // 分享标题
           link: "http://btl.yxcxin.com/index", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg", // 分享图标
-          success: function() {
+          success: function () {
             // 用户点击了分享后执行的回调函数
           }
         });
@@ -85,17 +82,18 @@ export default {
 .mescroll-totop {
   bottom: 75px !important;
 }
-.turntable{
-    position: fixed;
-    bottom: 28%;
-    right: 0;
-    width: 5rem;
-    height: 4rem;
-    padding-left: 0.5rem;
-    border-top-left-radius: 5rem;
-    border-bottom-left-radius: 5rem;
-    background: gold;
-    font-size: 2.5rem;
-    color: #fff;
+.turntable {
+  position: fixed;
+  bottom: 28%;
+  right: 0;
+  width: 5.4rem;
+  height: 6rem;
+  padding-left: 0.5rem;
+  background-image: url(../assets/image/low.gif);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-color: #f95c49;
+  border: 1px solid #f95c49;
+  font-size: 2.5rem;
 }
 </style>

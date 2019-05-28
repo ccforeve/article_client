@@ -26,7 +26,7 @@
         <div class="boroll_box">
           <div class="flex centerv flip" v-for="(item, index) of draw_list" :key="index">
             <i class="flex center bls bls-horn"></i>
-            恭喜 {{item.nickname}} <span v-if="item.phone">{{item.phone}}</span> 的用户抽中 <span id="gift_coupon">{{item.money}}</span>
+            恭喜 {{item.name.length > 4 ? item.name.substr(0, 4) + '..' : item.name}} <span v-if="item.phone">{{item.phone.replace(/^(\d{4})\d{4}(\d+)/,"$1****$2")}}</span> 的用户抽中 <span id="gift_coupon">{{item.prize}}</span>
           </div>
         </div>
       </div>
@@ -52,8 +52,9 @@
     <!-------------中奖弹窗页面-------------->
     <div class="zj-main" id="zj-main" v-if="draw">
       <div class="txzl">
+        <img style="width:100%" src="../assets/image/zhongjiangBg.jpg">
         <div class="zj_text" v-html="prize"></div>
-        <div class="close_zj" @click="closeDraw">关闭</div>
+        <div class="close_zj" @click="closeDraw">确定</div>
       </div>
     </div>
 
@@ -62,20 +63,20 @@
         <div class="zj_text">
           没有抽奖机会
         </div>
-        <div class="close_zj" @click="closeDrawTip">关闭</div>
+        <div class="close_zj" @click="closeDrawTip">确定</div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {Toast} from "mint-ui";
-import {judgeActivity, activityDraw, activityDrawStore} from "../api";
-import {wechatConfig} from "../cookie.js";
+import { Toast } from "mint-ui";
+import { judgeActivity, activityDraw, activityDrawStore } from "../api";
+import { wechatConfig } from "../cookie.js";
 export default {
   data() {
     return {
       prize: '',    // 奖品
-      draw_list: {},  // 滚动获奖列表
+      draw_list: [],  // 滚动获奖列表
       turnplate: {
         restaraunts: ["5元现金红包", "10元现金红包", "20元现金红包", "999元现金红包", "50元现金红包", "华为M5平板电脑", "5元现金红包", "10元现金红包", "华为P30 Pro"], //大转盘奖品名称
         colors: ["#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FBDB00", "#FACA00", "#FFEB64"], //大转盘奖品区块对应背景颜色
@@ -92,6 +93,9 @@ export default {
       is_start: true,  // 是否可以抽奖
     }
   },
+  created() {
+    this.activityDraw()
+  },
   activated() {
     this.roll()
     this.judgeActivity()
@@ -99,8 +103,7 @@ export default {
   },
   mounted() {
     this.initStart()
-    this.start()
-    this.activityDraw()
+    // this.activityDraw()
   },
   computed: {
     user() {
@@ -111,35 +114,21 @@ export default {
     async judgeActivity() {
       let _this = this
       let activity = await judgeActivity()
-      if(!activity.data) {
+      if (!activity.data) {
         _this.is_start = false
-        Toast({message: "活动尚未开始", duration: 1500});
+        Toast({ message: "活动尚未开始", duration: 1500 });
         setTimeout(function () {
           _this.$router.push('/index')
         }, 1500)
       }
     },
     activityDraw() {
+      let _this = this
       activityDraw().then(function (res) {
+        // debugger
         console.log(res)
+        _this.draw_list = res
       })
-    },
-    start() {
-      var Mar = document.getElementById("Marquee");
-      var child_div = Mar.getElementsByTagName("div")
-      var picH = 35; //移动高度
-      var scrollstep = 3; //移动步幅,越大越快
-      var tmpH = 0;
-      Mar.innerHTML += Mar.innerHTML;
-      if (tmpH < picH) {
-        tmpH += scrollstep;
-        if (tmpH > picH) tmpH = picH;
-        Mar.scrollTop = tmpH;
-      } else {
-        tmpH = 0;
-        Mar.appendChild(child_div[0]);
-        Mar.scrollTop = 0;
-      }
     },
     //旋转转盘 item:奖品位置; txt：提示语
     rotateFn(item, txt, data) {
@@ -157,8 +146,8 @@ export default {
         animateTo: angles + 1800,
         duration: 6000,
         callback: function () {
-          activityDrawStore({prize: item}).then(function (res) {
-            _this.prize = '中奖啦<br>恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+          activityDrawStore({ prize: item }).then(function (res) {
+            _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
             _this.draw = true
             _this.is_start = true
           }).catch(function (e) {
@@ -172,30 +161,25 @@ export default {
     },
     roll() {
       this.timer = setInterval(function () {
-        // var objh = $('.flip').height();
-        // $("#Marquee .boroll_box").append($("#Marquee .boroll_box .flip").first().height(0).animate({ "height": objh + "px" }, 1500));
+        var objh = $('.flip').height();
+        $("#Marquee .boroll_box").append($("#Marquee .boroll_box .flip").first().height(0).animate({ "height": objh + "px" }, 500));
       }, 2000);
     },
     initStart() {
-      var Mar = document.getElementById("Marquee");
-      var stoptime = 3000; //间断时间(毫秒)
-      Mar.innerHTML += Mar.innerHTML;
-      let funStart = this.start
-      setTimeout(funStart, stoptime);
       /********开始画抽奖图**********/
       this.drawRouletteWheel()
     },
-    closeDraw () {
+    closeDraw() {
       this.draw = false
     },
     closeDrawTip() {
       this.is_draw = true
     },
     tupBtn() {
-      if(!this.is_start) {
+      if (!this.is_start) {
         return;
       }
-      if(this.user.luck_draw <= 0) {    // 没有抽奖次数
+      if (this.user.luck_draw <= 0) {    // 没有抽奖次数
         this.is_draw = false
         return
       }
@@ -305,7 +289,7 @@ export default {
 .rule_message {
   width: 100%;
   position: absolute;
-  top: 188vw;
+  top: 180vw;
   z-index: 2;
   padding: 0 3rem;
   color: #ffffff;
@@ -322,14 +306,18 @@ export default {
 .boroll_box {
   position: absolute;
   width: 100%;
+  bottom: -2.5rem;
 }
-
+.boroll_box > div {
+  width: 100%;
+  padding-left: 2rem;
+}
 /*****抽奖页面****/
 .ml-main {
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  background: #F82D2B;
+  background: #f82d2b;
   position: absolute;
   *zoom: 1;
   z-index: 1;
@@ -396,11 +384,11 @@ export default {
   height: 8vw;
   position: relative;
   overflow: hidden;
-  top: 154vw;
+  top: 156vw;
   left: 5vw;
   line-height: 8vw;
   font-size: 3vw;
-  color: #EECFCF;
+  color: #eecfcf;
   text-align: center;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 20px;
@@ -414,13 +402,13 @@ export default {
 }
 
 #gift_coupon {
-  color: #F3D008;
+  color: #f3d008;
 }
 
 .rule_title {
   width: 40vw;
   position: absolute;
-  top: 182vw;
+  top: 170vw;
   left: 30vw;
   z-index: 2;
 }
@@ -480,15 +468,20 @@ export default {
   top: 28%;
   left: 15%;
   background: white;
-  border-radius: 5px;
-  color: #7A312D;
+  border-radius: 20px;
+  color: #7a312d;
+  overflow: hidden;
   text-align: center;
   font-size: 4vw;
+  /* background-image: url(../assets/image/zhongjiangBg.png); */
+  /* background-size: 100% auto; */
+  background-position: -2rem 0 0 0;
   line-height: 6vw;
 }
 
 .zj-main .txzl .zj_text {
-  margin: 6vw auto;
+  margin:0vw auto;
+  margin-bottom: 3vw;
 }
 
 .zj-main .close_zj {
@@ -497,36 +490,35 @@ export default {
   margin: 0 auto;
   margin-bottom: 5vw;
   line-height: 9vw;
-  color: #E1CE85;
-  background: #BA2D1C;
+  color: #e1ce85;
+  background: #ba2d1c;
   border-radius: 5px;
   font-size: 4vw;
 }
 
-@media (min-width:320px) and (max-width:359px) {
+@media (min-width: 320px) and (max-width: 359px) {
   html {
-    font-size: 31% !important
+    font-size: 31% !important;
   }
 }
 
-@media (min-width:360px) and (max-width:399px) {
+@media (min-width: 360px) and (max-width: 399px) {
   html {
-    font-size: 36% !important
+    font-size: 36% !important;
   }
 }
 
-@media (min-width:400px) and (max-width:479px) {
+@media (min-width: 400px) and (max-width: 479px) {
   html {
-    font-size: 40% !important
+    font-size: 40% !important;
   }
 }
 
-@media (min-width:480px) and (max-width:639px) {
+@media (min-width: 480px) and (max-width: 639px) {
   html {
-    font-size: 49% !important
+    font-size: 49% !important;
   }
 }
-
 </style>
 
 
