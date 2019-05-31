@@ -59,11 +59,12 @@
     </div>
 
     <div class="zj-main" v-if="!is_draw">
-      <div class="txzl">
+      <div class="toCloseMess" @click="closeDrawTip">X</div>
+      <div class="txzl txzl-close">
         <div class="zj_text">
-          没有抽奖机会
+          您没有获得抽奖机会
         </div>
-        <div class="close_zj" @click="closeDrawTip">关闭</div>
+        <router-link to="/open_member" class="close_zj toOpen">点击获取抽奖机会</router-link>
       </div>
     </div>
   </div>
@@ -111,16 +112,17 @@ export default {
     }
   },
   methods: {
+    // 设置活动开始时间，测试先注释代码
     async judgeActivity() {
-      let _this = this
-      let activity = await judgeActivity()
-      if (!activity.data) {
-        _this.is_start = false
-        Toast({ message: "活动尚未开始", duration: 1500 });
-        setTimeout(function () {
-          _this.$router.push('/index')
-        }, 1500)
-      }
+      // let _this = this
+      // let activity = await judgeActivity()
+      // if (!activity.data) {
+      //   _this.is_start = false
+      //   Toast({ message: "活动尚未开始", duration: 1500 });
+      //   setTimeout(function () {
+      //     _this.$router.push('/index')
+      //   }, 1500)
+      // }
     },
     activityDraw() {
       let _this = this
@@ -146,16 +148,22 @@ export default {
         animateTo: angles + 1800,
         duration: 6000,
         callback: function () {
-          activityDrawStore({ prize: item }).then(function (res) {
-            _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
-            _this.draw = true
-            _this.is_start = true
-          }).catch(function (e) {
-            _this.prize = e.msg
-            _this.draw = true
-            _this.is_start = true
-          })
-          turnplate.bRotate = !turnplate.bRotate;
+          // 测试先注释代码 上线的时候替换
+          // activityDrawStore({ prize: item }).then(function (res) {
+          //   _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+          //   _this.draw = true
+          //   _this.is_start = true
+          // }).catch(function (e) {
+          //   _this.prize = e.msg
+          //   _this.draw = true
+          //   _this.is_start = true
+          // })
+          // turnplate.bRotate = !turnplate.bRotate;
+
+          // 测试代码
+          _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+          _this.draw = true
+          _this.is_start = true
         }
       });
     },
@@ -470,7 +478,7 @@ export default {
   line-height: 6vw;
 }
 .zj-main .txzl .zj_text {
-  margin:0vw auto;
+  margin: 0vw auto;
   margin-bottom: 3vw;
 }
 .zj-main .close_zj {
@@ -479,7 +487,7 @@ export default {
   margin: 0 auto;
   margin-bottom: 5vw;
   line-height: 9vw;
-  color: #e1ce85;
+  color: #e1ce85 !important;
   background: #ba2d1c;
   border-radius: 5px;
   font-size: 4vw;
@@ -506,6 +514,50 @@ export default {
   html {
     font-size: 49% !important;
   }
+}
+.txzl-close {
+  height: 25% !important;
+}
+.txzl-close .zj_text {
+  margin-top: 10vw !important;
+  font-size: 2rem;
+}
+.toOpen {
+  margin-bottom: 2vw;
+  margin-top: 2vw;
+  display: inline-block;
+  width: 36vw !important;
+}
+.txzl-close .close_zj {
+  margin-top: 4vw;
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+.toCloseMess {
+  position: absolute;
+  display: inline-block;
+  top: 20%;
+  right: 15%;
+  color: gray;
+  z-index: 10;
+  font-size: 6vw;
+  text-align: center;
+  width: 8vw;
+  height: 8vw;
+  line-height: 8vw;
+  background: #ffffff;
+  border-radius: 4vw;
+}
+.toCloseMess::after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 3px;
+  height: 10vw;
+  top: 85%;
+  right: 43%;
+  background: #fff;
+  z-index: 9;
 }
 </style>
 
