@@ -407,16 +407,14 @@ body {
 }
 .turntable {
   position: fixed;
-  bottom: 28%;
+  bottom: 32.5%;
   right: 0;
-  width: 5.4rem;
+  width: 6rem;
   height: 6rem;
   padding-left: 0.5rem;
-  background-image: url(../assets/image/low.gif);
+  background-image: url(../assets/image/draw.gif);
   background-size: auto 100%;
   background-repeat: no-repeat;
-  background-color: #f95c49;
-  border: 1px solid #f95c49;
   font-size: 2.5rem;
 }
 </style>

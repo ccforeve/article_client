@@ -4,7 +4,11 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-    <router-link to="/turntable" class="flex center turntable" v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"></router-link>
+    <router-link
+            to="/turntable"
+            class="flex center turntable"
+            v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
+    ></router-link>
     <!---v-if="is_activity"--->
 
   </div>
@@ -86,14 +90,12 @@ export default {
   position: fixed;
   bottom: 28%;
   right: 0;
-  width: 5.4rem;
+  width: 6rem;
   height: 6rem;
   padding-left: 0.5rem;
-  background-image: url(../assets/image/low.gif);
+  background-image: url(../assets/image/draw.gif);
   background-size: auto 100%;
   background-repeat: no-repeat;
-  background-color: #f95c49;
-  border: 1px solid #f95c49;
   font-size: 2.5rem;
 }
 </style>

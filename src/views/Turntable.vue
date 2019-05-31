@@ -63,7 +63,7 @@
         <div class="zj_text">
           没有抽奖机会
         </div>
-        <div class="close_zj" @click="closeDrawTip">确定</div>
+        <div class="close_zj" @click="closeDrawTip">关闭</div>
       </div>
     </div>
   </div>
@@ -396,15 +396,12 @@ export default {
   text-overflow: ellipsis;
   z-index: 2;
 }
-
 .record_line div {
   overflow: hidden;
 }
-
 #gift_coupon {
   color: #f3d008;
 }
-
 .rule_title {
   width: 40vw;
   position: absolute;
@@ -412,7 +409,6 @@ export default {
   left: 30vw;
   z-index: 2;
 }
-
 /* 大转盘样式 */
 .banner {
   display: block;
@@ -420,17 +416,14 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
 .banner .turnplate {
   display: block;
   width: 100%;
   position: relative;
 }
-
 .banner .turnplate canvas.item {
   width: 100%;
 }
-
 .banner .turnplate #tupBtn {
   position: absolute;
   width: 27.5%;
@@ -440,7 +433,6 @@ export default {
   border: 0;
   background: none;
 }
-
 .banner .turnplate img {
   width: 100%;
   height: auto;
@@ -460,7 +452,6 @@ export default {
   left: center;
   top: 0;
 }
-
 .zj-main .txzl {
   width: 70%;
   height: auto;
@@ -478,12 +469,10 @@ export default {
   background-position: -2rem 0 0 0;
   line-height: 6vw;
 }
-
 .zj-main .txzl .zj_text {
   margin:0vw auto;
   margin-bottom: 3vw;
 }
-
 .zj-main .close_zj {
   width: 25vw;
   text-align: center;
@@ -495,7 +484,6 @@ export default {
   border-radius: 5px;
   font-size: 4vw;
 }
-
 @media (min-width: 320px) and (max-width: 359px) {
   html {
     font-size: 31% !important;
