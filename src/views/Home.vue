@@ -4,13 +4,9 @@
     <index-footer />
     <!--推荐好文章-->
     <router-link to="/article/extension" class="flex center renew">提交好文章</router-link>
-    <router-link
-            to="/turntable"
-            class="flex center turntable"
-            v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20"
-    ></router-link>
-    <!---v-if="is_activity"--->
-
+    <router-link to="/turntable" class="flex center turntable" v-if="is_activity"></router-link>
+    <!-- 测试代码 测试用户Id -->
+    <!-- v-if="user.id === 50 || user.id === 42 || user.id === 38 || user.id === 17 || user.id === 20" -->
   </div>
 </template>
 

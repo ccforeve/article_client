@@ -34,8 +34,8 @@
       <img class="rule_title" src="../assets/image/rule_title.png">
       <!-- 抽奖规则说明 -->
       <div class="rule_message">
-        <p>* 1、活动时间：2019年6月6号 -- 2019年6月16号</p>
-        <p>* 2、参与群体：本次活动针对群体为事业分享网站付费会员。抽奖次数为：一年会员/一次，两年会员/两次，五年会员/三次。续费根据客户后续续费年限增加抽奖次数</p>
+        <p>* 1、活动时间：2019年6月6号 -- 2019年6月18号</p>
+        <p>* 2、参与群体：活动期间新办理的付费会员(付费及续费)。抽奖次数为：一年会员/一次，两年会员/两次，五年会员/三次。续费根据客户后续续费年限增加抽奖次数</p>
         <p></p>
         <p>* 3、活动奖品：</p>
         <p>一等奖：华为P30 Pro 512G(麒麟980) 价值6788元 10份</p>
@@ -114,15 +114,15 @@ export default {
   methods: {
     // 设置活动开始时间，测试先注释代码
     async judgeActivity() {
-      // let _this = this
-      // let activity = await judgeActivity()
-      // if (!activity.data) {
-      //   _this.is_start = false
-      //   Toast({ message: "活动尚未开始", duration: 1500 });
-      //   setTimeout(function () {
-      //     _this.$router.push('/index')
-      //   }, 1500)
-      // }
+      let _this = this
+      let activity = await judgeActivity()
+      if (!activity.data) {
+        _this.is_start = false
+        Toast({ message: "活动尚未开始", duration: 1500 });
+        setTimeout(function () {
+          _this.$router.push('/index')
+        }, 1500)
+      }
     },
     activityDraw() {
       let _this = this
@@ -149,21 +149,21 @@ export default {
         duration: 6000,
         callback: function () {
           // 测试先注释代码 上线的时候替换
-          // activityDrawStore({ prize: item }).then(function (res) {
-          //   _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
-          //   _this.draw = true
-          //   _this.is_start = true
-          // }).catch(function (e) {
-          //   _this.prize = e.msg
-          //   _this.draw = true
-          //   _this.is_start = true
-          // })
-          // turnplate.bRotate = !turnplate.bRotate;
+          activityDrawStore({ prize: item }).then(function (res) {
+            _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+            _this.draw = true
+            _this.is_start = true
+          }).catch(function (e) {
+            _this.prize = e.msg
+            _this.draw = true
+            _this.is_start = true
+          })
+          turnplate.bRotate = !turnplate.bRotate;
 
-          // 测试代码
-          _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
-          _this.draw = true
-          _this.is_start = true
+          // // 测试代码
+          // _this.prize = '恭喜您获得<span id="jiangpin">' + txt + '</span>一份<br>'
+          // _this.draw = true
+          // _this.is_start = true
         }
       });
     },
