@@ -472,8 +472,6 @@ export default {
   overflow: hidden;
   text-align: center;
   font-size: 4vw;
-  /* background-image: url(../assets/image/zhongjiangBg.png); */
-  /* background-size: 100% auto; */
   background-position: -2rem 0 0 0;
   line-height: 6vw;
 }

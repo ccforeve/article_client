@@ -18,7 +18,7 @@
         </div>
         <div class="flex center search">
           <span class="flex userimg">
-            <img class="Indexfitimg" :src="user_avatar"/>
+            <img class="Indexfitimg" :src="user_avatar" />
           </span>
           <div class="flex centerv home-sea">
             <input type="text" name="key" class="flexitem sea-text" placeholder="输入关键字，找文章" ref="search_key">
@@ -28,17 +28,7 @@
         </div>
       </div>
     </div>
-    <mescroll-vue
-      v-for="(items, i) of categories"
-      :key="i"
-      :ref="'mescroll'+ items.id"
-      :index="items.id"
-      v-show="tabType === items.id"
-      :down="getMescrollDown(items.id)"
-      :up="getMescrollUp(items.id)"
-      @init="mescrollInit"
-      class="article-list"
-    >
+    <mescroll-vue v-for="(items, i) of categories" :key="i" :ref="'mescroll'+ items.id" :index="items.id" v-show="tabType === items.id" :down="getMescrollDown(items.id)" :up="getMescrollUp(items.id)" @init="mescrollInit" class="article-list">
       <div class="listbox" :id="'dataList' + items.id">
         <router-link :to="'/article_detail/' + item.id + '/public'" class="flex" v-for="(item, index) of tab[items.id].list" :key="index">
           <div class="between lists" v-if="item.covers.length < 3 && !item.cover_state">
@@ -52,7 +42,7 @@
               </div>
             </div>
             <div class="img">
-              <img class="fitimg" :src="item.cover"/>
+              <img class="fitimg" :src="item.cover" />
             </div>
           </div>
           <div class="flexv lists" v-else>
@@ -61,7 +51,7 @@
             </div>
             <div class="around imgbox">
               <div class="img" v-for="(cover, index) of item.covers" :key="index">
-                <img class="fitimg" :src="'http://stl.yxcxin.com/uploads/' + cover"/>
+                <img class="fitimg" :src="'http://stl.yxcxin.com/uploads/' + cover" />
               </div>
             </div>
             <div class="flex base">
@@ -71,7 +61,6 @@
         </router-link>
       </div>
     </mescroll-vue>
-
   </div>
 </template>
 
@@ -105,12 +94,12 @@ export default {
     res
       .then(data => {
         _this.categories = data;
-        data.forEach(function(cate, i) {
+        data.forEach(function (cate, i) {
           arr[cate.id] = { mescroll: null, list: [], isListInit: false };
         });
         _this.tab = arr;
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       });
   },
@@ -215,7 +204,7 @@ export default {
           .then(res => {
             successCallback && successCallback(res);
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       } catch (e) {

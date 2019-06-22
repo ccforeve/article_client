@@ -1,11 +1,11 @@
 <template>
   <div class="loading" v-if="!has_data">
     <div class="loading-icon">
-      <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e"/>
+      <fulfilling-bouncing-circle-spinner :animation-duration="4000" :size="60" color="#ff1d5e" />
     </div>
   </div>
   <div id="open_test" class="flexv wrap" v-else>
-    <div class="flipbox">
+    <div class="flipbox" @click="closeService">
       <div class="bor">
         <div class="flex centerv flip" v-for="(item, index) of order_list" :key="index">
           <i class="flex center bls bls-horn"></i>
@@ -14,19 +14,17 @@
         </div>
       </div>
     </div>
-    <div class="flexv member">
+    <div class="flexv member" @click="closeService">
       <div class="title">会员类型</div>
       <div class="fwrap genrebox">
-        <div class="flexv center list" v-for="(item, index) of payments" :key="index" :class="{'commend': item.extension, 'current_border': item.id == list_active}"
-          @click="changeActive(item.id)"
-        >
+        <div class="flexv center list" v-for="(item, index) of payments" :key="index" :class="{'commend': item.extension, 'current_border': item.id == list_active}" @click="changeActive(item.id)">
           <div class="flex center time"><span>{{item.month / 12}}</span>年会员权限</div>
           <div class="price">{{item.price}}/{{item.month / 12}}年</div>
           <div class="original">原价{{item.original_price}}/{{item.month / 12}}年</div>
         </div>
       </div>
     </div>
-    <div class="payment">
+    <div class="payment" @click="closeService">
       <div class="title">支付方式</div>
       <div class="around paybox">
         <div class="flex center list" :class="{current_border: pay_type_active === 1}" @click="payTypeSelect(1)">
@@ -41,8 +39,15 @@
     </div>
     <!-- 提示 -->
     <!-- <div>幸运大转盘，三十万豪礼等你来拿，手机/平板/现金送不停</div> -->
+    <!--客服微信-->
+    <div class="twinkle flexv kf-qrcode" @click="service">
+      <div class="flex center kf-tit">咨询客服</div>
+      <div class="flex center kf-img">
+        <img src="../assets/image/service.jpg" class="fitimg">
+      </div>
+    </div>
     <!-- 权限开通信息 -->
-    <div class="vipMess">
+    <div class="vipMess" @click="closeService">
       <h3>会员特权</h3>
       <p>
         <p><i class="iconfont logo icon-icon25 iUser" style="background: chocolate;"></i><span class="titleFont">客户追踪</span></p>
@@ -59,7 +64,7 @@
       <p>
         <p><i class="iconfont logo icon-mingpian1 iUser" style=" background: blueviolet;"></i><span class="titleFont">人脉倍增</span></p>
         <p class="textIndex">4.开通会员之后可以查看你分享的文章都有谁帮忙转发<p>
-      </p>
+          </p>
     </div>
     <div class="flexitem end footer">
       <div class="between moneybox">
@@ -127,25 +132,33 @@ export default {
     let _this = this
     wx.miniProgram.getEnv(function (res) {
       _this.is_miniprogram = res.miniprogram
-      if(res.miniprogram) {
+      if (res.miniprogram) {
         _this.miniprogram = 1
       }
     })
   },
   methods: {
+    service() {
+      $('.kf-qrcode').animate({ width: '20rem', top: '20%', right: '17%', });
+      $(".kf-tit").animate({ fontSize: '2.2em' });
+    },
+    closeService() {
+      $(".kf-qrcode").animate({ top: '64%', right: '0', width: '6rem', });
+      $(".kf-tit").animate({ fontSize: '1.2em' });
+    },
     getPayments() {
       let vm = this;
       let payments = paymenets();
-      payments.then(function(res) {
+      payments.then(function (res) {
         res = res.data;
-        res.forEach(function(value) {
+        res.forEach(function (value) {
           vm.payments[value.id] = value;
         });
         vm.extension_payment = res[2];
         vm.has_data = true;
       });
     },
-    rollList () {
+    rollList() {
       let _this = this
       orders().then(function (res) {
         _this.order_list = res
@@ -161,21 +174,21 @@ export default {
     cancel_alert() {
       this.pay_success = false;
     },
-    roll () {
+    roll() {
       this.timer = setInterval(function roll() {
         var objh = $('.flip').height();
-        $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({"height": objh + "px"}, 500));
+        $(".flipbox .bor").append($(".flipbox .bor .flip").first().height(0).animate({ "height": objh + "px" }, 500));
       }, 2000);
     },
     wechatConfig() {
       //微信jssdk
-      wx.ready(function() {
+      wx.ready(function () {
         //需在用户可能点击分享按钮前就先调用
         wx.onMenuShareTimeline({
           title: "分享伙伴开通会员", // 分享标题
           link: "http://btl.yxcxin.com/open_member", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: "http://stl.yxcxin.com/image/qrcode.jpg", // 分享图标
-          success: function() {
+          success: function () {
             // 用户点击了分享后执行的回调函数
           }
         });
@@ -191,20 +204,20 @@ export default {
       Indicator.open();
       let _this = this;
       wechatPay(_this.list_active, { pay_type: _this.pay_type_active, is_miniprogram: _this.miniprogram })
-        .then(function(res) {
+        .then(function (res) {
           if (res.pay_type === 2) {   //支付宝支付
             Indicator.close();
             _this.$router.push("/alipay/" + res.order_id);
           } else if (res.pay_type === 1) {    //微信支付
-              _this.wechatPay(res);
+            _this.wechatPay(res);
           } else if (res.pay_type === 3) {
             //点击微信支付后，调取统一下单接口生成微信小程序支付需要的支付参数
             Indicator.close();
             let path = `/pages/pay?order_id=${res.order_id}&user_id=${res.user_id}`; //定义path 与小程序的支付页面的路径相对应
-            wx.miniProgram.navigateTo({url: path});   //跳回小程序支付
+            wx.miniProgram.navigateTo({ url: path });   //跳回小程序支付
           }
         })
-        .catch(function(e) {
+        .catch(function (e) {
           console.log(e);
         });
     },
@@ -219,7 +232,7 @@ export default {
         Indicator.close();
         return;
       }
-      _this.payCallback(res.config, function() {
+      _this.payCallback(res.config, function () {
         member_time.add(res.member_month, "months");
         _this.member_time = member_time.format("YYYY-MM-D");
         let new_user = JSON.parse(localStorage.user);
@@ -232,31 +245,31 @@ export default {
       });
     },
     payCallback($config, callback) {
-      wx.ready(function() {
+      wx.ready(function () {
         wx.chooseWXPay({
           timestamp: $config.timestamp,
           nonceStr: $config.nonceStr,
           package: $config.package,
           signType: $config.signType,
           paySign: $config.paySign, // 支付签名
-          success: function(res) {
+          success: function (res) {
             // 支付成功后的回调函数
             callback && callback(res);
           },
-          cancel: function() {
+          cancel: function () {
             Indicator.close();
             Toast({ message: "取消支付", duration: 1000 });
-            setTimeout(function() {
+            setTimeout(function () {
               $(".alert")
                 .hide()
                 .find(".payment")
                 .removeClass("status");
             }, 1000);
           },
-          error: function(res) {
+          error: function (res) {
             Indicator.close();
             Toast({ message: "支付失败", duration: 1000 });
-            setTimeout(function() {
+            setTimeout(function () {
               $(".alert")
                 .hide()
                 .find(".payment")
@@ -310,15 +323,18 @@ export default {
   color: #fff;
   padding-left: 0.1rem;
 }
-.vipMess .textIndex{
+.vipMess .textIndex {
   padding-left: 2.5rem;
 }
 .iUser {
   font-size: 1.2rem;
 }
-.titleFont{
+.titleFont {
   font-weight: 500;
   color: black;
   padding-left: 0.5rem;
+}
+.kf-qrcode {
+  top: 70;
 }
 </style>
